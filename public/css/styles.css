@@ -1,0 +1,153 @@
+body {
+  font-family: 'yekan', arial;
+  height: 2000px;
+}
+
+/*---------------------------------------------------------------
+							Constants
+---------------------------------------------------------------*/
+	@font-face {
+	    font-family:"yekan";
+	    src: url("../fonts/Yekan.eot");
+	    src: url("../fonts/Yekan.eot?#iefix")format("embedded-opentype"),
+	    url("../fonts/Yekan.woff") format("woff"),
+	    url("../fonts/Yekan.ttf") format("truetype");
+	    font-weight: normal;
+	    font-style: normal;
+	}
+
+	::selection {
+		background: #13CCBF;
+		color: #fff;
+	}
+
+	::-moz-selection {
+		background: #13CCBF;
+		color: #fff;
+	}
+
+	.radius4 {
+	    -webkit-border-radius: 4px 4px 4px 4px;
+	    -moz-border-radius: 4px 4px 4px 4px;
+	    -o-border-radius: 4px 4px 4px 4px;
+	    border-radius: 4px 4px 4px 4px;
+	}
+	.shadow{
+	    -webkit-box-shadow: 0px 0px 3px #666;
+	    -moz-box-shadow: 0px 0px 3px #666;
+	    -o-box-shadow: 0px 0px 3px #666;
+	    box-shadow: 0px 0px 3px #666;
+	}
+	.insetShadow{
+	    -webkit-box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
+	    -moz-box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
+	    -o-box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
+	    box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
+	}
+	.transition {
+	    -webkit-transition: all 0.5s ease;
+	    -moz-transition: all 0.5s ease-in-out;
+	    -o-transition: all 0.5s ease-in-out;
+	    -ms-transition: all 0.5s ease-in-out;
+	    transition: all 0.5s ease-in-out;
+	}
+	.transitionfast {
+	    -webkit-transition: all 0.2s ease;
+	    -moz-transition: all 0.2s ease-in-out;
+	    -o-transition: all 0.2s ease-in-out;
+	    -ms-transition: all 0.2s ease-in-out;
+	    transition: all 0.2s ease-in-out;
+	}
+	.transitionslow {
+	    -webkit-transition: all 1s ease;
+	    -moz-transition: all 1s ease-in-out;
+	    -o-transition: all 1s ease-in-out;
+	    -ms-transition: all 1s ease-in-out;
+	    transition: all 1s ease-in-out;
+	}
+
+/*---------------------------------------------------------------
+							Products
+---------------------------------------------------------------*/
+
+	.isotope {}
+
+	.isotope .item {
+		width: 25%;
+		height: 290px;
+		width: calc(25% - 14px);
+		/*width: 300px;*/
+		/*height: 350px;*/
+		margin: 7px;
+		padding: 10px;
+		text-align: center;
+		border: 1px solid #ccc;
+		background-color: #FFF;
+	}
+
+	.isotope .item img {
+		height: 200px;
+		margin: 0 auto;
+	}
+
+	.isotope .item p {
+		margin-top: 10px;
+	}
+
+	.isotope .item button.btnadd {
+		position: absolute;
+		left: 10px;
+		bottom: 10px;
+		width: 40px;
+		height: 40px;
+	}
+
+	.isotope .item button.btninfo {
+		position: absolute;
+		right: 10px;
+		bottom: 10px;
+		font-size: 1.3em;
+		width: 40px;
+		height: 40px;
+	}
+
+
+/*---------------------------------------------------------------
+						Cart Modal
+---------------------------------------------------------------*/
+
+	.btnrem {
+		cursor: pointer;
+	}
+
+/*---------------------------------------------------------------
+						Media Queries
+---------------------------------------------------------------*/
+
+    @media only screen and (max-width : 1200px) {
+    	.isotope .item {
+    		width: 25%;
+    		width: calc(25% - 14px);
+    	}
+    }
+
+    @media only screen and (max-width : 992px) {
+    	.isotope .item {
+    		width: 33.333%;
+    		width: calc(33.333% - 14px);
+    	}
+    }
+
+    @media only screen and (max-width : 768px) {
+    	.isotope .item {
+    		width: 50%;
+    		width: calc(50% - 14px);
+    	}
+    }
+
+    @media only screen and (max-width : 480px) {
+    	.isotope .item {
+    		width: 100%;
+    		margin: 7px 0;
+    	}
+    }
