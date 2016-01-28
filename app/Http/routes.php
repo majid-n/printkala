@@ -40,7 +40,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('admin/product', 'AdminController@addProduct');	
     
     Route::post('addbasket', 'AjaxController@addBasket');   
-    Route::post('rembasket', 'AjaxController@remBasket');	
+    Route::post('rembasket', 'AjaxController@remBasket');   
+    
+    Route::post('loadbasket', 'AjaxController@loadbasket');	
 });
 
 

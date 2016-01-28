@@ -56,14 +56,14 @@ class UserController extends Controller {
 			if (Sentinel::authenticate($credentials, $remember)) {
 				return Redirect()->to('/');
 
-				$admin = Sentinel::findRoleByName('Admins');
-				$users = Sentinel::findRoleByName('Users');
+				// $admin = Sentinel::findRoleByName('Admins');
+				// $users = Sentinel::findRoleByName('Users');
 
-				if ($user->inRole($admin)) {
-				    print_r("adminnnnnn");
-				} elseif ($user->inRole($users)) {
-				    print_r("userrrrrrr");
-				}
+				// if ($user->inRole($admin)) {
+				//     print_r("adminnnnnn");
+				// } elseif ($user->inRole($users)) {
+				//     print_r("userrrrrrr");
+				// }
 			}
 
 			$errors = trans('validation.invalid_user_password');

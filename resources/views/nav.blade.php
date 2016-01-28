@@ -24,7 +24,7 @@
       </ul>
       @else
         <div class="nav navbar-nav navbar-left">
-          {!! Form::button('{{ $total }} <i class="fa fa-shopping-cart"></i>', array('class' => 'btn btn-primary md-trigger', 'data-modal' => 'cartModal')) !!}
+          {!! Form::button('<i class="fa fa-shopping-cart"></i>', array('class' => 'btn btn-primary md-trigger', 'data-modal' => 'cartModal')) !!}
         </div>
       @endif
 

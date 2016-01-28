@@ -71,15 +71,19 @@
                 headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
             }); 
 
+            
         // Add To Basket
-            $('.btnadd').click(function(e){  
-                e.preventDefault();
+            $('body').on('click', '.btnadd', function(event) {
+                event.preventDefault();
+
+                $('.btnadd').prop('disabled', true);
+
                 $.ajax({
                     url: 'addbasket',
                     data: { 'pid' : $(this).data("pid") },
                 })
                 .done(function(data) {
-                    $('.cartContent').html(data.cartdata);
+                    $('.btnadd').prop('disabled', false);
                 })
                 .fail(function(data) {
                     console.log(data.responseText);
@@ -87,13 +91,12 @@
                 .always(function() {
                     // console.log(data.result);
                 });
-     
-            }); 
+            });
 
 
         // Remove From Basket
-            $('.btnrem').click(function(e){  
-                e.preventDefault();
+            $('.btnrem').on('click', function(event) {
+                event.preventDefault();
                 $.ajax({
                     url: 'rembasket',
                     data: { 'pid' : $(this).data("pid") },
@@ -107,7 +110,6 @@
                 .always(function() {
                     // console.log(data.result);
                 });
-            
             }); 
         });
 

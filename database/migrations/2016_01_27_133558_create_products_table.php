@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('weight')->unsigned();
             $table->integer('price')->unsigned();
             $table->string('pic', 100);
-            $table->text('active')->default(0);
+            $table->text('active');
             $table->timestamps();
             $table->softDeletes();
             $table->index('name');

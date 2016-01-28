@@ -32,19 +32,7 @@ class HomeController extends Controller {
 		$totalCount = 0;
 		$cats = Cat::all();
 		$products = Product::where('active', 1)->get();
-
-		if (Sentinel::check()) {
-			$cart = Basket::where('user_id', '=', Sentinel::getUser()->id )->where('ordered', '=', 0 )->get();
-			foreach ($cart as $key) {
-				$totalCount += $key->count * ($products->find($key->product_id)->price);
-			}
-			$cartdata = view( 'cart', array( 'basket' => $cart, 'total' => $totalCount ) )->render();
-		} else {
-			$cartdata = null;
-		}
-
-		return view()->make('welcome',compact('cats','products','cartdata'));
-
+		return view()->make('welcome',compact('cats','products'));
 	}
 
 }

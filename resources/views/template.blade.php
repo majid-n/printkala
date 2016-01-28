@@ -66,13 +66,7 @@
             <div class="md-content">
                <h3>سبد خرید</h3>
                <div class="cartContent">
-                  @if(isset($cartdata))
-                     @if($cartdata <> null)
-                        {!! $cartdata !!}
-                     @else
-                        <h4>سبد خرید شما خالی می باشد.</h4>
-                     @endif
-                  @endif
+                  <p>loading...</p>
                </div>
             </div>
          </div>
@@ -90,6 +84,28 @@
       
       @yield('content-js')
 
+      <script type="text/javascript">
+         $(document).ready(function() {
+            $('body').on('click', '.md-trigger', function(event) {
+               event.preventDefault();
+               
+               $.ajax({
+                  url: 'loadbasket',
+               })
+               .done(function(data) {
+                  $('.cartContent').html(data.cartdata);
+                  console.log(data);
+               })
+               .fail(function(data) {
+                  console.log(data);
+               })
+               .always(function(data) {
+                  console.log(data.responseText);
+               });
+               
+            });
+         });
+      </script>
 
    </body>
 </html>

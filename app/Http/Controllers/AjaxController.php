@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Sentinel;
 use App\Basket;
 use App\Product;
+use DB;
 
 class AjaxController extends Controller {
 
@@ -16,20 +17,20 @@ class AjaxController extends Controller {
 		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post')) {
 		    if( $request->has('pid') ) {
 
-		    	$totalCount = 0;
+		    	// $totalCount = 0;
 		    	$pid = intval( $request->input('pid') );
 		    	$user = Sentinel::getUser()->id;
-		    	$cart = Basket::where('user_id', '=', $user )
-		    				  ->where('ordered', '=', 0 )
-		    				  ->get();
+		    	// $cart = Basket::where('user_id', '=', $user )
+		    	// 			  ->where('ordered', '=', 0 )
+		    	// 			  ->get();
 		    	$exist = Basket::where('product_id', '=', $pid)
 						    	->where('user_id', '=', $user )
 						    	->where('ordered', '=', 0 )
 						    	->first();
 
-				foreach ($cart as $key) {
-					$totalCount += $key->count * (Product::find($key->product_id)->price);
-				}
+				// foreach ($cart as $key) {
+				// 	$totalCount += $key->count * (Product::find($key->product_id)->price);
+				// }
 
 				if($exist == null){
 
@@ -41,7 +42,7 @@ class AjaxController extends Controller {
 			    		return  response()->json(
 			    		            [
 			    		            	'result' 	=> 'add', 
-                                   		'cartdata'	=> view( 'cart', array( 'basket' => $cart, 'total' => $totalCount) )->render()
+                                   		// 'cartdata'	=> view( 'cart', array( 'basket' => $cart, 'total' => $totalCount) )->render()
 			    		            ]
 			    		        );
 			    	}
@@ -53,7 +54,7 @@ class AjaxController extends Controller {
 			    		return  response()->json(
 			    		            [
 			    		                'result' 	=> 'update',
-                                   		'cartdata'	=> view( 'cart', array( 'basket' => $cart, 'total' => $totalCount) )->render()
+                                   		// 'cartdata'	=> view( 'cart', array( 'basket' => $cart, 'total' => $totalCount) )->render()
 			    		            ]
 			    		        );
 		    		}
@@ -85,5 +86,27 @@ class AjaxController extends Controller {
 		}
 	}
 
-}
 
+	public function loadbasket(Request $request) {
+		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post')) {
+
+			$totalprice = 0;
+			$items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.count,baskets.count*products.price as total'))
+					->join('products', 'products.id', '=', 'baskets.product_id')
+					->where('baskets.user_id', '=',Sentinel::getUser()->id)
+					->get();
+
+			foreach ($items as $item) {
+				$totalprice += $item->total;
+			}
+
+			return  response()->json(
+	            [
+	                'result' 	=> $items,
+               		'cartdata'	=> view( 'cart', array( 'items' => $items, 'total' => $totalprice) )->render()
+	            ]
+	        );
+		}
+	}
+
+}

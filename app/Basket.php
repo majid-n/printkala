@@ -23,7 +23,8 @@ class Basket extends Model
                         ->value('price');
         }
 
-    } 
-
+    }
 
 }
+
+

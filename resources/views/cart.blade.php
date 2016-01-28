@@ -10,14 +10,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($basket as $item)
+			@foreach($items as $item)
 			<tr id="{{ 'd-' . $item->product_id }}">
-				<td>{{ $item->product('name') }}</td>
+				<td>{{ $item->name }}</td>
 				<td align="center">{{ $item->count }}</td>
-				<td align="left">{{ number_format(($item->product('price') * $item->count))  . ' ریال' }}</td>
+				<td align="left">{{ $item->total. ' ریال' }}</td>
 				<td align="center"><i class="fa fa-trash btnrem" data-pid="{{ $item->product_id }}"></i></td>
 			</tr>
 			@endforeach
+
 			<tr>
 				<td>جمـــع کل :</td>
 				<td></td>
