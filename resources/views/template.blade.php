@@ -67,6 +67,7 @@
                <h3>سبد خرید</h3>
                <div class="cartContent">
                   <p>loading...</p>
+                  <button class="md-close">x</button>
                </div>
             </div>
          </div>
@@ -78,34 +79,45 @@
       </div> <!-- Container -->
 
       <script src="{{ asset('/js/jquery.min.js') }}"></script>
+      <script src="{{ asset('/js/jquery-ui.min.js') }}"></script>
       <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
       <script src="{{ asset('/js/classie.js') }}"></script>
       <script src="{{ asset('/js/modalEffects.js') }}"></script>
+      
       
       @yield('content-js')
 
       <script type="text/javascript">
          $(document).ready(function() {
+
+            // Load Basket
             $('body').on('click', '.md-trigger', function(event) {
                event.preventDefault();
-               
                $.ajax({
                   url: 'loadbasket',
                })
                .done(function(data) {
                   $('.cartContent').html(data.cartdata);
-                  console.log(data);
+                  // console.log(data);
                })
                .fail(function(data) {
                   console.log(data);
                })
                .always(function(data) {
-                  console.log(data.responseText);
+                  // console.log(data.responseText);
                });
-               
             });
+
+            $(".md-trigger").trigger('click');
+            setTimeout(function() {
+               var num = $('#tablebody tr').length;
+               $('.badge').html(num);
+            },1000);
+            
          });
       </script>
+
+      
 
    </body>
 </html>

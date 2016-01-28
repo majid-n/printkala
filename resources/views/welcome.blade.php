@@ -84,6 +84,7 @@
                 })
                 .done(function(data) {
                     $('.btnadd').prop('disabled', false);
+                    $('.md-trigger i' ).effect( "bounce", { times: 3 }, "slow" );
                 })
                 .fail(function(data) {
                     console.log(data.responseText);
@@ -93,25 +94,10 @@
                 });
             });
 
-
-        // Remove From Basket
-            $('.btnrem').on('click', function(event) {
-                event.preventDefault();
-                $.ajax({
-                    url: 'rembasket',
-                    data: { 'pid' : $(this).data("pid") },
-                })
-                .done(function(data) {
-                    $('#d-'+data.delid).fadeOut('slow');
-                })
-                .fail(function(data) {
-                    console.log(data.responseText);
-                })
-                .always(function() {
-                    // console.log(data.result);
-                });
-            }); 
         });
+
+
+
 
     </script>
 

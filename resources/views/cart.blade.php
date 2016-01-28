@@ -9,7 +9,7 @@
 				<td align="left">حــذف</td>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="tablebody">
 			@foreach($items as $item)
 			<tr id="{{ 'd-' . $item->product_id }}">
 				<td>{{ $item->name }}</td>
@@ -29,3 +29,24 @@
 	</table>
 	<button class="md-close">بستن</button>
 </div>
+
+<script type="text/javascript">
+	// Remove From Basket
+	$('.btnrem').on('click', function(event) {
+	   event.preventDefault();
+	   $.ajax({
+	      url: 'rembasket',
+	      data: { 'pid' : $(this).data("pid") },
+	   })
+	   .done(function(data) {
+	      $('#d-'+data.delid).fadeOut('slow');
+	   })
+	   .fail(function(data) {
+	      console.log(data);
+	   })
+	   .always(function(data) {
+	      console.log($(this).data("pid"));
+	   });
+	}); 
+
+</script>

@@ -24,7 +24,10 @@
       </ul>
       @else
         <div class="nav navbar-nav navbar-left">
-          {!! Form::button('<i class="fa fa-shopping-cart"></i>', array('class' => 'btn btn-primary md-trigger', 'data-modal' => 'cartModal')) !!}
+          <span class="badge">0</span>
+          <div class="btn btn-primary md-trigger" data-modal="cartModal">
+            <i class="fa fa-shopping-cart"></i>
+          </div>
         </div>
       @endif
 
