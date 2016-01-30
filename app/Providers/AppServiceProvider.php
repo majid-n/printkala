@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Basket;
+use Sentinel;
+// use View;
 
 class AppServiceProvider extends ServiceProvider
 {

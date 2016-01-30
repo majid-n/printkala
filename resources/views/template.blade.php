@@ -65,8 +65,10 @@
          <div class="md-modal md-effect-8" id="cartModal">
             <div class="md-content">
                <h3>سبد خرید</h3>
+               <div class="customSpinner">
+                  <img src="{{ asset('/img/loader.gif') }}" alt="">
+               </div>
                <div class="cartContent">
-                  <p>loading...</p>
                   <button class="md-close">x</button>
                </div>
             </div>
@@ -84,40 +86,35 @@
       <script src="{{ asset('/js/classie.js') }}"></script>
       <script src="{{ asset('/js/modalEffects.js') }}"></script>
       
-      
-      @yield('content-js')
-
       <script type="text/javascript">
+
          $(document).ready(function() {
 
-            // Load Basket
+         // Load Basket
             $('body').on('click', '.md-trigger', function(event) {
                event.preventDefault();
+               // $('customSpinner').css('display', 'block');
+
                $.ajax({
                   url: 'loadbasket',
                })
                .done(function(data) {
                   $('.cartContent').html(data.cartdata);
-                  // console.log(data);
+                  $('.badge').html( data.count );
                })
                .fail(function(data) {
-                  console.log(data);
+                  console.log(data.responseText);
                })
                .always(function(data) {
-                  // console.log(data.responseText);
+                  // $('customSpinner').css('display', 'none');
                });
             });
 
-            $(".md-trigger").trigger('click');
-            setTimeout(function() {
-               var num = $('#tablebody tr').length;
-               $('.badge').html(num);
-            },1000);
-            
          });
+
       </script>
 
-      
+      @yield('content-js')
 
    </body>
 </html>

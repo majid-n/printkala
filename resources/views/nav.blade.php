@@ -24,7 +24,7 @@
       </ul>
       @else
         <div class="nav navbar-nav navbar-left">
-          <span class="badge">0</span>
+          <span class="badge">@if( isset($num) ) {{ $num }} @endif</span>
           <div class="btn btn-primary md-trigger" data-modal="cartModal">
             <i class="fa fa-shopping-cart"></i>
           </div>

@@ -117,9 +117,16 @@
 	opacity: 1;
 }
 
+.md-trigger  i{
+	margin-top: 7px;
+	position: absolute;
+	left: 58px;
+}
+
 .md-trigger {
 	font-size: 26px;
 	margin-top: -1px;
-	border-radius: 0;
+	border-radius: 0px;
 	width: 80px;
+	height: 51px;
 }

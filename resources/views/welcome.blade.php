@@ -26,11 +26,16 @@
                 <span>{{ number_format($product->price) . ' ریال' }}</span>
                 {!! Form::button('<i class="fa fa-shopping-basket"></i>', array('class' => 'btn btnadd btn-primary', 'data-pid' => $product->id)) !!}
                 {!! Form::button('<i class="fa fa-info-circle"></i>', array('class' => 'btn btninfo btn-default')) !!}
+                <div class="myspinner">
+                    <img src="{{ asset('/img/loader.gif') }}" alt="">
+                </div>
             </div>
         @endforeach
     </div>
 
 </div>
+
+
 
 
 @stop
@@ -76,7 +81,13 @@
             $('body').on('click', '.btnadd', function(event) {
                 event.preventDefault();
 
-                $('.btnadd').prop('disabled', true);
+                var target    = $(event.target),
+                Loader        = target.parents('.item').find('div.myspinner'),
+                FadeElement   = target.parents('.item').find('.btnadd');
+
+                FadeElement.fadeTo(400,0,function(){
+                    Loader.fadeTo(400,1);     
+                });
 
                 $.ajax({
                     url: 'addbasket',
@@ -85,18 +96,22 @@
                 .done(function(data) {
                     $('.btnadd').prop('disabled', false);
                     $('.md-trigger i' ).effect( "bounce", { times: 3 }, "slow" );
+                    if (data.result == "add") {
+                        $('.badge').html( Number($('.badge').html()) + 1 );
+                    };
                 })
                 .fail(function(data) {
                     console.log(data.responseText);
                 })
                 .always(function() {
                     // console.log(data.result);
+                    Loader.fadeTo(400,0,function(){
+                        FadeElement.fadeTo(400,1);
+                    });
                 });
             });
 
         });
-
-
 
 
     </script>

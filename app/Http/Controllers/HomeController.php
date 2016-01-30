@@ -32,7 +32,10 @@ class HomeController extends Controller {
 		$totalCount = 0;
 		$cats = Cat::all();
 		$products = Product::where('active', 1)->get();
-		return view()->make('welcome',compact('cats','products'));
+		$num = Basket::where('user_id', Sentinel::getUser()->id)
+		             ->where('ordered', 0)
+		             ->count();
+		return view()->make('welcome',compact('cats','products','num'));
 	}
 
 }

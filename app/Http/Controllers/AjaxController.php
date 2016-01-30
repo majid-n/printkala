@@ -20,17 +20,11 @@ class AjaxController extends Controller {
 		    	// $totalCount = 0;
 		    	$pid = intval( $request->input('pid') );
 		    	$user = Sentinel::getUser()->id;
-		    	// $cart = Basket::where('user_id', '=', $user )
-		    	// 			  ->where('ordered', '=', 0 )
-		    	// 			  ->get();
+
 		    	$exist = Basket::where('product_id', '=', $pid)
 						    	->where('user_id', '=', $user )
 						    	->where('ordered', '=', 0 )
 						    	->first();
-
-				// foreach ($cart as $key) {
-				// 	$totalCount += $key->count * (Product::find($key->product_id)->price);
-				// }
 
 				if($exist == null){
 
@@ -39,24 +33,14 @@ class AjaxController extends Controller {
 			    	$basket->product_id = $pid;
 			    	$basket->count = 1;
 			    	if ( $basket->save() ) {
-			    		return  response()->json(
-			    		            [
-			    		            	'result' 	=> 'add', 
-                                   		// 'cartdata'	=> view( 'cart', array( 'basket' => $cart, 'total' => $totalCount) )->render()
-			    		            ]
-			    		        );
+			    		return  response()->json([ 'result' => 'add' ]);
 			    	}
 			    	
 		    	} else {
 			    	
 		    		$exist->count += 1;
 		    		if( $exist->save() ) {
-			    		return  response()->json(
-			    		            [
-			    		                'result' 	=> 'update',
-                                   		// 'cartdata'	=> view( 'cart', array( 'basket' => $cart, 'total' => $totalCount) )->render()
-			    		            ]
-			    		        );
+						return  response()->json([ 'result' => 'update' ]);
 		    		}
 		    	}
 		    }  
@@ -109,6 +93,7 @@ class AjaxController extends Controller {
 			return  response()->json(
 	            [
 	                'result' 	=> true,
+	                'count'		=> $num,
                		'cartdata'	=> view( 'cart', array( 'items' => $items, 'count' => $num, 'total' => $totalprice) )->render()
 	            ]
 	        );
