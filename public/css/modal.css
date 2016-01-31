@@ -66,6 +66,7 @@
 	margin: 0;
 	font-weight: 300;
 	font-size: 1.15em;
+	min-height: 300px;
 }
 
 .md-content > div p {

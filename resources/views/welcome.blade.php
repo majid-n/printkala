@@ -105,7 +105,7 @@
                 })
                 .always(function() {
                     // console.log(data.result);
-                    Loader.fadeTo(400,0,function(){
+                    Loader.fadeOut("slow",function(){
                         FadeElement.fadeTo(400,1);
                     });
                 });

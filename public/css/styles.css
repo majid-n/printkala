@@ -140,6 +140,7 @@ body {
 		position: absolute;
 		top: 40px;
 		left: 100px;
+		border: 3px solid #fff;
 	}
 
 	.customSpinner {
@@ -157,6 +158,20 @@ body {
 		position: absolute;
 		left: 50%;
 		top: 50%;
+	}
+
+	.basketTable tbody td {
+		vertical-align: middle !important;
+	}
+
+	.basketimg {
+		width: 50px;
+		border-radius: 4px;
+	}
+
+	.sumTd {
+		font-weight: bold;
+		font-size: 20px;
 	}
 
 /*---------------------------------------------------------------
