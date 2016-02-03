@@ -17,7 +17,6 @@ class AjaxController extends Controller {
 		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post')) {
 		    if( $request->has('pid') ) {
 
-		    	// $totalCount = 0;
 		    	$pid = intval( $request->input('pid') );
 		    	$user = Sentinel::getUser()->id;
 
@@ -35,7 +34,7 @@ class AjaxController extends Controller {
 			    	if ( $basket->save() ) {
 			    		return  response()->json([ 'result' => 'add' ]);
 			    	}
-			    	
+
 		    	} else {
 			    	
 		    		$exist->count += 1;
@@ -51,7 +50,7 @@ class AjaxController extends Controller {
 
 
 	public function remBasket(Request $request) {
-		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post')) {
+		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post') ) {
 		    if( $request->has('pid') ) {
 
 		    	$pid = intval( $request->input('pid') );
@@ -60,8 +59,8 @@ class AjaxController extends Controller {
 		    				   ->where('ordered', 0 )
 		    				   ->where('product_id', $pid )
 		    				   ->first();
-		    	if($exist !== null){
-		    		if($exist->delete()) {
+		    	if( $exist !== null ){
+		    		if( $exist->delete() ) {
 		    			return response()->json([ 'delid' =>  $exist->product_id, 'result' => true ]);
 		    		}
 		    	} else {

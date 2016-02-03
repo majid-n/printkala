@@ -101,10 +101,9 @@
                     };
                 })
                 .fail(function(data) {
-                    console.log(data.responseText);
+                    $('.md-trigger i' ).effect( "shake", { times: 3 }, "slow" );
                 })
-                .always(function() {
-                    // console.log(data.result);
+                .always(function(data) {
                     Loader.fadeOut("slow",function(){
                         FadeElement.fadeTo(400,1);
                     });
