@@ -93,7 +93,7 @@ class AjaxController extends Controller {
 	            [
 	                'result' 	=> true,
 	                'count'		=> $num,
-               		'cartdata'	=> view( 'cart', array( 'items' => $items, 'count' => $num, 'total' => $totalprice) )->render()
+               		'cartdata'	=> view( 'cart', array( 'items' => $items, 'total' => $totalprice) )->render()
 	            ]
 	        );
 		}

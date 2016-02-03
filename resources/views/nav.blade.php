@@ -24,7 +24,7 @@
       </ul>
       @else
         <div class="nav navbar-nav navbar-left">
-          <span class="badge">@if( isset($num) ) {{ $num }} @endif</span>
+          <span class="badge noselect">{{ isset($num) ? $num : 0 }}</span>
           <div class="btn btn-primary md-trigger" data-modal="cartModal">
             <i class="fa fa-shopping-cart"></i>
           </div>
@@ -41,7 +41,7 @@
           <ul class="dropdown-menu">
             <li><a href="{{ URL::to('admin/product') }}">مدیریت محصولات</a></li>
             <li><a href="#">Another action</a></li>
-            @if(Sentinel::hasAccess('admins'))
+            @if(Sentinel::inRole('admins'))
               <li><a href="#">ADMIN</a></li>
             @endif
             <li role="separator" class="divider"></li>

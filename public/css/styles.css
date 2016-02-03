@@ -17,13 +17,20 @@ body {
 	}
 
 	::selection {
-		background: #13CCBF;
+		background: #C63437;
 		color: #fff;
 	}
 
 	::-moz-selection {
-		background: #13CCBF;
+		background: #C63437;
 		color: #fff;
+	}
+
+	.noselect {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none; 
 	}
 
 	.radius4 {
@@ -65,6 +72,34 @@ body {
 	    -ms-transition: all 1s ease-in-out;
 	    transition: all 1s ease-in-out;
 	}
+	.btn-primary {
+		background-color: #C63437;
+		border-color: #9B2628;
+	}
+	.btn-primary:hover,
+	.btn-primary:active,
+	.btn-primary:focus {
+		background-color: #9B2628;
+	}
+	.badge {
+		background-color: #4B4B4D;
+	}
+	.navbar {
+		border-radius: 0;
+		border: 0;
+		background-color: #4B4B4D;
+	}
+	.navbar-default .navbar-nav > li > a {
+		color: #fff !important;
+	}
+	.navbar-nav > .open > a:hover,
+	.navbar-default .navbar-nav > .open > a:focus {
+		background-color: #333;
+	}
+
+	.navbar-nav > .active > a {
+		background-color: #333 !important;
+	}
 
 /*---------------------------------------------------------------
 							Products
@@ -76,8 +111,6 @@ body {
 		width: 25%;
 		height: 290px;
 		width: calc(25% - 14px);
-		/*width: 300px;*/
-		/*height: 350px;*/
 		margin: 7px;
 		padding: 10px;
 		text-align: center;
@@ -85,10 +118,22 @@ body {
 		background-color: #FFF;
 	}
 
+	.isotope .item:hover {
+		border: 1px solid #C63437;
+	}
+
 	.isotope .item img {
 		height: 200px;
 		margin: 0 auto;
 	}
+/*
+	.isotope .item img:hover {
+		-webkit-transform: scale(1.2);
+		-moz-transform: scale(1.2);
+		-ms-transform: scale(1.2);
+		-o-transform: scale(1.2);
+		transform: scale(1.2);
+	}*/
 
 	.isotope .item p {
 		margin-top: 10px;
@@ -127,6 +172,19 @@ body {
 		padding-top: 8px;
 	}
 
+	#filters li button {
+		border: 0;
+		border-radius: 4px;
+		background-color: rgb(198, 52, 55);
+		padding: 5px 10px;
+		color: #fff;
+	}
+
+	#filters li button:hover {
+		background-color:#4B4B4D;
+		padding: 5px 10px;
+		color: #fff;
+	}
 
 /*---------------------------------------------------------------
 						Cart Modal
@@ -134,6 +192,7 @@ body {
 
 	.btnrem {
 		cursor: pointer;
+		color: #C63437;
 	}
 
 	.badge {
