@@ -11,14 +11,56 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('cats')->insert([
+        # User Seeder
+        Sentinel::registerAndActivate([
+            'email'    => 'user@user.com',
+            'password' => 'user',
+            'first_name' => 'UserFirstName',
+            'last_name' => 'UserLastName',
+        ]);
+        Sentinel::registerAndActivate([
+            'email'    => 'admin@admin.com',
+            'password' => 'admin',
+            'first_name' => 'AdminFirstName',
+            'last_name' => 'AdminLastName',
+        ]);
+        $this->command->info('Users seeded!');
 
+        # Role Seeder
+        DB::table('roles')->delete();
+        Sentinel::getRoleRepository()->createModel()->create([
+            'name' => 'Users',
+            'slug' => 'users',
+        ]);
+        Sentinel::getRoleRepository()->createModel()->create([
+            'name' => 'Admins',
+            'slug' => 'admins',
+        ]);
+        $this->command->info('Roles seeded!');
+
+        # User Role Seeder
+        DB::table('role_users')->delete();
+        $user  = Sentinel::findByCredentials(['login' => 'user@user.com']);
+        $admin = Sentinel::findByCredentials(['login' => 'admin@admin.com']);
+
+        $userRole  = Sentinel::findRoleByName('Users');
+        $adminRole = Sentinel::findRoleByName('Admins');
+
+        $userRole->users()->attach($user);
+        $adminRole->users()->attach($admin);
+        $this->command->info('Users assigned to roles seeded!');
+
+        # Categories Table Seeder
+        DB::table('cats')->delete();
+        DB::table('cats')->insert([
             [ 'title' => 'کاغذ' ],
             [ 'title' => 'زینک' ],
             [ 'title' => 'مرکب چاپ' ],
-
         ]);
+        $this->command->info('Categories Table Seeded.');
 
+        # Products Table Seeder
+        DB::table('products')->delete();
         DB::table('products')->insert([ 
     		[
                 'name' 		=> 'کاغذ A4 Copymax',
@@ -101,5 +143,6 @@ class DatabaseSeeder extends Seeder
                 'active' 	=> 1,
             ],
         ]);
+        $this->command->info('Products Seeded.');
     }
 }

@@ -32,8 +32,6 @@
 	</table>
 	<button class="md-close">بستن</button>
 
-
-	<p hidden>{{ $count }}</p>
 </div>
 
 <script type="text/javascript">
@@ -43,9 +41,6 @@
 		event.preventDefault();
 		pid = $(this).data("pid");
 		total = $(this).parents('td.itemTotal');
-		// totalSum = sumTd
-		// .html().split(" ")[0]
-		console.log(total);
 
 		$.ajax({
 		   url: 'rembasket',
@@ -60,7 +55,6 @@
 		})
 		.always(function(data) {
 		   // console.log($(this).data("pid"));
-
 		});
 	}); 
 

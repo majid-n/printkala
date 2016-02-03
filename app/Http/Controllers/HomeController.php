@@ -29,12 +29,14 @@ class HomeController extends Controller {
 	}
 
 	public function welcome() {
-		$totalCount = 0;
 		$cats = Cat::all();
 		$products = Product::where('active', 1)->get();
-		$num = Basket::where('user_id', Sentinel::getUser()->id)
-		             ->where('ordered', 0)
-		             ->count();
+		if ( Sentinel::check() ) {
+			$num = Basket::where('user_id', Sentinel::getUser()->id)
+			             ->where('ordered', 0)
+			             ->count();
+		} else { $num = 0; }
+		
 		return view()->make('welcome',compact('cats','products','num'));
 	}
 

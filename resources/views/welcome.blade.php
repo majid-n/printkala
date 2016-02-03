@@ -1,42 +1,36 @@
 @extends('template')
 
 
-@section('title')
-    PrintKala
-@stop
-
+@section('title','PrintKala')
+    
 
 @section('content')
 
+    <div class="row">
 
-<div class="row">
+        <ul id="filters" class="list-inline button-group">
+            <li class="is-checked"><button class="transition" data-filter="*">همه موارد</button></li>
+            @foreach($cats as $cat)
+                <li><button type="button" class="transition" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button></li>
+            @endforeach
+        </ul>
 
-    <ul id="filters" class="list-inline button-group">
-        <li class="is-checked"><button data-filter="*">همه موارد</button></li>
-        @foreach($cats as $cat)
-            <li><button type="button" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button></li>
-        @endforeach
-    </ul>
-
-    <div class="isotope">
-        @foreach($products as $product)
-            <div class="item {{ 't'. $product->cat }} radius4 ">
-                <img class="img-responsive" src="img/products/{{ $product->pic }}" alt="">
-                <p>{{ $product->name }}</p>
-                <span>{{ number_format($product->price) . ' ریال' }}</span>
-                {!! Form::button('<i class="fa fa-shopping-basket"></i>', array('class' => 'btn btnadd btn-primary', 'data-pid' => $product->id)) !!}
-                {!! Form::button('<i class="fa fa-info-circle"></i>', array('class' => 'btn btninfo btn-default')) !!}
-                <div class="myspinner">
-                    <img src="{{ asset('/img/loader.gif') }}" alt="">
+        <div class="isotope">
+            @foreach($products as $product)
+                <div class="item {{ 't'. $product->cat }} radius4">
+                    <img class="img-responsive noselect" src="img/products/{{ $product->pic }}" alt="">
+                    <p>{{ $product->name }}</p>
+                    <span>{{ number_format($product->price) . ' ریال' }}</span>
+                    {!! Form::button('<i class="fa fa-shopping-basket"></i>', array('class' => 'btn btnadd btn-primary', 'data-pid' => $product->id)) !!}
+                    {!! Form::button('<i class="fa fa-info-circle"></i>', array('class' => 'btn btninfo btn-default')) !!}
+                    <div class="myspinner">
+                        <img src="{{ asset('/img/loader.gif') }}" alt="">
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
+
     </div>
-
-</div>
-
-
-
 
 @stop
 
@@ -85,8 +79,8 @@
                 Loader        = target.parents('.item').find('div.myspinner'),
                 FadeElement   = target.parents('.item').find('.btnadd');
 
-                FadeElement.fadeTo(400,0,function(){
-                    Loader.fadeTo(400,1);     
+                FadeElement.fadeOut("fast",function(){
+                    Loader.fadeIn();     
                 });
 
                 $.ajax({
@@ -106,7 +100,7 @@
                 .always(function() {
                     // console.log(data.result);
                     Loader.fadeOut("slow",function(){
-                        FadeElement.fadeTo(400,1);
+                        FadeElement.fadeIn();
                     });
                 });
             });
