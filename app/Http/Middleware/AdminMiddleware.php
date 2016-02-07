@@ -1,28 +1,23 @@
-<?php namespace App\Http\Middleware;
+<?php 
+
+namespace App\Http\Middleware;
+
 use Sentinel;
 use Closure;
 
 class AdminMiddleware {
 
-	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle($request, Closure $next)
-	{
+	public function handle( $request, Closure $next )	{
 
+		if ( Sentinel::check() ) {
 
-		if (Sentinel::hasAccess('admin'))
-		{
-		    return $next($request);
+			if ( !Sentinel::inRole('admins') ) {
+				return redirect()->route('home')->with('fail', 'شما امکان دسترسی به این محدوده را ندارید.');
+			}
+
 		}
-		else
-		{
-		   return redirect()->guest('/404');
-		}
-	
+
+		return $next($request);
 	}
 }	
+

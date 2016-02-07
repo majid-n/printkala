@@ -1,31 +1,21 @@
 <?php
 namespace App\Http\Controllers;
 
-// use Illuminate\Foundation\Bus\DispatchesJobs;
-// use Illuminate\Routing\Controller as BaseController;
-// use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
-// use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
-// use Illuminate\Database\Eloquent\ModelNotFoundException;
-// use Input;
-// use Validator;
-// use Sentinel;
-// use Activation;
-// use Mail;
-// use App\Blog;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\Product;
 use App\Cat;
 use App\Basket;
 use Sentinel;
 use View;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller {
 
 
 	public function __construct() {
-		
+		# Construct Function
 	}
 
 	public function welcome() {
@@ -37,7 +27,7 @@ class HomeController extends Controller {
 			             ->count();
 		} else { $num = 0; }
 		
-		return view()->make('welcome',compact('cats','products','num'));
+		return view( 'welcome',compact('cats','products','num') );
 	}
 
 }

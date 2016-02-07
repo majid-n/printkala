@@ -25,24 +25,29 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/', 'HomeController@welcome');
-    Route::get('logout', 'UserController@logout');
 
-    Route::get('login', 'UserController@showLogin');
-    Route::post('login', 'UserController@postLogin');
+Route::get('/', 'HomeController@welcome')->name('home');
 
+# No Authenticated User Section
+Route::group(['middleware' => ['authno']], function () {
+    Route::get('login', 'UserController@showLogin')->name('login');
+    Route::post('login', 'UserController@postLogin')->name('login.post');
+    Route::get('register', 'UserController@showRegister')->name('register');
+    Route::post('register', 'UserController@postRegister')->name('register.post');
+});
 
-    Route::get('register', 'UserController@showRegister');
-    Route::post('register', 'UserController@postRegister');
+# Admin User Section
+Route::group(['middleware' => ['admin']], function () {
+    Route::get('admin/product', 'AdminController@productPage')->name('product');
+    Route::post('admin/product', 'AdminController@addProduct')->name('product.post');
+});
 
-    Route::get('admin/product', 'AdminController@productPage');
-    Route::post('admin/product', 'AdminController@addProduct');	
-    
-    Route::post('addbasket', 'AjaxController@addBasket');   
-    Route::post('rembasket', 'AjaxController@remBasket');   
-    
-    Route::post('loadbasket', 'AjaxController@loadbasket');	
+# Authenticated User Section
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('logout', 'UserController@logout')->name('logout');
+    Route::post('addbasket', 'AjaxController@addBasket')->name('basket.add');   
+    Route::post('rembasket', 'AjaxController@remBasket')->name('basket.rem');   
+    Route::post('loadbasket', 'AjaxController@loadbasket')->name('basket.load');	
 });
 
 
@@ -52,4 +57,4 @@ Route::get('activate/{id}/{code}', function($id, $code) {
 		return Redirect()->to("login")->withErrors('Invalid or expired activation code.');
 	}
 	return Redirect()->to('login')->withSuccess('Account activated.');
-})->where('id', '\d+');
+});

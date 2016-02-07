@@ -15,6 +15,11 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
@@ -24,11 +29,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            
         ],
 
         'api' => [
@@ -45,18 +46,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        // 'auth'       => \App\Http\Middleware\Authenticate::class,
-        // 'admin'      => \App\Http\Middleware\AdminMiddleware::class,
-        'user'       => \App\Http\Middleware\UserMiddleware::class,
+        'authno'     => \App\Http\Middleware\RedirectAuth::class,
+        'auth'       => \App\Http\Middleware\Authenticate::class,
+        'admin'      => \App\Http\Middleware\AdminMiddleware::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        // 'guest'      => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-
-        'auth' => \App\Http\Middleware\SentinelAuthenticate::class,
-        'guest' => \App\Http\Middleware\SentinelRedirectIfAuthenticated::class,
-        'standardUser' => \App\Http\Middleware\SentinelStandardUser::class,
-        'admin' => \App\Http\Middleware\SentinelAdminUser::class,
-        'notCurrentUser' => \App\Http\Middleware\SentinelNotCurrentUser::class,
-        'redirectAdmin' => \App\Http\Middleware\SentinelRedirectAdmin::class,
     ];
 }

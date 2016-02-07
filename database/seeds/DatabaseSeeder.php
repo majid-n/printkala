@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder
         # User Seeder
         Sentinel::registerAndActivate([
             'email'    => 'user@user.com',
-            'password' => 'user',
+            'password' => 'user123',
             'first_name' => 'UserFirstName',
             'last_name' => 'UserLastName',
         ]);
         Sentinel::registerAndActivate([
             'email'    => 'admin@admin.com',
-            'password' => 'admin',
+            'password' => 'admin123',
             'first_name' => 'AdminFirstName',
             'last_name' => 'AdminLastName',
         ]);
@@ -29,11 +29,11 @@ class DatabaseSeeder extends Seeder
         # Role Seeder
         DB::table('roles')->delete();
         Sentinel::getRoleRepository()->createModel()->create([
-            'name' => 'Users',
+            'name' => 'users',
             'slug' => 'users',
         ]);
         Sentinel::getRoleRepository()->createModel()->create([
-            'name' => 'Admins',
+            'name' => 'admins',
             'slug' => 'admins',
         ]);
         $this->command->info('Roles seeded!');
@@ -43,8 +43,8 @@ class DatabaseSeeder extends Seeder
         $user  = Sentinel::findByCredentials(['login' => 'user@user.com']);
         $admin = Sentinel::findByCredentials(['login' => 'admin@admin.com']);
 
-        $userRole  = Sentinel::findRoleByName('Users');
-        $adminRole = Sentinel::findRoleByName('Admins');
+        $userRole  = Sentinel::findRoleByName('users');
+        $adminRole = Sentinel::findRoleByName('admins');
 
         $userRole->users()->attach($user);
         $adminRole->users()->attach($admin);

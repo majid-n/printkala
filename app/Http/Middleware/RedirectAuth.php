@@ -4,11 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Sentinel;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-class Authenticate
+class RedirectAuth
 {
     /**
      * Handle an incoming request.
@@ -18,12 +17,12 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle( Request $request, Closure $next )
     {
-        if ( !Sentinel::check() ) {
+        if ( Sentinel::check() ) {
 
             if ( $request->ajax() ) return response('Unauthorized.', 401);
-            else return redirect()->route('login')->with('fail', 'جهت دسترسی به این صفحه به سایت وارد شوید.');
+            else return redirect()->route('home')->with('fail', 'برای ورود به این بخش ابتدا از حساب کاربری خود خارج شوید.');
         }
 
         return $next($request);

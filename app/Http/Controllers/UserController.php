@@ -1,147 +1,132 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
-
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
+use App\Http\Requests;
 use Validator;
 use Sentinel;
 use Activation;
 use Mail;
-use Request;
 use Redirect;
 use App\User;
 
 class UserController extends Controller {
 
-	public function welcome() {
-		$users = User::all();
-		return view()->make('welcome',compact('users','products'));
-	}
-
+	# Show Login Page
 	public function showLogin() {
-		return view()->make('sentinel.login');
+		return view('sentinel.login');
 	}
 
-	public function postLogin() {
+	# Authenticate User
+	public function postLogin( Request $request ) {
 
-		try	{
-			$input = Input::all();
+	    try {
 
-			$password = Request()->password;
-			$email = Request()->email;
+	        $input      = $request->all();
+	        $remember   = (boolean) $request->remember;
 
-			$credentials = [
-    			'email' => $email,
-    			'password' => $password,
-			];
+	        $credentials = [
+	            'email'     => $request->email,
+	            'password'  => $request->password,
+	        ];
 
+	        $rules = [
+	            'email'    => 'required|email',
+	            'password' => 'required|alpha_num|min:6|max:20',
+	        ];
 
-			$rules = [
-				'email' => 'required|email',
-				'password' => 'required',
-			];
+	        $validator = Validator::make( $input, $rules );
 
-			$validator = Validator::make($input, $rules);
+	        if ( $validator->fails() ) {
+	            return back()->withInput()
+	                         ->withErrors($validator);
+	        }
 
-			if ($validator->fails()) {
-				return redirect()->back()->withInput()->withErrors($validator);
-			}
-			
-			$remember = (bool) Input::get('remember', false);
+	        if ( $user = Sentinel::authenticate($credentials, $remember) ) {
+	            if     ( Sentinel::inRole( 'admins' ) ) return redirect()->route('product');
+	            elseif ( Sentinel::inRole( 'users'  ) ) return redirect()->route('home');
+	        }
 
-			if (Sentinel::authenticate($credentials, $remember)) {
-				return Redirect()->to('/');
+	        return redirect()->route('login')->withInput()->with('fail', 'آدرس ایمیل یا رمز عبور شما اشتباه است.');
+	    }
 
-				// $admin = Sentinel::findRoleByName('Admins');
-				// $users = Sentinel::findRoleByName('Users');
+	    catch (NotActivatedException $e) {
+	        return redirect()->route('reactivate')->with([
+	            'fail'      => 'اکانت شما فعال نمی باشد.',
+	            'user'      => $e->getUser()
+	        ]);
+	    }
 
-				// if ($user->inRole($admin)) {
-				//     print_r("adminnnnnn");
-				// } elseif ($user->inRole($users)) {
-				//     print_r("userrrrrrr");
-				// }
-			}
-
-			$errors = trans('validation.invalid_user_password');
-		}
-
-		catch (NotActivatedException $e) {
-			$errors = trans('validation.account_not_active');
-			// return Redirect()->to('reactivate')->with('user', $e->getUser());
-		}
-
-		catch (ThrottlingException $e) {
-			$delay = $e->getDelay();
-			$errors = "اکانت شما بلاک شد برای مدت {$delay} ثانیه.";
-		}
-
-		return redirect()->back()->withInput()->withErrors($errors);
+	    catch (ThrottlingException $e) {
+	        return back()->with('fail', 'اکانت شما بلاک شد برای مدت '.$e->getDelay().' ثانیه.');
+	    }
 	}
 
+	# Show Register Page
 	public function showRegister() {
 		return view()->make('sentinel.register');
 	}
 
-	public function postRegister() {
-		$input = Input::all();
+	# Store the New User
+	public function postRegister( Request $request ) {
 
-		$rules = [
-			'first_name'	   => 'required|min:2',
-			'last_name'	       => 'required|min:2',
-			'email'            => 'required|email|unique:users',
-			'mobile' 		   => 'required|min:11|max:11',
-			'password'         => 'required',
-			'password_confirm' => 'required|same:password',
-			'shout' 		   => 'required|min:2|max:150',
-			'gender' 		   => 'required'
-		];
+	    $input = $request->all();
 
-		$validator = Validator::make($input, $rules);
+	    $rules = [
+	        'first_name'       => 'required|farsi|min:2',
+	        'last_name'        => 'required|farsi|min:2',
+	        'email'            => 'required|email|unique:users',
+	        'password'         => 'required|alpha_num|min:6|max:20',
+	        'password_confirm' => 'required|same:password',
+	    ];
 
-		if ($validator->fails())
-		{
-			return Redirect()->back()
-				->withInput()
-				->withErrors($validator);
-		}
+	    $validator = Validator::make( $input, $rules );
 
-		if ($user = Sentinel::register($input))	{
+	    if ( $validator->fails() ) {
+	        return back()->withInput()
+	                     ->withErrors($validator);
+	    }
 
-			$usersRole = Sentinel::findRoleByName('Users');
-			$usersRole->users()->attach($user);
+	    if ( $user = Sentinel::register($input) ) {
 
-			$activation = Activation::create($user);
+	        # Assgin role to Registred User
+	        $role = Sentinel::findRoleByName('users');
+	        $role->users()->attach($user);
 
-			$code = $activation->code;
+	        # Create Activation Code for Registered User
+	        $activation = Activation::create($user);
 
-			$sent = Mail::send('sentinel.emails.activate', compact('user', 'code'), function($m) use ($user)
-			{
-				$m->to($user->email)->subject('Activate Your Account');
-			});
+	        Mail::send('emails.activate', ['activation' => $activation, 'user' => $user], function ($message) use ($user) {
 
-			if ($sent === 0)
-			{
-				return Redirect()->to('register')
-					->withErrors('Failed to send activation email.');
-			}
+	            $message->from(config('app.info_email'), 'کامت');
+	            $message->sender(config('app.info_email'), 'کامت');
+	            $message->to($user->email, $user->first_name." ".$user->last_name)->subject('کد فعال سازی');
+	            $message->replyTo(config('app.security_email'), 'تیم امنیتی کامت');
+	        });
 
-			return Redirect()->to('login')
-				->withSuccess(trans('validation.account_success'))
-				->with('userId', $user->getUserId());
-		}
+	        return redirect()->route('login')->with([
+	            'success'   => 'اکانت شما با موفق ساخته شد.',
+	            'userid'    => $user->id
+	        ]);
+	    }
 
-		return Redirect::to('register')
-			->withInput()
-			->withErrors('Failed to register.');
+	    return back()->withInput()
+	                 ->with('fail', 'خطا در اتصال به سرور، لطفا بعدا امتحان کنید.');
 	}
 
+	# Logout User from this device
 	public function logout() {
-		Sentinel::logout();
-		return Redirect::to('login');
+	    Sentinel::logout();
+	    return redirect()->route('home');
+	}
+
+	# Logout User from all Devices
+	public function logoutEverywhere(){
+	    Sentinel::logout( null, true );
+	    return redirect()->route('home');
 	}
 
 }

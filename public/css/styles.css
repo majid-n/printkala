@@ -86,8 +86,6 @@ body {
 	}
 	.navbar {
 		border-radius: 0;
-		border: 0;
-		background-color: #4B4B4D;
 	}
 	.navbar-default .navbar-nav > li > a {
 		color: #fff !important;
