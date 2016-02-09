@@ -1,5 +1,6 @@
 body {
   font-family: 'yekan', arial;
+  margin-top: 90px;
   height: 2000px;
 }
 
@@ -72,31 +73,108 @@ body {
 	    -ms-transition: all 1s ease-in-out;
 	    transition: all 1s ease-in-out;
 	}
+
+/*---------------------------------------------------------------
+							Custom BTN
+---------------------------------------------------------------*/
+
 	.btn-primary {
-		background-color: #C63437;
-		border-color: #9B2628;
+	  color: #ffffff;
+	  background-color: #C63437;
+	  border-color: #9B2628;
 	}
-	.btn-primary:hover,
+	.btn-primary:focus,
+	.btn-primary.focus {
+	  color: #ffffff;
+	  background-color: #B32E31;
+	  border-color: #8E2A2C;
+	}
+	.btn-primary:hover {
+	  color: #ffffff;
+	  background-color: #B32E31;
+	  border-color: #9B2628;
+	}
 	.btn-primary:active,
-	.btn-primary:focus {
-		background-color: #9B2628;
+	.btn-primary.active,
+	.open > .dropdown-toggle.btn-primary {
+	  color: #ffffff;
+	  background-color: #B32E31;
+	  border-color: #9B2628;
 	}
+	.btn-primary:active:hover,
+	.btn-primary.active:hover,
+	.open > .dropdown-toggle.btn-primary:hover,
+	.btn-primary:active:focus,
+	.btn-primary.active:focus,
+	.open > .dropdown-toggle.btn-primary:focus,
+	.btn-primary:active.focus,
+	.btn-primary.active.focus,
+	.open > .dropdown-toggle.btn-primary.focus {
+	  color: #ffffff;
+	  background-color: #9B2628;
+	  border-color: #8E2A2C;
+	}
+	.btn-primary:active,
+	.btn-primary.active,
+	.open > .dropdown-toggle.btn-primary {
+	  background-image: none;
+	}
+	.btn-primary.disabled:hover,
+	.btn-primary[disabled]:hover,
+	fieldset[disabled] .btn-primary:hover,
+	.btn-primary.disabled:focus,
+	.btn-primary[disabled]:focus,
+	fieldset[disabled] .btn-primary:focus,
+	.btn-primary.disabled.focus,
+	.btn-primary[disabled].focus,
+	fieldset[disabled] .btn-primary.focus {
+	  background-color: #C63437;
+	  border-color: #2e6da4;
+	}
+
+
+
+
+
+
+
 	.badge {
 		background-color: #4B4B4D;
 	}
 	.navbar {
 		border-radius: 0;
+		background-color: #4B4B4D;
+		border: 0;
 	}
+	.navbar-brand div {
+		width: 75px;
+		height: 51px;
+		background-color: #fff;
+		margin: -15px;
+		text-align: center;
+		padding-top: 11px;
+	}
+
 	.navbar-default .navbar-nav > li > a {
 		color: #fff !important;
 	}
-	.navbar-nav > .open > a:hover,
+
+	.navbar-default .navbar-nav > .open > a,
+	.navbar-default .navbar-nav > .open > a:hover,
 	.navbar-default .navbar-nav > .open > a:focus {
 		background-color: #333;
 	}
 
 	.navbar-nav > .active > a {
 		background-color: #333 !important;
+	}
+	.form-control {
+		height: 57px;
+	}
+	.form-control:focus {
+		border-color: #C63437;
+		-webkit-box-shadow: 0 0 5px 1px rgba(198,52,55,0.5);
+		box-shadow: 0 0 5px 1px rgba(198,52,55,0.5);
 	}
 
 /*---------------------------------------------------------------
@@ -106,14 +184,12 @@ body {
 	.isotope {}
 
 	.isotope .item {
-		width: 25%;
 		height: 290px;
 		width: calc(25% - 14px);
+		overflow: hidden;
 		margin: 7px;
-		padding: 10px;
-		text-align: center;
-		border: 1px solid #ccc;
-		background-color: #FFF;
+		border: 1px solid #333;
+		background-color: #333;
 	}
 
 	.isotope .item:hover {
@@ -121,7 +197,7 @@ body {
 	}
 
 	.isotope .item img {
-		height: 200px;
+		width: 100%;
 		margin: 0 auto;
 	}
 /*
@@ -135,13 +211,14 @@ body {
 
 	.isotope .item p {
 		margin-top: 10px;
+		color: #fff;
 	}
 
 	.isotope .item button.btnadd {
 		position: absolute;
 		left: 10px;
 		bottom: 10px;
-		width: 40px;
+		width: auto;
 		height: 40px;
 		cursor: pointer;
 	}
@@ -155,34 +232,63 @@ body {
 		height: 40px;
 	}
 
-	.item div.myspinner img {
-		width: 80%;
-		height: 55%;
-	}
-
-	.item div.myspinner {
-		height: 40px;
-		position: absolute;
-		left: 10px;
-		bottom: 10px;
-		width: 40px;
-		display: none;
-		padding-top: 8px;
-	}
-
 	#filters li button {
 		border: 0;
 		border-radius: 4px;
-		background-color: rgb(198, 52, 55);
+		background-color:#4B4B4D;
 		padding: 5px 10px;
 		color: #fff;
 	}
 
 	#filters li button:hover {
-		background-color:#4B4B4D;
+		background-color: rgb(198, 52, 55);
 		padding: 5px 10px;
 		color: #fff;
 	}
+
+	.is-checked {
+		background-color: rgb(198, 52, 55) !important;
+	}
+
+/*---------------------------------------------------------------
+							Loader
+---------------------------------------------------------------*/
+
+.myspinner {
+	position: absolute;
+	left: 10px;
+	top: 11px;
+	display: none;
+}
+
+.double-bounce1 {
+	width: 17px;
+	height: 17px;
+	border-radius: 50%;
+	background-color: #fff;
+	opacity: 0.8;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-animation: sk-bounce 1.0s infinite ease-in-out;
+	animation: sk-bounce 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
 
 /*---------------------------------------------------------------
 						Cart Modal
@@ -196,7 +302,7 @@ body {
 	.badge {
 		position: absolute;
 		top: 40px;
-		left: 100px;
+		left: 80px;
 		border: 3px solid #fff;
 	}
 
@@ -253,21 +359,18 @@ body {
 
     @media only screen and (max-width : 1200px) {
     	.isotope .item {
-    		width: 25%;
     		width: calc(25% - 14px);
     	}
     }
 
     @media only screen and (max-width : 992px) {
     	.isotope .item {
-    		width: 33.333%;
     		width: calc(33.333% - 14px);
     	}
     }
 
     @media only screen and (max-width : 768px) {
     	.isotope .item {
-    		width: 50%;
     		width: calc(50% - 14px);
     	}
     }

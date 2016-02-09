@@ -9,23 +9,28 @@
     <div class="row">
 
         <ul id="filters" class="list-inline button-group">
-            <li class="is-checked"><button class="transition" data-filter="*">همه موارد</button></li>
+            <li><button class="transition is-checked" data-filter="*">همه موارد</button></li>
             @foreach($cats as $cat)
-                <li><button type="button" class="transition" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button></li>
+                <li><button class="transition" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button></li>
             @endforeach
         </ul>
 
         <div class="isotope">
             @foreach($products as $product)
                 <div class="item {{ 't'. $product->cat }} radius4">
-                    <img class="img-responsive noselect" src="img/products/{{ $product->pic }}" alt="">
+                    <img class="img-responsive noselect" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">
                     <p>{{ $product->name }}</p>
-                    <span>{{ number_format($product->price) . ' ریال' }}</span>
-                    {!! Form::button('<i class="fa fa-shopping-basket"></i>', array('class' => 'btn btnadd btn-primary', 'data-pid' => $product->id)) !!}
+
+                    <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
+                        <span>{{ number_format($product->price) . ' ریال' }}</span>
+                        <i class="fa fa-fw fa-shopping-basket"></i>
+                        <div class="myspinner">
+                            <span class="double-bounce1"></span>
+                        </div>
+                    </button>
+
                     {!! Form::button('<i class="fa fa-info-circle"></i>', array('class' => 'btn btninfo btn-default')) !!}
-                    <div class="myspinner">
-                        <img src="{{ asset('/img/loader.gif') }}" alt="">
-                    </div>
+                    
                 </div>
             @endforeach
         </div>
@@ -34,7 +39,7 @@
 
 @stop
 
-@section('content-js')
+@section('js')
     <script src="{{ asset('/js/isotope.pkgd.min.js') }}"></script>
 
     <script type="text/javascript">
@@ -46,17 +51,15 @@
                 itemSelector: '.item',
                 layoutMode: 'masonry',
             });
-            // bind filter button click
-            $('#filters li').on( 'click', 'button', function() {
-                var filterValue = $( this ).attr('data-filter');
-                $container.isotope({ filter: filterValue });
-            });
+
             // change is-checked class on buttons
-            $('.button-group li').each( function( i, buttonGroup ) {
+            $('.button-group li button').each( function( i, buttonGroup ) {
                 var $buttonGroup = $( buttonGroup );
-                $buttonGroup.on( 'click','button', function() {
-                    $('#filters li').removeClass('is-checked');
-                    $(this).parent('li').addClass('is-checked');
+                $buttonGroup.on( 'click', function() {
+                    $('#filters li button').removeClass('is-checked');
+                    $( this ).addClass('is-checked');
+                    var filterValue = $( this ).attr('data-filter');
+                    $container.isotope({ filter: filterValue });
                 });
             });
         });
@@ -77,9 +80,9 @@
 
                 var target    = $(event.target),
                 Loader        = target.parents('.item').find('div.myspinner'),
-                FadeElement   = target.parents('.item').find('.btnadd');
+                FadeElement   = target.parents('.item').find('.btnadd i.fa');
 
-                FadeElement.fadeOut("fast",function(){
+                FadeElement.fadeTo("fast",0,function(){
                     Loader.fadeIn();     
                 });
 
@@ -99,7 +102,7 @@
                 })
                 .always(function(data) {
                     Loader.fadeOut("slow",function(){
-                        FadeElement.fadeIn();
+                        FadeElement.fadeTo("fast", 1);
                     });
                 });
             });

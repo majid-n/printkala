@@ -30,8 +30,11 @@
 			</tr>
 		</tbody>
 	</table>
-	<button class="md-close">بستن</button>
-
+	<div class="pull-left">
+		<button class="btn md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
+		<button class="btn btn-primary">ثبت درخواست</button>
+	</div>
+	
 </div>
 
 <script type="text/javascript">

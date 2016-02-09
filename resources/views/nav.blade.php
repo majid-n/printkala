@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-fixed-top navbar-default">
    <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -9,7 +9,9 @@
             <span class="icon-bar"></span>
          </button>
          <a class="navbar-brand" href="#">
-         <img src="{{ asset('/img/logo.png') }}" alt="" width="30">
+            <div>
+               <img src="{{ asset('/img/logo.png') }}" alt="" width="40">               
+            </div>
          </a>
       </div>
 

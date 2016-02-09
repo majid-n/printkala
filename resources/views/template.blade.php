@@ -31,7 +31,7 @@
       <![endif]-->
    </head>
   
-   @yield('content-css')
+   @yield('css')
 
    <body>
 
@@ -113,7 +113,7 @@
 
       </script>
 
-      @yield('content-js')
+      @yield('js')
 
       <script src="{{ asset('/js/modalEffects.js') }}"></script>
 

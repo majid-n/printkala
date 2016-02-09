@@ -4,6 +4,15 @@
 
 @stop
 
+
+@section('css')
+	<link href="{{ asset('css/file-input.css') }}" rel="stylesheet">
+
+	<!-- remove if modernizer included -->
+	<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+@stop
+
+
 @section('content')
 	
 <div class="container">
@@ -44,7 +53,8 @@
 				<p class="help-block">{!! $errors->first('price') !!}</p>
 			</div>
 			<div class="col-md-6">
-				{!! Form::file('pic', null, array('class' => 'form-control','placeholder' => ' نـــام خانوادگــی ...')) !!}
+				<input type="file" name="image" id="image" class="inputfile inputfile-6"/>
+				<label for="image" class="form-control"><span></span> <strong><i class="fa fa-2x fa-picture-o"></i></strong></label>
 				<p class="help-block">{!! $errors->first('pic') !!}</p>
 			</div>
 		</div>
@@ -65,4 +75,9 @@
 	</div>
 </div>
 
+@stop
+
+
+@section('js')
+	<script src="{{ asset('js/file-input.js') }}"></script>
 @stop
