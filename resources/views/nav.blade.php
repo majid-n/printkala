@@ -2,8 +2,8 @@
    <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
+         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarkalaz" aria-expanded="false">
+            <span class="sr-only">بازکردن منو</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -13,10 +13,20 @@
                <img src="{{ asset('/img/logo.png') }}" alt="" width="40">               
             </div>
          </a>
+
+         @if( Sentinel::check() )
+            <div class="nav navbar-nav navbar-left">
+               
+               <div class="btn btn-primary md-trigger" data-modal="cartModal">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span class="badge noselect">{{ isset($num) ? $num : "" }}</span>
+               </div>
+            </div>
+         @endif
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse" id="navbarkala">
          <ul class="nav navbar-nav">
             <li class="active"><a href="{{ route('home') }}">صفحه اصلی</a></li>
          </ul>
@@ -26,13 +36,6 @@
                <li><a href="{{ route('login') }}">ورود</a></li>
                <li><a href="{{ route('register') }}">ثبت نام</a></li>
             </ul>
-         @else
-            <div class="nav navbar-nav navbar-left">
-               <span class="badge noselect">{{ isset($num) ? $num : 0 }}</span>
-               <div class="btn btn-primary md-trigger" data-modal="cartModal">
-                  <i class="fa fa-shopping-cart"></i>
-               </div>
-            </div>
          @endif
       
          <ul class="nav navbar-nav navbar-right">
@@ -43,11 +46,10 @@
                      <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="{{ route('product') }}">مدیریت محصولات</a></li>
-                     <li><a href="#">Another action</a></li>
                      @if(Sentinel::inRole('admins'))
-                        <li><a href="#">ADMIN</a></li>
+                        <li><a href="{{ route('product') }}">مدیریت محصولات</a></li>
                      @endif
+                     <li><a href="#">Another action</a></li>
                      <li role="separator" class="divider"></li>
                      <li><a href="{{ route('logout') }}">خروج</a></li>
                   </ul>

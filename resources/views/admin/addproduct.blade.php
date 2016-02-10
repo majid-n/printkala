@@ -53,8 +53,8 @@
 				<p class="help-block">{!! $errors->first('price') !!}</p>
 			</div>
 			<div class="col-md-6">
-				<input type="file" name="image" id="image" class="inputfile inputfile-6"/>
-				<label for="image" class="form-control"><span></span> <strong><i class="fa fa-2x fa-picture-o"></i></strong></label>
+				<input type="file" name="pic" id="pic" class="inputfile inputfile-6"/>
+				<label for="pic" class="form-control"><span></span> <strong><i class="fa fa-2x fa-picture-o"></i></strong></label>
 				<p class="help-block">{!! $errors->first('pic') !!}</p>
 			</div>
 		</div>

@@ -44,7 +44,7 @@
 
 /* Content styles */
 .md-content {
-	background: #eee;
+	background-color: #FFF;
 	position: relative;
 	border-radius: 3px;
 	margin: 0 auto;
@@ -86,7 +86,7 @@
 
 .md-content button {
 	margin: 0 auto;
-	font-size: 0.8em;
+	font-size: 1em;
 }
 
 
@@ -120,8 +120,6 @@
 
 .md-trigger  i{
 	margin-top: 7px;
-	position: absolute;
-	left: 44px;
 }
 
 .md-trigger {
@@ -130,4 +128,6 @@
 	border-radius: 0px;
 	width: 80px;
 	height: 51px;
+	position: absolute;
+	left: 20px;
 }

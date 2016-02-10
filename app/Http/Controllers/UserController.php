@@ -12,6 +12,8 @@ use Activation;
 use Mail;
 use Redirect;
 use App\User;
+use App\Basket;
+use DB;
 
 class UserController extends Controller {
 
@@ -127,6 +129,24 @@ class UserController extends Controller {
 	public function logoutEverywhere(){
 	    Sentinel::logout( null, true );
 	    return redirect()->route('home');
+	}
+
+	public function cart( User $user ) {
+		$total = 0;
+		$items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
+							->join('products', 'products.id', '=', 'baskets.product_id')
+							->where('baskets.user_id', '=',Sentinel::getUser()->id)
+							->get();
+
+		foreach ($items as $item) {
+			$total += $item->total;
+		}
+
+		return view('cart.savecart', compact('items', 'total', 'user'));
+	}
+
+	public function cartPost() {
+
 	}
 
 }

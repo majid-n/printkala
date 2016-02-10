@@ -12,7 +12,7 @@ use DB;
 
 class AjaxController extends Controller {
 
-	public function addBasket(Request $request) {
+	public function addBasket( Request $request ) {
 
 		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post')) {
 		    if( $request->has('pid') ) {
@@ -49,7 +49,7 @@ class AjaxController extends Controller {
 	}
 
 
-	public function remBasket(Request $request) {
+	public function remBasket( Request $request ) {
 		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post') ) {
 		    if( $request->has('pid') ) {
 

@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'keraye' => 50000,
     'sitename' => 'PrintKala',
     'env' => env('APP_ENV', 'production'),
 

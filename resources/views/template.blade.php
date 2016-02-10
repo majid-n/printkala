@@ -83,6 +83,7 @@
       <script src="{{ asset('/js/jquery-ui.min.js') }}"></script>
       <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
       <script src="{{ asset('/js/classie.js') }}"></script>
+      <script src="{{ asset('/js/modalEffects.js') }}"></script>
       
       
       <script type="text/javascript">
@@ -92,7 +93,6 @@
          // Load Basket
             $('body').on('click', '.md-trigger', function(event) {
                event.preventDefault();
-               $('.customSpinner').css('display', 'block');
 
                $.ajax({
                   url: 'loadbasket',
@@ -105,17 +105,18 @@
                   console.log(data.responseText);
                })
                .always(function(data) {
-                  $('.customSpinner').css('display', 'none');
+                  // $('.customSpinner').css('display', 'none');
                });
             });
 
          });
 
+
       </script>
 
       @yield('js')
 
-      <script src="{{ asset('/js/modalEffects.js') }}"></script>
+      
 
    </body>
 </html>

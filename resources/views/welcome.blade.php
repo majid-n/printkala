@@ -8,7 +8,7 @@
 
     <div class="row">
 
-        <ul id="filters" class="list-inline button-group">
+        <ul id="filters" class="list-inline">
             <li><button class="transition is-checked" data-filter="*">همه موارد</button></li>
             @foreach($cats as $cat)
                 <li><button class="transition" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button></li>
@@ -17,9 +17,17 @@
 
         <div class="isotope">
             @foreach($products as $product)
-                <div class="item {{ 't'. $product->cat }} radius4">
-                    <img class="img-responsive noselect" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">
-                    <p>{{ $product->name }}</p>
+                <div class="item {{ 't'. $product->cat }}">
+                    
+                    <div class="postimg">
+                        <img class="img-responsive noselect transition" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">
+                    </div>
+
+                    <span class="postname">{{ $product->name }}</span>
+
+                    <div class="btninfo textshadow">
+                        <i class="fa fa-info-circle"></i>
+                    </div>
 
                     <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
                         <span>{{ number_format($product->price) . ' ریال' }}</span>
@@ -29,8 +37,6 @@
                         </div>
                     </button>
 
-                    {!! Form::button('<i class="fa fa-info-circle"></i>', array('class' => 'btn btninfo btn-default')) !!}
-                    
                 </div>
             @endforeach
         </div>
@@ -44,16 +50,15 @@
 
     <script type="text/javascript">
 
-    // Isotope Script
         $(window).load(function(){
-            // init Isotope
+        // init Isotope
             var $container = $('.isotope').isotope({
                 itemSelector: '.item',
                 layoutMode: 'masonry',
             });
 
-            // change is-checked class on buttons
-            $('.button-group li button').each( function( i, buttonGroup ) {
+        // change is-checked class on buttons
+            $('#filters li button').each( function( i, buttonGroup ) {
                 var $buttonGroup = $( buttonGroup );
                 $buttonGroup.on( 'click', function() {
                     $('#filters li button').removeClass('is-checked');
@@ -64,15 +69,12 @@
             });
         });
 
-        
-        $(document).ready(function(){
-
+        $(document).ready(function() {
         // Ajax Setup
             $.ajaxSetup({
                 type: 'POST',
                 headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
             }); 
-
             
         // Add To Basket
             $('body').on('click', '.btnadd', function(event) {
@@ -106,9 +108,7 @@
                     });
                 });
             });
-
         });
-
 
     </script>
 

@@ -46,11 +46,18 @@ body {
 	    -o-box-shadow: 0px 0px 3px #666;
 	    box-shadow: 0px 0px 3px #666;
 	}
-	.insetShadow{
+	.insetshadow{
 	    -webkit-box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
 	    -moz-box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
 	    -o-box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
 	    box-shadow: 0px 6px 19px -8px rgba(0,0,0,0.5) inset;
+	}
+	.textshadow{
+	    -webkit-text-shadow:1px 1px 6px rgba(0,0,0, 0.8);
+	    -moz-text-shadow:1px 1px 6px rgba(0,0,0, 0.8);
+	    -ms-text-shadow:1px 1px 6px rgba(0,0,0, 0.8);
+	    -o-text-shadow:1px 1px 6px rgba(0,0,0, 0.8);
+	    text-shadow: 1px 1px 6px rgba(0,0,0, 0.8);
 	}
 	.transition {
 	    -webkit-transition: all 0.5s ease;
@@ -75,19 +82,22 @@ body {
 	}
 
 /*---------------------------------------------------------------
-							Custom BTN
+							Custom BootStrap
 ---------------------------------------------------------------*/
 
+/*Custom button*/
 	.btn-primary {
 	  color: #ffffff;
 	  background-color: #C63437;
 	  border-color: #9B2628;
+	  outline: 0;
 	}
 	.btn-primary:focus,
 	.btn-primary.focus {
 	  color: #ffffff;
 	  background-color: #B32E31;
 	  border-color: #8E2A2C;
+	  outline: 0;
 	}
 	.btn-primary:hover {
 	  color: #ffffff;
@@ -100,6 +110,7 @@ body {
 	  color: #ffffff;
 	  background-color: #B32E31;
 	  border-color: #9B2628;
+	  outline: 0;
 	}
 	.btn-primary:active:hover,
 	.btn-primary.active:hover,
@@ -129,18 +140,11 @@ body {
 	.btn-primary[disabled].focus,
 	fieldset[disabled] .btn-primary.focus {
 	  background-color: #C63437;
-	  border-color: #2e6da4;
+	  border-color: #8E2A2C;
 	}
 
 
 
-
-
-
-
-	.badge {
-		background-color: #4B4B4D;
-	}
 	.navbar {
 		border-radius: 0;
 		background-color: #4B4B4D;
@@ -177,6 +181,7 @@ body {
 		box-shadow: 0 0 5px 1px rgba(198,52,55,0.5);
 	}
 
+
 /*---------------------------------------------------------------
 							Products
 ---------------------------------------------------------------*/
@@ -184,52 +189,65 @@ body {
 	.isotope {}
 
 	.isotope .item {
-		height: 290px;
 		width: calc(25% - 14px);
 		overflow: hidden;
 		margin: 7px;
-		border: 1px solid #333;
+		border: 3px solid #333;
 		background-color: #333;
+		border-radius: 15px;
 	}
 
 	.isotope .item:hover {
-		border: 1px solid #C63437;
+		border: 3px solid #C63437;
 	}
 
-	.isotope .item img {
+	.isotope .item .postimg {
+		height: auto;
+		overflow: hidden;
+		border-bottom: 3px solid #333;
+	}
+
+	.isotope .item .postimg img {
 		width: 100%;
 		margin: 0 auto;
 	}
-/*
-	.isotope .item img:hover {
+
+	.isotope .item .postimg img:hover {
 		-webkit-transform: scale(1.2);
 		-moz-transform: scale(1.2);
 		-ms-transform: scale(1.2);
 		-o-transform: scale(1.2);
 		transform: scale(1.2);
-	}*/
+	}
 
-	.isotope .item p {
-		margin-top: 10px;
+	.isotope .item span.postname {
 		color: #fff;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		position: absolute;
+		bottom: 9px;
+		padding-right: 6px;
 	}
 
 	.isotope .item button.btnadd {
-		position: absolute;
-		left: 10px;
-		bottom: 10px;
 		width: auto;
 		height: 40px;
 		cursor: pointer;
+		float: left;
 	}
 
-	.isotope .item button.btninfo {
-		position: absolute;
-		right: 10px;
-		bottom: 10px;
+	.isotope .item div.btninfo {
 		font-size: 1.3em;
-		width: 40px;
-		height: 40px;
+		position: absolute;
+		top: 4px;
+		right: 7px;
+		color: #fff;
+		cursor: pointer;
+		opacity: 0.5;
+	}
+
+	.isotope .item div.btninfo:hover {
+		opacity: 1;
 	}
 
 	#filters li button {
@@ -256,8 +274,8 @@ body {
 
 .myspinner {
 	position: absolute;
-	left: 10px;
-	top: 11px;
+	left: 12px;
+	bottom: 29px;
 	display: none;
 }
 
@@ -291,6 +309,39 @@ body {
 
 
 /*---------------------------------------------------------------
+							Cart Page
+---------------------------------------------------------------*/
+
+	.panel-primary {
+		border-color: #C63437 !important;
+	}
+
+	.panel-primary .panel-heading {
+		background-color: #C63437 !important;
+		border-color: #C63437 !important;
+	}
+
+	.panel-heading span {
+		margin-top: -17px;
+		cursor: pointer;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------------------------------------------------
 						Cart Modal
 ---------------------------------------------------------------*/
 
@@ -300,10 +351,12 @@ body {
 	}
 
 	.badge {
-		position: absolute;
-		top: 40px;
-		left: 80px;
+		position: absolute !important;
+		top: 40px !important;
+		left: 65px;
 		border: 3px solid #fff;
+		background-color: #4B4B4D !important;
+		color: #fff !important;
 	}
 
 	.customSpinner {
@@ -359,13 +412,13 @@ body {
 
     @media only screen and (max-width : 1200px) {
     	.isotope .item {
-    		width: calc(25% - 14px);
+    		width: calc(33.333% - 14px);
     	}
     }
 
     @media only screen and (max-width : 992px) {
     	.isotope .item {
-    		width: calc(33.333% - 14px);
+    		width: calc(50% - 14px);
     	}
     }
 
@@ -373,11 +426,15 @@ body {
     	.isotope .item {
     		width: calc(50% - 14px);
     	}
+
+    	.md-trigger {
+    		left: 0 !important;
+    	}
     }
 
     @media only screen and (max-width : 480px) {
     	.isotope .item {
-    		width: 100%;
-    		margin: 7px 0;
+    		width: 96%;
+    		margin: 7px;
     	}
     }
