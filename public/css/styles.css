@@ -193,7 +193,7 @@ body {
 		overflow: hidden;
 		margin: 7px;
 		border: 3px solid #333;
-		background-color: #333;
+		background-color: #eee;
 		border-radius: 15px;
 	}
 
@@ -221,7 +221,7 @@ body {
 	}
 
 	.isotope .item span.postname {
-		color: #fff;
+		color: #444;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		position: absolute;
@@ -234,6 +234,7 @@ body {
 		height: 40px;
 		cursor: pointer;
 		float: left;
+		border-radius: 0;
 	}
 
 	.isotope .item div.btninfo {
@@ -326,6 +327,19 @@ body {
 		cursor: pointer;
 	}
 
+	.emptyBasket {
+		margin: 40px 15px;
+		color: rgb(187, 187, 187);
+	}
+
+	.panel-body.discountBody {
+		display: none;
+	}
+
+	.panel-body label {
+		font-weight: normal;
+	}
+
 
 
 
@@ -350,7 +364,7 @@ body {
 		color: #C63437;
 	}
 
-	.badge {
+	.md-trigger span.badge {
 		position: absolute !important;
 		top: 40px !important;
 		left: 65px;

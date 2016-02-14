@@ -22,7 +22,7 @@ class AjaxController extends Controller {
 
 		    	$exist = Basket::where('product_id', '=', $pid)
 						    	->where('user_id', '=', $user )
-						    	->where('ordered', '=', 0 )
+						    	->where('order_id', '=', 0 )
 						    	->first();
 
 				if($exist == null){
@@ -56,7 +56,7 @@ class AjaxController extends Controller {
 		    	$pid = intval( $request->input('pid') );
 		    	$user = Sentinel::getUser()->id;
 		    	$exist = Basket::where('user_id', $user )
-		    				   ->where('ordered', 0 )
+		    				   ->where('order_id', 0 )
 		    				   ->where('product_id', $pid )
 		    				   ->first();
 		    	if( $exist !== null ){
@@ -79,10 +79,11 @@ class AjaxController extends Controller {
 			$items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
 					->join('products', 'products.id', '=', 'baskets.product_id')
 					->where('baskets.user_id', '=',Sentinel::getUser()->id)
+					->where('baskets.order_id', 0)
 					->get();
 
 			$num = Basket::where('user_id', Sentinel::getUser()->id)
-						 ->where('ordered', 0)
+						 ->where('order_id', 0)
 						 ->count();
 
 			foreach ($items as $item) {

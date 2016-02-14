@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name', 255);
             $table->string('des', 300);
-            $table->integer('cat')->unsigned();
+            $table->integer('cat_id')->unsigned();
             $table->string('size', 20);
             $table->integer('weight')->unsigned();
             $table->integer('price')->unsigned();
@@ -26,6 +26,10 @@ class CreateProductsTable extends Migration
             $table->softDeletes();
             $table->index('name');
             $table->index('des');
+            $table->foreign('cat_id')
+                  ->references('id')->on('cats')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 

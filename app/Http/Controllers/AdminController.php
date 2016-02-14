@@ -50,7 +50,7 @@ class AdminController extends Controller {
 			$product = new Product;
 			$product->name 	 = Input::get('product');
 			$product->des 	 = Input::get('description');
-			$product->cat 	 = Input::get('category');
+			$product->cat_id = Input::get('category');
 			$product->size 	 = Input::get('size');
 			$product->weight = Input::get('weight');
 			$product->price  = Input::get('price');

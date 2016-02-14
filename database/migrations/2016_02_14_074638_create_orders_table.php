@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBasketsTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +12,16 @@ class CreateBasketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('baskets', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('product_id')->unsigned();
-            $table->integer('count')->unsigned();
-            $table->integer('order_id')->default(0)->unsigned();
+            $table->integer('sum')->unsigned();
+            $table->string('address');
+            $table->integer('status')->default(0)->unsigned();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')
                   ->references('id')->on('users')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
-            $table->foreign('product_id')
-                  ->references('id')->on('products')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
         });
@@ -38,6 +34,6 @@ class CreateBasketsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('baskets');
+        Schema::drop('orders');
     }
 }

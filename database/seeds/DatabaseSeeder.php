@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
     		[
                 'name' 		=> 'کاغذ A4 Copymax',
                 'des' 		=> 'کاغذ A4 Copymax کاغذ A4 Copymax کاغذ A4 Copymax',
-                'cat' 		=> 1,
+                'cat_id' 	=> 1,
                 'size' 		=> '210x297',
                 'weight'    => 80,
                 'price' 	=> 6500,
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'کاغذ A4 DoubleA',
                 'des' 		=> 'کاغذ A4 DoubleA کاغذ A4 DoubleA کاغذ A4 DoubleA',
-                'cat' 		=> 1,
+                'cat_id' 	=> 1,
                 'size' 		=> '210x297',
                 'weight'    => 80,
                 'price' 	=> 8800,
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'زینک GTO',
                 'des' 		=> 'زینک GTO زینک GTO زینک GTO',
-                'cat' 		=> 2,
+                'cat_id' 	=> 2,
                 'size' 		=> '326x256',
                 'weight'    => 213,
                 'price' 	=> 23000,
@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'کاغذ JKcmax',
                 'des' 		=> 'کاغذ JKcmax کاغذ JKcmax کاغذ JKcmax',
-                'cat' 		=> 1,
+                'cat_id' 	=> 1,
                 'size' 		=> '210x297',
                 'weight'    => 80,
                 'price' 	=> 11500,
@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'زینک دو ورقی',
                 'des' 		=> 'زینک دو ورقی زینک دو ورقی زینک دو ورقی',
-                'cat' 		=> 2,
+                'cat_id' 	=> 2,
                 'size' 		=> '544x456',
                 'weight'    => 253,
                 'price' 	=> 15000,
@@ -115,7 +115,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'زینگ دو و نیم ورقی اسپید',
                 'des' 		=> 'زینگ دو و نیم ورقی اسپید زینگ دو و نیم ورقی اسپید زینگ دو و نیم ورقی اسپید',
-                'cat' 		=> 2,
+                'cat_id' 	=> 2,
                 'size' 		=> '700x500',
                 'weight'    => 315,
                 'price' 	=> 100000,
@@ -125,7 +125,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'مرکب Huaguang',
                 'des' 		=> 'مرکب Huaguang مرکب Huaguang مرکب Huaguang',
-                'cat' 		=> 3,
+                'cat_id' 	=> 3,
                 'size' 		=> '454',
                 'weight'    => 4545,
                 'price' 	=> 140000,
@@ -135,7 +135,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' 		=> 'مرکب Huaguang 1',
                 'des' 		=> 'مرکب Huaguang 1 مرکب Huaguang 1 مرکب Huaguang 1',
-                'cat' 		=> 3,
+                'cat_id' 	=> 3,
                 'size' 		=> '4564',
                 'weight'    => 345,
                 'price' 	=> 145000,

@@ -17,7 +17,7 @@
 
         <div class="isotope">
             @foreach($products as $product)
-                <div class="item {{ 't'. $product->cat }}">
+                <div class="item {{ 't'. $product->cat_id }}">
                     
                     <div class="postimg">
                         <img class="img-responsive noselect transition" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">

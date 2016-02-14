@@ -25,6 +25,16 @@ class Basket extends Model
 
     }
 
+    # Relationship for Cat Model
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    # Relationship for Cat Model
+    public function products() {
+        return $this->hasMany('App\Product', 'id', 'product_id');
+    }
+
 }
 
 

@@ -13,6 +13,7 @@ use Mail;
 use Redirect;
 use App\User;
 use App\Basket;
+use App\Order;
 use DB;
 
 class UserController extends Controller {
@@ -135,18 +136,50 @@ class UserController extends Controller {
 		$total = 0;
 		$items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
 							->join('products', 'products.id', '=', 'baskets.product_id')
-							->where('baskets.user_id', '=',Sentinel::getUser()->id)
+							->where('baskets.user_id', Sentinel::getUser()->id)
+							->where('baskets.order_id', 0)
 							->get();
 
 		foreach ($items as $item) {
 			$total += $item->total;
 		}
 
+		$num = Basket::where('user_id', Sentinel::getUser()->id)
+						 ->where('order_id', 0)
+						 ->count();
 		return view('cart.savecart', compact('items', 'total', 'user'));
+
 	}
 
 	public function cartPost() {
 
+		$user = Sentinel::check();
+		$carts = $user->baskets->where('order_id', 0);
+		$sum = 0;
+
+
+		if( $carts->count() > 0 ) {
+			foreach ($carts as $cart) {
+				foreach ($cart->products as $product) {
+					$sum += $cart->count * $product->price;
+				}
+			}
+			
+			$order = new Order;
+			$order->user_id = $user->id;
+			$order->sum = $sum;
+			// $order->address = $user->$address;
+
+			if( $order->save() ) {
+				foreach ( $carts as $cartItem ) {
+					$cartItem->order_id = $order->id;
+					$cartItem->save();
+				} 
+				return back()->with('با موفقیت ثبت شد.');
+			} else {
+				return back()->withErrors('خطا در ارسال درخواست.');
+			}
+		}
 	}
 
 }

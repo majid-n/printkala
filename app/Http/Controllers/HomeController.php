@@ -23,7 +23,7 @@ class HomeController extends Controller {
 		$products = Product::where('active', 1)->get();
 		if ( Sentinel::check() ) {
 			$num = Basket::where('user_id', Sentinel::getUser()->id)
-			             ->where('ordered', 0)
+			             ->where('order_id', 0)
 			             ->count();
 		} else { $num = 0; }
 		

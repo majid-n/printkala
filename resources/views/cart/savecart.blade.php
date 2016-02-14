@@ -9,9 +9,31 @@
 	<div class="row">
 		<div class="col-md-8">
 
+			<!-- Shopping History -->
 			<div class="panel panel-default table-responsive">
-				<div class="panel-heading hidden-xs text-center">سبد خرید <b>{{ $user->first_name . ' ' . $user->last_name }}</b></div>
+				<div class="panel-heading hidden-xs text-center">تاریخچه سفارش ها</b></div>
+				<div class="list-group">
+					@if( $user->orders->count() > 0 )
+						@foreach( $user->orders as $order )
+							@if( $order->status === 0 )
+								<a href="#" class="list-group-item">در حال بررسی. تاریخ ثبت : {{ $order->created_at }}
+									<span class="badge">{{ number_format($order->sum) . ' ريال' }}</span>
+								</a>
+							@elseif( $order->status === 1 )
+								<a href="#" class="list-group-item list-group-item-success">سفارش شما در تاریخ {{ $order->updated_at }} ارسال شد.
+									<span class="badge">{{ number_format($order->sum) . ' ريال' }}</span>
+								</a>
+							@endif
+						@endforeach
+					@else
+						<a href="#" class="list-group-item">سفارشی موجود نمی باشد.</a>
+					@endif
+				</div>
+			</div>
 
+			<!-- Shopping Items Table -->
+			<div class="panel panel-default table-responsive">
+				@if( $items->count() > 0 )
 				<table class="table table-hover basketTable">
 					<thead>
 						<tr>
@@ -41,20 +63,23 @@
 						@endforeach
 					</tbody>
 				</table>
+				@else
+					<div class="emptyBasket"><h3><i class="fa fa-shopping-basket"></i> سبد خرید شما خالی می باشد.</h3></div>
+				@endif
 			</div>
 
 		</div>
 
 		<div class="col-md-4">
 
+			<!-- Discount Panel -->
 			<div class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">کد تخفیف</h3>
-			    <span class="pull-left"><i class="fa fa-chevron-up"></i></span>
-			  </div>
-			  <div class="panel-body">
+				<div class="panel-heading">
+			    	<h3 class="panel-title">کد تخفیف</h3>
+			    	<span class="pull-left"><i class="fa fa-chevron-down"></i></span>
+				</div>
 
-			    <div class="panel-body">
+			    <div class="panel-body discountBody">
 			    	{!! Form::open() !!} 
 			    		<p>کد تخفیفی را در این قسمت وارد کنید.</p>
 			    		<div class="form-group">
@@ -63,38 +88,59 @@
 			    		{!! Form::button('دریافت تخفیف', array('class' => 'btn btn-default btn-block')) !!}
 			    	{!! Form::close() !!}
 			    </div>
-
-			  </div>
 			</div>
 
+			<!-- Address Panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+			    	<h3 class="panel-title">انتخاب آدرس</h3>
+			    	<span class="pull-left"><i class="fa fa-chevron-down"></i></span>
+				</div>
+
+			    <div class="panel-body">
+		    	    @if( $user->address1 != null )
+		    	    	<label><input type="radio" name="address[]" /> {{ $user->address1 }}</label>
+		    	    @endif
+		    	    @if( $user->address2 != null )
+		    	    	<label><input type="radio" name="address[]" /> {{ $user->address2 }}</label>
+		    	    @endif
+		    	    @if( $user->address3 != null )
+		    	    	<label><input type="radio" name="address[]" /> {{ $user->address3 }}</label>
+		    	    @endif
+			    </div>
+			</div>
+
+			<!-- Price and Save Panel -->
 			<div class="panel panel-primary">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">مجموع کل پرداختی</h3>
-			    <span class="pull-left"><i class="fa fa-chevron-up"></i></span>
-			  </div>
-			  <div class="panel-body">
+				<div class="panel-heading">
+					<h3 class="panel-title">مجموع کل پرداختی</h3>
+					<span class="pull-left"><i class="fa fa-chevron-up"></i></span>
+			  	</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<td><span>مجموع</span></td>
+								<td align="left"><span><font size="2">{{ number_format($total) . ' ریال' }}</font></span></td>
+							</tr>
 
-				<table class="table">
-					<thead>
-						<tr>
-							<td><span>مجموع</span></td>
-							<td align="left"><span><font size="2">{{ $total . ' ریال' }}</font></span></td>
-						</tr>
+							<tr>
+								<td><span>هزینه حمل</span></td>
+								<td align="left"><span><font size="2">{{ '+ '. number_format(config('app.keraye')) .' ریال' }}</font></span></td>
+							</tr>
+						</thead>
 
-						<tr>
-							<td><span>هزینه حمل</span></td>
-							<td align="left"><span><font size="2">{{ '+ '. config('app.keraye') .' ریال' }}</font></span></td>
-						</tr>
-					</thead>
-					<tfoot style="border-top:1px solid #eee;">
-						<tr>
-							<td><span>مجوع کل</span></td>
-							<td align="left"><span><font size="5">{{ '= ' . ($total + config('app.keraye')) . ' ریال' }}</span></td>
-						</tr>
-					</tfoot>
-				</table>
-
-			  </div>
+						<tfoot style="border-top:1px solid #eee;">
+							<tr>
+								<td><span>مجوع کل</span></td>
+								<td align="left"><span><font size="5">{{ '= ' . number_format( ($total + config('app.keraye')) ) . ' ریال' }}</span></td>
+							</tr>
+						</tfoot>
+					</table>
+					{!! Form::open(array('route' => 'cart.post', $user->id )) !!}
+						{!! Form::submit('ثبت درخواست', array('class' => 'btn btn-primary btn-block')) !!}
+					{!! Form::close() !!}
+				</div>
 			</div>
 
 		</div>

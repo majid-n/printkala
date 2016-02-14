@@ -30,6 +30,23 @@ class MigrationCartalystSentinel extends Migration
      */
     public function up()
     {
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->string('password');
+            $table->text('permissions')->nullable();
+            $table->timestamp('last_login')->nullable();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('address1')->nullable();
+            $table->string('address2')->nullable();
+            $table->string('address3')->nullable();
+            $table->timestamps();
+
+            $table->engine = 'InnoDB';
+            $table->unique('email');
+        });
+
         Schema::create('activations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
@@ -37,6 +54,10 @@ class MigrationCartalystSentinel extends Migration
             $table->boolean('completed')->default(0);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             $table->engine = 'InnoDB';
         });
@@ -46,6 +67,10 @@ class MigrationCartalystSentinel extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('code');
             $table->timestamps();
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             $table->engine = 'InnoDB';
             $table->unique('code');
@@ -58,6 +83,10 @@ class MigrationCartalystSentinel extends Migration
             $table->boolean('completed')->default(0);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
 
         Schema::create('roles', function (Blueprint $table) {
@@ -75,6 +104,14 @@ class MigrationCartalystSentinel extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->nullableTimestamps();
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+            $table->foreign('role_id')
+                  ->references('id')->on('roles')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             $table->engine = 'InnoDB';
             $table->primary(['user_id', 'role_id']);
@@ -86,24 +123,15 @@ class MigrationCartalystSentinel extends Migration
             $table->string('type');
             $table->string('ip')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             $table->engine = 'InnoDB';
             $table->index('user_id');
         });
-
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('email');
-            $table->string('password');
-            $table->text('permissions')->nullable();
-            $table->timestamp('last_login')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->timestamps();
-
-            $table->engine = 'InnoDB';
-            $table->unique('email');
-        });
+        
     }
 
     /**

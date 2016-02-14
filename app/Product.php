@@ -15,8 +15,10 @@ class Product extends Model
     protected $table = 'products';
 
 
-    // protected $fillable = [
-    //     'name', 'des', 'price',
-    // ];
+    # Relationship for Cat Model
+    public function cat() {
+        return $this->belongsTo('App\Cat');
+    }
+
 
 }
