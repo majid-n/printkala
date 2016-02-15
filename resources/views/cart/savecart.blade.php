@@ -11,17 +11,19 @@
 
 			<!-- Shopping History -->
 			<div class="panel panel-default table-responsive">
-				<div class="panel-heading hidden-xs text-center">تاریخچه سفارش ها</b></div>
+				<div class="panel-heading hidden-xs text-center">وضعیت سفارش ها
+					<i class="fa fa-trash pull-left"></i>
+				</div>
 				<div class="list-group">
 					@if( $user->orders->count() > 0 )
 						@foreach( $user->orders as $order )
 							@if( $order->status === 0 )
 								<a href="#" class="list-group-item">در حال بررسی. تاریخ ثبت : {{ $order->created_at }}
-									<span class="badge">{{ number_format($order->sum) . ' ريال' }}</span>
+									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
 								</a>
 							@elseif( $order->status === 1 )
 								<a href="#" class="list-group-item list-group-item-success">سفارش شما در تاریخ {{ $order->updated_at }} ارسال شد.
-									<span class="badge">{{ number_format($order->sum) . ' ريال' }}</span>
+									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
 								</a>
 							@endif
 						@endforeach
@@ -66,6 +68,15 @@
 				@else
 					<div class="emptyBasket"><h3><i class="fa fa-shopping-basket"></i> سبد خرید شما خالی می باشد.</h3></div>
 				@endif
+			</div>
+			<div class="pull-right">
+				<a href="{{ route('home') }}" class="btn btn-default"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</a>
+			</div>
+
+			<div class="pull-left">
+				{!! Form::open(array('route' => 'cart.drop')) !!}
+					<button type="submit" class="btn btn-default">خالی کردن سبد <i class="fa fa-fw fa-ban"></i></button>
+				{!! Form::close() !!}
 			</div>
 
 		</div>
@@ -126,19 +137,19 @@
 
 							<tr>
 								<td><span>هزینه حمل</span></td>
-								<td align="left"><span><font size="2">{{ '+ '. number_format(config('app.keraye')) .' ریال' }}</font></span></td>
+								<td align="left"><span><font size="3">{{ '+ '. number_format(config('app.keraye')) .' ریال' }}</font></span></td>
 							</tr>
 						</thead>
 
 						<tfoot style="border-top:1px solid #eee;">
 							<tr>
 								<td><span>مجوع کل</span></td>
-								<td align="left"><span><font size="5">{{ '= ' . number_format( ($total + config('app.keraye')) ) . ' ریال' }}</span></td>
+								<td align="left"><span><font size="4"><b>{{ '= ' . number_format( ($total + config('app.keraye')) ) . ' ریال' }}</b></font></span></td>
 							</tr>
 						</tfoot>
 					</table>
-					{!! Form::open(array('route' => 'cart.post', $user->id )) !!}
-						{!! Form::submit('ثبت درخواست', array('class' => 'btn btn-primary btn-block')) !!}
+					{!! Form::open(array('route' => 'cart.post')) !!}
+						{!! Form::submit('ثبت درخواست', array('class' => 'btn btn-primary btn-lg btn-block')) !!}
 					{!! Form::close() !!}
 				</div>
 			</div>
@@ -181,6 +192,28 @@
 				$this.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 			}
 		})
+
+	// Delete Items
+		$(document).ready(function() {
+			$('.btnrem').on('click', function(event) {
+				event.preventDefault();
+				pid = $(this).data("pid");
+
+				$.ajax({
+				   url: 'rembasket',
+				   data: { 'pid' : pid },
+				})
+				.done(function(data) {
+				   $('#d-'+data.delid).fadeOut('slow');
+				})
+				.fail(function(data) {
+				   console.log(data.responseText);
+				})
+				.always(function(data) {
+				   // console.log($(this).data("pid"));
+				});
+			}); 
+		});
 
 	</script>
 

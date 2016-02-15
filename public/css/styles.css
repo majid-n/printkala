@@ -192,19 +192,13 @@ body {
 		width: calc(25% - 14px);
 		overflow: hidden;
 		margin: 7px;
-		border: 3px solid #333;
-		background-color: #eee;
-		border-radius: 15px;
-	}
-
-	.isotope .item:hover {
-		border: 3px solid #C63437;
+		background-color: #EEE;
+		border-radius: 7px;
 	}
 
 	.isotope .item .postimg {
 		height: auto;
 		overflow: hidden;
-		border-bottom: 3px solid #333;
 	}
 
 	.isotope .item .postimg img {
@@ -213,11 +207,11 @@ body {
 	}
 
 	.isotope .item .postimg img:hover {
-		-webkit-transform: scale(1.2);
-		-moz-transform: scale(1.2);
-		-ms-transform: scale(1.2);
-		-o-transform: scale(1.2);
-		transform: scale(1.2);
+		-webkit-transform: scale(1.1);
+		-moz-transform: scale(1.1);
+		-ms-transform: scale(1.1);
+		-o-transform: scale(1.1);
+		transform: scale(1.1);
 	}
 
 	.isotope .item span.postname {

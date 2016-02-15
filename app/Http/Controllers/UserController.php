@@ -152,33 +152,42 @@ class UserController extends Controller {
 	}
 
 	public function cartPost() {
+		if ( $user = Sentinel::check() ) {
+			$carts = $user->baskets->where('order_id', 0);
+			$sum = 0;
 
-		$user = Sentinel::check();
-		$carts = $user->baskets->where('order_id', 0);
-		$sum = 0;
+			if( $carts->count() > 0 ) {
+				foreach ($carts as $cart) {
+					foreach ($cart->products as $product) {
+						$sum += $cart->count * $product->price;
+					}
+				}
+				
+				$order = new Order;
+				$order->user_id = $user->id;
+				$order->sum = $sum;
+				// $order->address = $user->$address;
 
-
-		if( $carts->count() > 0 ) {
-			foreach ($carts as $cart) {
-				foreach ($cart->products as $product) {
-					$sum += $cart->count * $product->price;
+				if( $order->save() ) {
+					foreach ( $carts as $cartItem ) {
+						$cartItem->order_id = $order->id;
+						$cartItem->save();
+					} 
+					return back()->with('با موفقیت ثبت شد.');
+				} else {
+					return back()->withErrors('خطا در ارسال درخواست.');
 				}
 			}
-			
-			$order = new Order;
-			$order->user_id = $user->id;
-			$order->sum = $sum;
-			// $order->address = $user->$address;
+		}
+	}
 
-			if( $order->save() ) {
-				foreach ( $carts as $cartItem ) {
-					$cartItem->order_id = $order->id;
-					$cartItem->save();
-				} 
-				return back()->with('با موفقیت ثبت شد.');
-			} else {
-				return back()->withErrors('خطا در ارسال درخواست.');
+	public function cartDrop() {
+		if ( $user = Sentinel::check() ) {
+			$items = $user->baskets->where('order_id', 0);
+			foreach ($items as $item) {
+				$item->delete();
 			}
+			return redirect()->route('home');
 		}
 	}
 

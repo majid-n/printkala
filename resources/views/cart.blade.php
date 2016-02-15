@@ -33,12 +33,18 @@
 		<hr>
 
 		<div class="pull-right">
-			<button class="btn btn-یثبشعمف">خالی کردن سبد <i class="fa fa-fw fa-ban"></i></button>
+			{!! Form::open(array('route' => 'cart.drop')) !!}
+				<button type="submit" class="btn btn-default">خالی کردن سبد <i class="fa fa-fw fa-ban"></i></button>
+			{!! Form::close() !!}
 		</div>
 
 		<div class="pull-left">
-			<button class="btn md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
-			<a class="btn btn-primary" href="{{ route( 'cart', ['user' => Sentinel::getUser()->id] ) }}" >ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i></a>
+			<button class="btn btn-default md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
+			<a href="{{ route( 'cart', ['user' => Sentinel::getUser()->id] ) }}" >
+				<button class="btn btn-primary" >
+					ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i>
+				</button>
+			</a>
 		</div>
 		
 	</div>

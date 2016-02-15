@@ -50,7 +50,7 @@ class AjaxController extends Controller {
 
 
 	public function remBasket( Request $request ) {
-		if ( Sentinel::check() && $request->ajax() && $request->isMethod('post') ) {
+		if ( $request->ajax() && $request->isMethod('post') ) {
 		    if( $request->has('pid') ) {
 
 		    	$pid = intval( $request->input('pid') );

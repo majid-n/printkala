@@ -49,7 +49,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('rembasket', 'AjaxController@remBasket')->name('basket.rem');   
     Route::post('loadbasket', 'AjaxController@loadbasket')->name('basket.load');    
     Route::get('cart/{user}', 'UserController@cart')->name('cart');    
-    Route::post('cart', 'UserController@cartPost')->name('cart.post');	
+    Route::post('cart', 'UserController@cartPost')->name('cart.post');  
+    Route::post('cart/drop', 'UserController@cartDrop')->name('cart.drop');	
 });
 
 
