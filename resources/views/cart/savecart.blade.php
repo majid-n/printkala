@@ -18,8 +18,9 @@
 					@if( $user->orders->count() > 0 )
 						@foreach( $user->orders as $order )
 							@if( $order->status === 0 )
-								<a href="#" class="list-group-item">در حال بررسی. تاریخ ثبت : {{ $order->created_at }}
+								<a href="#" class="list-group-item {{ 'd-' . $order->id }}" data-oid="{{ $order->id }}">در حال بررسی. تاریخ ثبت : {{ $order->created_at }}
 									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
+									<i class="fa fa-remove fa-fw delOrder"></i>
 								</a>
 							@elseif( $order->status === 1 )
 								<a href="#" class="list-group-item list-group-item-success">سفارش شما در تاریخ {{ $order->updated_at }} ارسال شد.
@@ -148,8 +149,8 @@
 							</tr>
 						</tfoot>
 					</table>
-					{!! Form::open(array('route' => 'cart.post')) !!}
-						{!! Form::submit('ثبت درخواست', array('class' => 'btn btn-primary btn-lg btn-block')) !!}
+					{!! Form::open( array( 'route' => 'cart.post', 'id' => 'postOrderForm' ) ) !!}
+						{!! Form::button('ثبت درخواست', array('class' => 'btn btn-primary btn-lg btn-block')) !!}
 					{!! Form::close() !!}
 				</div>
 			</div>
@@ -167,17 +168,17 @@
 	<script type="text/javascript">
 
 	// Check Address First
-		$(function () {
-		    $("#frmpostorder").submit(function (e) {
-		    	e.preventDefault();
-		    	var tableSize = $('table.cartpage tbody tr').length;
-		        if(tableSize == 0) {
-		        	alert("سبد خرید شما خالی است !");
-		        } else if (!$('input[name="address"]').is(':checked')) {
-		            alert("لطفا آدرس را انتخاب کنید!");
+	    $("#postOrderForm").on('click', function (e) {
+	    	e.preventDefault();
+	    	if ( $('.basketTable tbody tr').length > 0 ) {
+		        if ( $("input[type=radio]:checked").length > 0 ) {
+		            $('#postOrderForm').submit();
+		        } else {
+		        	alert("لطفا آدرس را انتخاب کنید!");
 		        }
-		    });
-		});
+	        
+	    	} else { alert("سبد خرید شما خالی می باشد."); }
+	    });
 
 	// Panel Collapse Script
 		$(document).on('click', '.panel-heading', function(e){
@@ -205,6 +206,28 @@
 				})
 				.done(function(data) {
 				   $('#d-'+data.delid).fadeOut('slow');
+				})
+				.fail(function(data) {
+				   console.log(data.responseText);
+				})
+				.always(function(data) {
+				   // console.log($(this).data("pid"));
+				});
+			}); 
+		});
+
+	// Delete Order
+		$(document).ready(function() {
+			$('.delOrder').on('click', function(event) {
+				event.preventDefault();
+				oid = $(this).parent('a').data("oid");
+
+				$.ajax({
+				   url: 'delOrder',
+				   data: { 'oid' : oid },
+				})
+				.done(function(data) {
+				   $('.d-'+data.delid).fadeOut('slow');
 				})
 				.fail(function(data) {
 				   console.log(data.responseText);

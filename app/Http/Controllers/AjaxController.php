@@ -54,11 +54,12 @@ class AjaxController extends Controller {
 		    if( $request->has('pid') ) {
 
 		    	$pid = intval( $request->input('pid') );
-		    	$user = Sentinel::getUser()->id;
-		    	$exist = Basket::where('user_id', $user )
-		    				   ->where('order_id', 0 )
-		    				   ->where('product_id', $pid )
-		    				   ->first();
+		    	$user = Sentinel::check();
+		    	$exist = $user->baskets->where('order_id', 0)->where('product_id', $pid);
+		    	// $exist = Basket::where('user_id', $user )
+		    	// 			   ->where('order_id', 0 )
+		    	// 			   ->where('product_id', $pid )
+		    	// 			   ->first();
 		    	if( $exist !== null ){
 		    		if( $exist->delete() ) {
 		    			return response()->json([ 'delid' =>  $exist->product_id, 'result' => true ]);
@@ -69,6 +70,27 @@ class AjaxController extends Controller {
 
 		    }
 		}
+	}
+
+
+	public function delOrder( Request $request ) {
+		dd('salam');
+		    if( $request->has('oid') ) {
+
+		    	$oid = intval( $request->input('oid') );
+		    	// $user = Sentinel::getUser()->id;
+		    	$order = $user->orders;
+		    	dd($user);
+
+		    	if( $exist !== null ){
+		    		if( $exist->delete() ) {
+		    			return response()->json([ 'delid' =>  $order->id, 'result' => true ]);
+		    		}
+		    	} else {
+		    		return response()->json([ 'result' => false ]);	
+		    	} 
+
+		    }
 	}
 
 

@@ -17,6 +17,16 @@ class User extends EloquentUser
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password'];
 
+
+    
+    public function baskets() {
+        return $this->hasMany('App\Basket', 'user_id');
+    }
+
+    public function orders() {
+        return $this->hasMany('App\Order');
+    }
+
     /**
      * The attributes excluded from the model's JSON form.
      *

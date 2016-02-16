@@ -71,7 +71,7 @@
 			   $('.badge').html( Number($('.badge').html()) - 1 );
 			})
 			.fail(function(data) {
-			   console.log(data);
+			   console.log(data.responseText);
 			})
 			.always(function(data) {
 			   // console.log($(this).data("pid"));
