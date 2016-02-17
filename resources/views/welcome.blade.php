@@ -101,6 +101,7 @@
                 })
                 .fail(function(data) {
                     $('.md-trigger i' ).effect( "shake", { times: 3 }, "slow" );
+                    console.log(data.responseText);
                 })
                 .always(function(data) {
                     Loader.fadeOut("slow",function(){

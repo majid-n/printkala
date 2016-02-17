@@ -17,16 +17,23 @@
 				<div class="list-group">
 					@if( $user->orders->count() > 0 )
 						@foreach( $user->orders as $order )
+							<?php $mydate = jdate()->forge($order->updated_at); ?>
+
 							@if( $order->status === 0 )
-								<a href="#" class="list-group-item {{ 'd-' . $order->id }}" data-oid="{{ $order->id }}">در حال بررسی. تاریخ ثبت : {{ $order->created_at }}
+								<a href="{{ route('cart.history', [ 'order' => $order->id, 'user' => $user ] ) }}" class="list-group-item {{ 'd-' . $order->id }}">
+									{!! Form::open( array( 'method' => 'post', 'route' => array('order.del', $user), 'class' => 'pull-right' ) ) !!}
+										{!! Form::button('<i class="fa fa-remove fa-fw"></i>', array('type' => 'submit', 'class' => 'btn btn-default btn-delOrder')) !!}
+									{!! Form::close() !!}
+									در حال بررسی. تاریخ ثبت : {{ $mydate->ago() }}
 									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
-									<i class="fa fa-remove fa-fw delOrder"></i>
 								</a>
 							@elseif( $order->status === 1 )
-								<a href="#" class="list-group-item list-group-item-success">سفارش شما در تاریخ {{ $order->updated_at }} ارسال شد.
+								<a href="{{ route('cart.history', [ 'order' => $order->id, 'user' => $user ] ) }}" class="list-group-item list-group-item-success">
+									سفارش شما در تاریخ {{ $mydate->format('%d %B %Y') }}، ساعت {{ $mydate->format('time') }} ارسال شد.
 									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
 								</a>
 							@endif
+
 						@endforeach
 					@else
 						<a href="#" class="list-group-item">سفارشی موجود نمی باشد.</a>
@@ -40,7 +47,7 @@
 				<table class="table table-hover basketTable">
 					<thead>
 						<tr>
-							<td>#</td>
+							<td></td>
 							<td>تصویر</td>
 							<td>محصول</td>
 							<td align="center">تعداد</td>
@@ -110,15 +117,26 @@
 				</div>
 
 			    <div class="panel-body">
-		    	    @if( $user->address1 != null )
-		    	    	<label><input type="radio" name="address[]" /> {{ $user->address1 }}</label>
-		    	    @endif
-		    	    @if( $user->address2 != null )
-		    	    	<label><input type="radio" name="address[]" /> {{ $user->address2 }}</label>
-		    	    @endif
-		    	    @if( $user->address3 != null )
-		    	    	<label><input type="radio" name="address[]" /> {{ $user->address3 }}</label>
-		    	    @endif
+			    	{!! Form::open( array( 'route' => 'cart.post', 'id' => 'postOrderForm' ) ) !!}
+
+						@if($user->address1 != null)
+		                    {!! Form::radio('address', $user->address1) !!}
+		                    {{ $user->address1 }}
+						@endif
+						<hr>
+						@if($user->address2 != null)
+		                    {!! Form::radio('address', $user->address2) !!}
+		                    {{ $user->address2 }}
+		                @else
+
+						@endif
+						<hr>
+						@if($user->address3 != null)
+		                    {!! Form::radio('address', $user->address3) !!}
+		                    {{ $user->address3 }}
+		                @else
+
+						@endif
 			    </div>
 			</div>
 
@@ -149,8 +167,8 @@
 							</tr>
 						</tfoot>
 					</table>
-					{!! Form::open( array( 'route' => 'cart.post', 'id' => 'postOrderForm' ) ) !!}
-						{!! Form::button('ثبت درخواست', array('class' => 'btn btn-primary btn-lg btn-block')) !!}
+					
+						{!! Form::submit('ثبت درخواست', array('class' => 'btn btn-primary btn-lg btn-block sabtBtn')) !!}
 					{!! Form::close() !!}
 				</div>
 			</div>
@@ -168,15 +186,14 @@
 	<script type="text/javascript">
 
 	// Check Address First
-	    $("#postOrderForm").on('click', function (e) {
+	    $(".sabtBtn").on('click', function (e) {
 	    	e.preventDefault();
 	    	if ( $('.basketTable tbody tr').length > 0 ) {
-		        if ( $("input[type=radio]:checked").length > 0 ) {
-		            $('#postOrderForm').submit();
+		        if ( $("input[name=address]:checked").length == 0 ) {
+		            alert("لطفا آدرس را انتخاب کنید!");
 		        } else {
-		        	alert("لطفا آدرس را انتخاب کنید!");
+		        	$('#postOrderForm').submit();
 		        }
-	        
 	    	} else { alert("سبد خرید شما خالی می باشد."); }
 	    });
 
@@ -206,28 +223,6 @@
 				})
 				.done(function(data) {
 				   $('#d-'+data.delid).fadeOut('slow');
-				})
-				.fail(function(data) {
-				   console.log(data.responseText);
-				})
-				.always(function(data) {
-				   // console.log($(this).data("pid"));
-				});
-			}); 
-		});
-
-	// Delete Order
-		$(document).ready(function() {
-			$('.delOrder').on('click', function(event) {
-				event.preventDefault();
-				oid = $(this).parent('a').data("oid");
-
-				$.ajax({
-				   url: 'delOrder',
-				   data: { 'oid' : oid },
-				})
-				.done(function(data) {
-				   $('.d-'+data.delid).fadeOut('slow');
 				})
 				.fail(function(data) {
 				   console.log(data.responseText);

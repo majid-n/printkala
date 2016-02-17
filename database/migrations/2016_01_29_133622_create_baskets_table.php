@@ -28,6 +28,10 @@ class CreateBasketsTable extends Migration
                   ->references('id')->on('products')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
+            // $table->foreign('order_id')
+            //       ->references('id')->on('orders')
+            //       ->onDelete('cascade')
+            //       ->onUpdate('cascade');
         });
     }
 

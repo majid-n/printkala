@@ -10,7 +10,8 @@
         "cartalyst/sentinel": "2.0.*",
         "frozennode/administrator": " 5.*",
         "barryvdh/laravel-debugbar": "^2.1",
-        "laravelcollective/html": "^5.2"
+        "laravelcollective/html": "^5.2",
+        "morilog/jalali": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

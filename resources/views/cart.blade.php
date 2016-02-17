@@ -40,7 +40,7 @@
 
 		<div class="pull-left">
 			<button class="btn btn-default md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
-			<a href="{{ route( 'cart', ['user' => Sentinel::getUser()->id] ) }}" >
+			<a href="{{ route( 'cart', Sentinel::getUser()->id ) }}" >
 				<button class="btn btn-primary" >
 					ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i>
 				</button>
@@ -49,7 +49,7 @@
 		
 	</div>
 @else
-	<div class="emptyBasket"><h3><i class="fa fa-shopping-basket"></i> سبد خرید شما خالی می باشد.</h3></div>
+	<div class="emptyBasket text-center"><h4><i class="fa fa-shopping-basket"></i> سبد خرید شما خالی می باشد.</h4></div>
 @endif
 
 <script src="{{ asset('/js/modalEffects.js') }}"></script>
@@ -60,7 +60,6 @@
 		$('.btnrem').on('click', function(event) {
 			event.preventDefault();
 			pid = $(this).data("pid");
-			total = $(this).parents('td.itemTotal');
 
 			$.ajax({
 			   url: 'rembasket',

@@ -9,6 +9,7 @@ use Sentinel;
 use App\Basket;
 use App\Product;
 use DB;
+use App\Order;
 
 class AjaxController extends Controller {
 
@@ -42,7 +43,7 @@ class AjaxController extends Controller {
 						return  response()->json([ 'result' => 'update' ]);
 		    		}
 		    	}
-		    }  
+		    }
 		}
 		    
 		return response()->json([ 'result' =>  false ]);
@@ -50,16 +51,20 @@ class AjaxController extends Controller {
 
 
 	public function remBasket( Request $request ) {
-		if ( $request->ajax() && $request->isMethod('post') ) {
+		if ( $user = Sentinel::check() && $request->ajax() && $request->isMethod('post') ) {
+			dd($user);
 		    if( $request->has('pid') ) {
 
 		    	$pid = intval( $request->input('pid') );
-		    	$user = Sentinel::check();
-		    	$exist = $user->baskets->where('order_id', 0)->where('product_id', $pid);
-		    	// $exist = Basket::where('user_id', $user )
-		    	// 			   ->where('order_id', 0 )
-		    	// 			   ->where('product_id', $pid )
-		    	// 			   ->first();
+		    	// $exist = $user->baskets->where('order_id', 0)
+		    						   // ->where('product_id', $pid);
+		    	
+
+		    	$exist = Basket::where('user_id', $user->id )
+		    				   ->where('order_id', 0 )
+		    				   ->where('product_id', $pid )
+		    				   ->first();
+		    	
 		    	if( $exist !== null ){
 		    		if( $exist->delete() ) {
 		    			return response()->json([ 'delid' =>  $exist->product_id, 'result' => true ]);
@@ -70,27 +75,6 @@ class AjaxController extends Controller {
 
 		    }
 		}
-	}
-
-
-	public function delOrder( Request $request ) {
-		dd('salam');
-		    if( $request->has('oid') ) {
-
-		    	$oid = intval( $request->input('oid') );
-		    	// $user = Sentinel::getUser()->id;
-		    	$order = $user->orders;
-		    	dd($user);
-
-		    	if( $exist !== null ){
-		    		if( $exist->delete() ) {
-		    			return response()->json([ 'delid' =>  $order->id, 'result' => true ]);
-		    		}
-		    	} else {
-		    		return response()->json([ 'result' => false ]);	
-		    	} 
-
-		    }
 	}
 
 

@@ -43,6 +43,11 @@
 		<p class="help-block">{!! $errors->first('mobile') !!}  </p>
 		<small> شماره همراه خود را برای ارسال تراکنش های مالی وارد نمایید, شماره همراه شما در سایت محفوظ می باشد . </small>
 	</div>	
+	<div class="form-group col-md-12{!! $errors->has('address') ? ' has-error' : null !!}">
+		{!! Form::text('address', null, array('class' => 'form-control','placeholder' => ' شماره همــراه ...' )) !!}
+		<p class="help-block">{!! $errors->first('address') !!}  </p>
+		<small> شماره همراه خود را برای ارسال تراکنش های مالی وارد نمایید, شماره همراه شما در سایت محفوظ می باشد . </small>
+	</div>	
 
 	<div class="form-group{!! $errors->has('password') ? ' has-error' : null !!}">
 		<div class="col-md-6">

@@ -82,6 +82,8 @@ class UserController extends Controller {
 	        'first_name'       => 'required|farsi|min:2',
 	        'last_name'        => 'required|farsi|min:2',
 	        'email'            => 'required|email|unique:users',
+	        'mobile'           => 'required',
+	        'address'          => 'required|min:10',
 	        'password'         => 'required|alpha_num|min:6|max:20',
 	        'password_confirm' => 'required|same:password',
 	    ];
@@ -103,7 +105,6 @@ class UserController extends Controller {
 	        $activation = Activation::create($user);
 
 	        Mail::send('emails.activate', ['activation' => $activation, 'user' => $user], function ($message) use ($user) {
-
 	            $message->from(config('app.info_email'), 'کامت');
 	            $message->sender(config('app.info_email'), 'کامت');
 	            $message->to($user->email, $user->first_name." ".$user->last_name)->subject('کد فعال سازی');
@@ -136,7 +137,7 @@ class UserController extends Controller {
 		$total = 0;
 		$items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
 							->join('products', 'products.id', '=', 'baskets.product_id')
-							->where('baskets.user_id', Sentinel::getUser()->id)
+							->where('baskets.user_id', $user->id)
 							->where('baskets.order_id', 0)
 							->get();
 
@@ -144,41 +145,56 @@ class UserController extends Controller {
 			$total += $item->total;
 		}
 
-		$num = Basket::where('user_id', Sentinel::getUser()->id)
-						 ->where('order_id', 0)
-						 ->count();
 		return view('cart.savecart', compact('items', 'total', 'user'));
 
 	}
 
-	public function cartPost() {
-		if ( $user = Sentinel::check() ) {
-			$carts = $user->baskets->where('order_id', 0);
-			$sum = 0;
+	public function cartPost( User $user, Request $request ) {
+		$carts = $user->baskets->where('order_id', 0);
+		$sum = 0;
 
-			if( $carts->count() > 0 ) {
-				foreach ($carts as $cart) {
-					foreach ($cart->products as $product) {
-						$sum += $cart->count * $product->price;
-					}
-				}
-				
-				$order = new Order;
-				$order->user_id = $user->id;
-				$order->sum = $sum;
-				// $order->address = $user->$address;
-
-				if( $order->save() ) {
-					foreach ( $carts as $cartItem ) {
-						$cartItem->order_id = $order->id;
-						$cartItem->save();
-					} 
-					return back()->with('با موفقیت ثبت شد.');
-				} else {
-					return back()->withErrors('خطا در ارسال درخواست.');
+		if( $carts->count() > 0 ) {
+			foreach ($carts as $cart) {
+				foreach ($cart->products as $product) {
+					$sum += $cart->count * $product->price;
 				}
 			}
+			
+			$order = new Order;
+			$order->user_id = $user->id;
+			$order->sum = $sum;
+			$order->address = $request->address;
+
+			if( $order->save() ) {
+				foreach ( $carts as $cartItem ) {
+					$cartItem->order_id = $order->id;
+					$cartItem->save();
+				} 
+				return back()->with('با موفقیت ثبت شد.');
+			} else {
+				return back()->withErrors('خطا در ارسال درخواست.');
+			}
 		}
+	}
+
+	public function cartHistory( User $user, Order $order ) {
+		$baskets = $user->baskets->where('order_id', $order->id);
+		dd($user);
+		return view('cart.history', compact('order'));
+	}
+
+	public function delOrder( User $user, Order $order, Request $request ) {
+		$baskets = $order->user->baskets->where('order_id', $order->id);
+    	if( $order !== null ){
+    		if( $order->delete() ) {
+    			foreach ($baskets as $basket) {
+    				$basket->delete();
+    			}
+    			return back()->with('با موفقیت ثبت شد.');
+    		}
+    	} else {
+    		return back()->withErrors('خطا در اتصال به پایگاه داده.');
+    	} 
 	}
 
 	public function cartDrop() {

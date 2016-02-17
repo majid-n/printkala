@@ -13,16 +13,22 @@ class DatabaseSeeder extends Seeder
     {
         # User Seeder
         Sentinel::registerAndActivate([
-            'email'    => 'user@user.com',
-            'password' => 'user123',
-            'first_name' => 'UserFirstName',
-            'last_name' => 'UserLastName',
+            'email'         => 'user@user.com',
+            'password'      => 'user123',
+            'first_name'    => 'علی',
+            'last_name'     => 'شفیعی',
+            'address1'      => 'مجیدیه شمالی نرسیده به میدان سرباز کوچه شهید داوود علی بخشی پلاک 55 طبقه اول',
+            'address2'      => 'سعادت آباد، کوی فراز شماره 86 بلوک 4 طبقه دوم واحد 4',
+            'address3'      => 'سعدی جنوبی کوچه بانک تجارت پلاک 3 طبقه دوم',
         ]);
         Sentinel::registerAndActivate([
-            'email'    => 'admin@admin.com',
-            'password' => 'admin123',
-            'first_name' => 'AdminFirstName',
-            'last_name' => 'AdminLastName',
+            'email'         => 'admin@admin.com',
+            'password'      => 'admin123',
+            'first_name'    => 'مجید',
+            'last_name'     => 'نورعلی',
+            'address1'      => 'مجیدیه شمالی نرسیده به میدان سرباز کوچه شهید داوود علی بخشی پلاک 55 طبقه اول',
+            'address2'      => 'سعادت آباد، کوی فراز شماره 86 بلوک 4 طبقه دوم واحد 4',
+            'address3'      => 'سعدی جنوبی کوچه بانک تجارت پلاک 3 طبقه دوم',
         ]);
         $this->command->info('Users seeded!');
 

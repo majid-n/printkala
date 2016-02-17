@@ -334,7 +334,12 @@ body {
 		font-weight: normal;
 	}
 
-
+	.btn-delOrder {
+		padding: 2px 0px;
+		margin-left: 5px;
+		border: none;
+		background-color: transparent;
+	}
 
 
 
