@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Illuminate\Http\Request;
@@ -133,14 +133,15 @@ class UserController extends Controller {
 	    return redirect()->route('home');
 	}
 
-	public function cart( User $user ) {
+	public function cart() {
 		$total = 0;
-		$items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
+		$user = Sentinel::getUser();
+		$items = Basket::select(DB::raw('baskets.id,products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
 							->join('products', 'products.id', '=', 'baskets.product_id')
 							->where('baskets.user_id', $user->id)
 							->where('baskets.order_id', 0)
 							->get();
-
+							
 		foreach ($items as $item) {
 			$total += $item->total;
 		}
@@ -149,7 +150,8 @@ class UserController extends Controller {
 
 	}
 
-	public function cartPost( User $user, Request $request ) {
+	public function cartPost( Request $request ) {
+		$user = Sentinel::getUser();
 		$carts = $user->baskets->where('order_id', 0);
 		$sum = 0;
 

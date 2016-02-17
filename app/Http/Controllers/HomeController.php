@@ -21,8 +21,12 @@ class HomeController extends Controller {
 	public function welcome() {
 		$cats = Cat::all();
 		$products = Product::where('active', 1)->get();
-		if ( Sentinel::check() ) {
-			$num = Basket::where('user_id', Sentinel::getUser()->id)
+		if ( $user = Sentinel::check() ) {
+
+			// $num = $user->baskets()->where('user_id', $user->id)
+			//                          ->where('order_id', 0)
+			//                          ->count();
+			$num = Basket::where('user_id', $user->id)
 			             ->where('order_id', 0)
 			             ->count();
 		} else { $num = 0; }

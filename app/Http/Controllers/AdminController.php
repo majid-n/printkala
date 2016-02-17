@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 // use Illuminate\Foundation\Bus\DispatchesJobs;
 // use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 // use Cartalyst\Sentinel\Checkpoints\ThrottlingException;

@@ -95,7 +95,8 @@
                event.preventDefault();
 
                $.ajax({
-                  url: 'loadbasket',
+                  type: 'GET',
+                  url: 'basket',
                })
                .done(function(data) {
                   $('.cartContent').html(data.cartdata);

@@ -12,12 +12,12 @@
 			</thead>
 			<tbody id="tablebody">
 				@foreach( $items as $item )
-				<tr id="{{ 'd-' . $item->product_id }}">
+				<tr id="{{ 'd-' . $item->order_id }}">
 					<td class="hidden-xs" width="auto"><img src="{{ asset('img/products') . '/' . $item->pic }}" class="basketimg shadow" alt=""> </td>
 					<td>{{ $item->name }}</td>
 					<td align="center">{{ $item->count }}</td>
 					<td class="hidden-xs" align="left" class="itemTotal">{{ number_format($item->total). ' ریال' }}</td>
-					<td align="center"><i class="fa fa-trash-o btnrem" data-pid="{{ $item->product_id }}"></i></td>
+					<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 				</tr>
 				@endforeach
 
@@ -40,7 +40,7 @@
 
 		<div class="pull-left">
 			<button class="btn btn-default md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
-			<a href="{{ route( 'cart', Sentinel::getUser()->id ) }}" >
+			<a href="{{ route( 'cart' ) }}" >
 				<button class="btn btn-primary" >
 					ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i>
 				</button>
@@ -59,11 +59,11 @@
 		// Remove From Basket
 		$('.btnrem').on('click', function(event) {
 			event.preventDefault();
-			pid = $(this).data("pid");
+			id = $(this).data("id");
 
 			$.ajax({
-			   url: 'rembasket',
-			   data: { 'pid' : pid },
+			   url: 'basket/'+id,
+			   data: { '_method' : 'DELETE' },
 			})
 			.done(function(data) {
 			   $('#d-'+data.delid).fadeOut('slow');

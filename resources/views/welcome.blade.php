@@ -89,7 +89,7 @@
                 });
 
                 $.ajax({
-                    url: 'addbasket',
+                    url: 'basket',
                     data: { 'pid' : $(this).data("pid") },
                 })
                 .done(function(data) {
