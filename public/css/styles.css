@@ -82,10 +82,9 @@ body {
 	}
 
 /*---------------------------------------------------------------
-							Custom BootStrap
+						Custom BootStrap
 ---------------------------------------------------------------*/
 
-/*Custom button*/
 	.btn-primary {
 	  color: #ffffff;
 	  background-color: #C63437;
@@ -131,6 +130,8 @@ body {
 	  background-image: none;
 	}
 	.btn-primary.disabled:hover,
+	.btn-primary.disabled,
+	.btn-primary[disabled],
 	.btn-primary[disabled]:hover,
 	fieldset[disabled] .btn-primary:hover,
 	.btn-primary.disabled:focus,
@@ -142,7 +143,6 @@ body {
 	  background-color: #C63437;
 	  border-color: #8E2A2C;
 	}
-
 
 
 	.navbar {
@@ -180,7 +180,9 @@ body {
 		-webkit-box-shadow: 0 0 5px 1px rgba(198,52,55,0.5);
 		box-shadow: 0 0 5px 1px rgba(198,52,55,0.5);
 	}
-
+	.badge {
+		font-weight: normal;
+	}
 
 /*---------------------------------------------------------------
 							Products
@@ -339,19 +341,11 @@ body {
 		margin-left: 5px;
 		border: none;
 		background-color: transparent;
+		z-index: 1;
+		position: absolute;
+		margin-top: 10px;
+		margin-right: 5px;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*---------------------------------------------------------------
@@ -370,6 +364,7 @@ body {
 		border: 3px solid #fff;
 		background-color: #4B4B4D !important;
 		color: #fff !important;
+		font-weight: bold;
 	}
 
 	.customSpinner {
@@ -407,16 +402,6 @@ body {
 /*---------------------------------------------------------------
 							Posts Page
 ---------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
 
 
 /*---------------------------------------------------------------

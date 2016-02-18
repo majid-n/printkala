@@ -12,7 +12,7 @@
 			</thead>
 			<tbody id="tablebody">
 				@foreach( $items as $item )
-				<tr id="{{ 'd-' . $item->order_id }}">
+				<tr id="{{ 'd-' . $item->id }}">
 					<td class="hidden-xs" width="auto"><img src="{{ asset('img/products') . '/' . $item->pic }}" class="basketimg shadow" alt=""> </td>
 					<td>{{ $item->name }}</td>
 					<td align="center">{{ $item->count }}</td>
@@ -37,10 +37,9 @@
 				<button type="submit" class="btn btn-default">خالی کردن سبد <i class="fa fa-fw fa-ban"></i></button>
 			{!! Form::close() !!}
 		</div>
-
 		<div class="pull-left">
 			<button class="btn btn-default md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
-			<a href="{{ route( 'cart' ) }}" >
+			<a href="{{ route( 'order.index' ) }}" >
 				<button class="btn btn-primary" >
 					ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i>
 				</button>
@@ -50,6 +49,14 @@
 	</div>
 @else
 	<div class="emptyBasket text-center"><h4><i class="fa fa-shopping-basket"></i> سبد خرید شما خالی می باشد.</h4></div>
+	<div class="pull-left">
+		<button class="btn btn-default md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
+		<a href="{{ route( 'order.index' ) }}" >
+			<button class="btn btn-primary" >
+				ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i>
+			</button>
+		</a>
+	</div>
 @endif
 
 <script src="{{ asset('/js/modalEffects.js') }}"></script>
@@ -67,7 +74,7 @@
 			})
 			.done(function(data) {
 			   $('#d-'+data.delid).fadeOut('slow');
-			   $('.badge').html( Number($('.badge').html()) - 1 );
+			   $('nav .badge').html( Number($('.badge').html()) - 1 );
 			})
 			.fail(function(data) {
 			   console.log(data.responseText);

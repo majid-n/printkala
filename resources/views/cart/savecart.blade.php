@@ -20,15 +20,15 @@
 							<?php $mydate = jdate()->forge($order->updated_at); ?>
 
 							@if( $order->status === 0 )
-								<a href="{{ route('cart.history', [ 'order' => $order->id, 'user' => $user ] ) }}" class="list-group-item {{ 'd-' . $order->id }}">
-									{!! Form::open( array( 'method' => 'post', 'route' => array('order.del', $user), 'class' => 'pull-right' ) ) !!}
-										{!! Form::button('<i class="fa fa-remove fa-fw"></i>', array('type' => 'submit', 'class' => 'btn btn-default btn-delOrder')) !!}
-									{!! Form::close() !!}
+								<a href="{{ route('order.destroy', ['order' => $order->id]) }}" class="btn btn-default btn-delOrder">
+									<i class="fa fa-remove fa-fw"></i>
+								</a>
+								<a href="{{ route('order.show', ['order' => $order->id]) }}" style="padding-right:30px;" class="list-group-item {{ 'd-' . $order->id }}">
 									در حال بررسی. تاریخ ثبت : {{ $mydate->ago() }}
 									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
 								</a>
 							@elseif( $order->status === 1 )
-								<a href="{{ route('cart.history', [ 'order' => $order->id, 'user' => $user ] ) }}" class="list-group-item list-group-item-success">
+								<a href="{{ route('order.show', ['order' => $order->id]) }}" class="list-group-item list-group-item-success">
 									سفارش شما در تاریخ {{ $mydate->format('%d %B %Y') }}، ساعت {{ $mydate->format('time') }} ارسال شد.
 									<span class="badge hidden-xs">{{ number_format($order->sum) . ' ريال' }}</span>
 								</a>
@@ -60,14 +60,14 @@
 					<tbody>
 						@define $number = 1
 						@foreach( $items as $item )
-							<tr>
+							<tr id="d-{{ $item->id }}">
 								<td>{{ $number }}</td>
 								<td width="auto"><img src="{{ asset('img/products') . '/' . $item->pic }}" class="basketimg shadow" alt="{{ $item->name }}"> </td>
 								<td>{{ $item->name }}</td>
 								<td align="center">{{ $item->count }}</td>
 								<td align="left">{{ number_format($item->price). ' ریال' }}</td>
 								<td align="left" class="itemTotal">{{ number_format($item->total). ' ریال' }}</td>
-								<td align="center"><i class="fa fa-trash-o btnrem" data-pid="{{ $item->product_id }}"></i></td>
+								<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 							</tr>
 							@define $number = $number+1
 						@endforeach
@@ -117,7 +117,7 @@
 				</div>
 
 			    <div class="panel-body">
-			    	{!! Form::open( array( 'route' => 'cart.post', 'id' => 'postOrderForm' ) ) !!}
+			    	{!! Form::open( array( 'route' => 'order.store', 'id' => 'postOrderForm' ) ) !!}
 
 						@if($user->address1 != null)
 		                    {!! Form::radio('address', $user->address1) !!}
@@ -213,16 +213,18 @@
 
 	// Delete Items
 		$(document).ready(function() {
+			// Remove From Basket
 			$('.btnrem').on('click', function(event) {
 				event.preventDefault();
-				pid = $(this).data("pid");
+				id = $(this).data("id");
 
 				$.ajax({
-				   url: 'rembasket',
-				   data: { 'pid' : pid },
+				   url: 'basket/'+id,
+				   data: { '_method' : 'DELETE' },
 				})
 				.done(function(data) {
 				   $('#d-'+data.delid).fadeOut('slow');
+				   $('.badge').html( Number($('.badge').html()) - 1 );
 				})
 				.fail(function(data) {
 				   console.log(data.responseText);

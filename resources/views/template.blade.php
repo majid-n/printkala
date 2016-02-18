@@ -93,10 +93,11 @@
          // Load Basket
             $('body').on('click', '.md-trigger', function(event) {
                event.preventDefault();
+               $('.customSpinner').css('display', 'block');
 
                $.ajax({
                   type: 'GET',
-                  url: 'basket',
+                  url: '{{ route('basket.index') }}',
                })
                .done(function(data) {
                   $('.cartContent').html(data.cartdata);
@@ -106,7 +107,7 @@
                   console.log(data.responseText);
                })
                .always(function(data) {
-                  // $('.customSpinner').css('display', 'none');
+                  $('.customSpinner').css('display', 'none');
                });
             });
 

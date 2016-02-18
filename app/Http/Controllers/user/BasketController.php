@@ -19,9 +19,8 @@ class BasketController extends Controller
      */
     public function index()
     {
-
         $totalprice = 0;
-        $items = Basket::select(DB::raw('baskets.id,products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
+        $items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.id,baskets.count,baskets.product_id,baskets.count*products.price as total'))
                 ->join('products', 'products.id', '=', 'baskets.product_id')
                 ->where('baskets.user_id', '=',Sentinel::getUser()->id)
                 ->where('baskets.order_id', 0)

@@ -87,13 +87,13 @@
                 FadeElement.fadeTo("fast",0,function(){
                     Loader.fadeIn();     
                 });
+                $('.btnadd').attr('disabled', true);
 
                 $.ajax({
-                    url: 'basket',
+                    url: '{{ route('basket.store') }}',
                     data: { 'pid' : $(this).data("pid") },
                 })
                 .done(function(data) {
-                    $('.btnadd').prop('disabled', false);
                     $('.md-trigger i' ).effect( "bounce", { times: 3 }, "slow" );
                     if (data.result == "add") {
                         $('.badge').html( Number($('.badge').html()) + 1 );
@@ -106,6 +106,7 @@
                 .always(function(data) {
                     Loader.fadeOut("slow",function(){
                         FadeElement.fadeTo("fast", 1);
+                        $('.btnadd').removeAttr('disabled');
                     });
                 });
             });
