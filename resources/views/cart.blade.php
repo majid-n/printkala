@@ -73,8 +73,17 @@
 			   data: { '_method' : 'DELETE' },
 			})
 			.done(function(data) {
-			   $('#d-'+data.delid).fadeOut('slow');
-			   $('nav .badge').html( Number($('.badge').html()) - 1 );
+				// var total = 1;
+				// subtotal = $('tr.d-'+id+' td.itemTotal').html;
+				// total -= eval(subtotal);
+				// $( this ).closest('.sumTd').html(total);
+
+				// subTotal = ($this).closest('.itemTotal').html();
+				console.log(data.majid);
+				// sumTd = $(this).closest('.sumTd').html();
+				// $( sumTd ).html( eval(sumTd) - subTotal );
+			    $('#d-'+data.delid).fadeOut('slow');
+			    $('nav .badge').html( Number($('.badge').html()) - 1 );
 			})
 			.fail(function(data) {
 			   console.log(data.responseText);

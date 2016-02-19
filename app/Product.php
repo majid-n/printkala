@@ -20,5 +20,10 @@ class Product extends Model
         return $this->belongsTo('App\Cat');
     }
 
+    # Relationship for Cat Model
+    public function basket() {
+        return $this->belongsTo('App\Basket', 'product_id', 'id');
+    }
+
 
 }

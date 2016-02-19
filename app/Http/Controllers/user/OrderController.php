@@ -66,7 +66,7 @@ class OrderController extends Controller
             
             $order = new Order;
             $order->user_id = $user->id;
-            $order->sum = $sum;
+            $order->sum = $sum + config('app.keraye');
             $order->address = $request->address;
 
             if( $order->save() ) {
