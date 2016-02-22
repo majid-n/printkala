@@ -306,7 +306,7 @@ body {
 
 
 /*---------------------------------------------------------------
-							Cart Page
+						Cart Page
 ---------------------------------------------------------------*/
 
 	.panel-primary {
@@ -400,8 +400,55 @@ body {
 
 
 /*---------------------------------------------------------------
-							Posts Page
+						Posts Page
 ---------------------------------------------------------------*/
+
+	input,
+	textarea,
+	select {
+	    direction: rtl;
+	    font-size: 1.2em;
+	    line-height: normal !important;
+	    padding: 7px 10px !important;
+	    height: auto !important;
+	}
+	select{
+	    padding: 6px 10px !important;
+	}
+	select optgroup {
+	    padding: 10px;
+	    font-family: FontAwesome, yekan,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	    color: #fec503;
+	}
+	select option{
+	    color: #333;
+	}
+	select+option{
+	    color: #999;
+	}
+	button[type=submit],
+	button[type=reset]{
+	    font-size: 1.1em !important;
+	}
+	input[type=file] {
+	    overflow: hidden;
+	    position: absolute;
+	    opacity: 0;
+	    width: 53px;
+	    right: 0;
+	    top: 0;
+	    cursor: pointer;
+	}
+	input[type=text].fileInputText {
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	}
+	.fileInput .input-group-addon{
+	    color: #fff;
+	    border-color: #AD2D30;
+	    background-color: #C63437;
+	}
 
 
 /*---------------------------------------------------------------
