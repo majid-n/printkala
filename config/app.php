@@ -148,6 +148,9 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Morilog\Jalali\JalaliServiceProvider::class,
 
@@ -158,11 +161,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        // 'Frozennode\Administrator\AdministratorServiceProvider',
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
-        'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
-
     ],
 
     /*

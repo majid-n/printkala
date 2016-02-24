@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
         DB::table('cats')->insert([
             [ 'title' => 'کاغذ' ],
             [ 'title' => 'زینک' ],
-            [ 'title' => 'مرکب چاپ' ],
+            [ 'title' => 'مرکب' ],
         ]);
         $this->command->info('Categories Table Seeded.');
 

@@ -1,44 +1,49 @@
 @extends('template')
 
-
 @section('title','PrintKala')
     
-
 @section('content')
 
     <div class="row">
 
-        <ul id="filters" class="list-inline">
-            <li><button class="transition is-checked" data-filter="*">همه موارد</button></li>
-            @foreach($cats as $cat)
-                <li><button class="transition" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button></li>
-            @endforeach
-        </ul>
+        <div class="page-header">
+            <span class="fa fa-lg fa-chevron-left"></span>
+            <h1>اضافه کردن به سبد خرید</h1>
+        </div>
 
-        <div class="isotope">
-            @foreach($products as $product)
-                <div class="item {{ 't'. $product->cat_id }} shadow">
-                    
-                    <div class="postimg">
-                        <img class="img-responsive noselect transition" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">
-                    </div>
+        <div class="page-content">
+            <div id="filters" class="btn-group" role="group" >
+                <button class="btn btn-default btn-primary transition" data-filter="*">همه</button>
+                @foreach($cats as $cat)
+                    <button class="btn btn-default transition" data-filter="{{ '.t'. $cat->id }}">{{ $cat->title }}</button>
+                @endforeach
+            </div>
 
-                    <span class="postname">{{ $product->name }}</span>
-
-                    <div class="btninfo textshadow">
-                        <i class="fa fa-info-circle"></i>
-                    </div>
-
-                    <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
-                        <span>{{ number_format($product->price) . ' ریال' }}</span>
-                        <i class="fa fa-fw fa-shopping-basket"></i>
-                        <div class="myspinner">
-                            <span class="double-bounce1"></span>
+            <div class="isotope">
+                @foreach($products as $product)
+                    <div class="item {{ 't'. $product->cat_id }}">
+                        
+                        <div class="postimg">
+                            <img class="img-responsive noselect transition" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">
                         </div>
-                    </button>
 
-                </div>
-            @endforeach
+                        <span class="postname">{{ str_limit($product->name, 20) }}</span>
+
+                        <div class="btninfo textshadow">
+                            <i class="fa fa-info-circle"></i>
+                        </div>
+
+                        <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
+                            <span>{{ number_format($product->price) . ' ریال' }}</span>
+                            <i class="fa fa-fw fa-shopping-basket"></i>
+                            <div class="myspinner">
+                                <span class="double-bounce1"></span>
+                            </div>
+                        </button>
+
+                    </div>
+                @endforeach
+            </div>
         </div>
 
     </div>
@@ -58,11 +63,11 @@
             });
 
         // change is-checked class on buttons
-            $('#filters li button').each( function( i, buttonGroup ) {
+            $('#filters button').each( function( i, buttonGroup ) {
                 var $buttonGroup = $( buttonGroup );
                 $buttonGroup.on( 'click', function() {
-                    $('#filters li button').removeClass('is-checked');
-                    $( this ).addClass('is-checked');
+                    $('#filters button').removeClass('btn-primary');
+                    $( this ).addClass('btn-primary');
                     var filterValue = $( this ).attr('data-filter');
                     $container.isotope({ filter: filterValue });
                 });

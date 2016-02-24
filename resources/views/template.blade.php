@@ -5,8 +5,6 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-
-      <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
       <meta name="_token" content="{{ csrf_token() }}" />
 
       <title>{{ config('app.sitename') . " | " }} @yield('title')</title>
@@ -84,7 +82,6 @@
       <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
       <script src="{{ asset('/js/classie.js') }}"></script>
       <script src="{{ asset('/js/modalEffects.js') }}"></script>
-      
       
       <script type="text/javascript">
 
