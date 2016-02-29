@@ -21,15 +21,15 @@ class CreateProductsTable extends Migration
             $table->integer('weight')->unsigned();
             $table->integer('price')->unsigned();
             $table->string('pic', 100);
-            $table->text('active');
+            $table->boolean('active')->default(0);
             $table->timestamps();
             $table->softDeletes();
             $table->index('name');
             $table->index('des');
-            $table->foreign('cat_id')
-                  ->references('id')->on('cats')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+            // $table->foreign('cat_id')
+            //       ->references('id')->on('cats')
+            //       ->onDelete('cascade')
+            //       ->onUpdate('cascade');
         });
     }
 

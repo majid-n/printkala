@@ -73,7 +73,6 @@ class BasketController extends Controller
 
             $exist = $user->baskets()->where('product_id', $pid)
                                      ->where('order_id', 0)->first();
-            // dd($exist->count());
             if( $exist == null ){
 
                 $basket = new Basket;

@@ -18,11 +18,11 @@
       <meta property="og:description" content="@yield('facebook-description')"/>
 
       <!-- Bootstrap core CSS -->
-      <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">
-      <link href="{{ asset('/css/bootstrap-rtl.css') }}" rel="stylesheet">
-      <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
-      <link href="{{ asset('/css/styles.css') }}" rel="stylesheet">
-      <link href="{{ asset('/css/modal.css') }}" rel="stylesheet">
+      <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+      <link href="{{ asset('css/bootstrap-rtl.css') }}" rel="stylesheet">
+      <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+      <link href="{{ asset('css/pkala.css') }}" rel="stylesheet">
+      
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -77,28 +77,31 @@
 
       </div> <!-- Container -->
 
-      <script src="{{ asset('/js/jquery.min.js') }}"></script>
-      <script src="{{ asset('/js/jquery-ui.min.js') }}"></script>
-      <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-      <script src="{{ asset('/js/classie.js') }}"></script>
-      <script src="{{ asset('/js/modalEffects.js') }}"></script>
-      
-      <script type="text/javascript">
+      <script src="{{ asset('js/jquery.min.js') }}"></script>
+      <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+      <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+      <script src="{{ asset('js/classie.js') }}"></script>
+      <script src="{{ asset('js/slider.revolution.min.js') }}"></script>
+      <script src="{{ asset('js/slider.plugins.min.js') }}"></script>
+      <script src="{{ asset('js/modalEffects.js') }}"></script>
 
+      @yield('js')
+
+      <script type="text/javascript">
          $(document).ready(function() {
 
-         // Load Basket
+            // Load Basket
             $('body').on('click', '.md-trigger', function(event) {
                event.preventDefault();
                $('.customSpinner').css('display', 'block');
 
                $.ajax({
                   type: 'GET',
-                  url: '{{ route('basket.index') }}',
+                  url: 'basket',
                })
                .done(function(data) {
                   $('.cartContent').html(data.cartdata);
-                  $('.badge').html( data.count );
+                  $('.md-trigger span.badge').html( data.count );
                })
                .fail(function(data) {
                   console.log(data.responseText);
@@ -108,14 +111,19 @@
                });
             });
 
+            // Slider Options
+            var revapi;
+            revapi = $('.tp-banner').revolution({
+               delay:9000,
+               startwidth:1170,
+               startheight:500,
+               hideThumbs:10,
+               fullWidth:"on",
+               forceFullWidth:"on",
+               touchenabled:"on",
+            });
          });
-
-
       </script>
-
-      @yield('js')
-
-      
 
    </body>
 </html>

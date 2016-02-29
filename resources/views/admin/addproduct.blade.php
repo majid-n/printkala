@@ -16,61 +16,61 @@
 		</div>
 
 		<div class="page-content">
-			{!! Form::open() !!}
+			{!! Form::open(array('files' => true)) !!}
 
-				<div class="form-group{!! $errors->has('product') ? ' has-error' : null !!}">
-					<div class="col-md-6">
-						{!! Form::text('product', null, array('class' => 'form-control','placeholder' => ' نـــام محصول ...')) !!}
+				<div class="form-group">
+					<div class="col-md-6 {!! $errors->has('product') ? ' has-error' : null !!}">
+						{!! Form::text('product', null, array('class' => 'form-control','placeholder' => ' نـــام محصول')) !!}
 						<p class="help-block">{!! $errors->first('product') !!}</p>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6 {!! $errors->has('category') ? ' has-error' : null !!}">
 						{!! Form::select('category', $listArray,'test', array('class' => 'form-control')) !!}
 						<p class="help-block">{!! $errors->first('category') !!}</p>
 					</div>
 				</div>
 
 				<div class="form-group col-md-12{!! $errors->has('description') ? ' has-error' : null !!}">
-					{!! Form::textarea('description', null, array('class' => 'form-control','placeholder' => ' توضیحات محصول ...','rows' => 4)) !!}
+					{!! Form::textarea('description', null, array('class' => 'form-control','placeholder' => ' توضیحات محصول','rows' => 4)) !!}
 					<p class="help-block">{!! $errors->first('description') !!}</p>
 				</div>
 
-				<div class="form-group{!! $errors->has('size') ? ' has-error' : null !!}">
-					<div class="col-md-6">
-						{!! Form::text('size', null, array('class' => 'form-control','placeholder' => ' اندازه ...')) !!}
+				<div class="form-group">
+					<div class="col-md-6 {!! $errors->has('size') ? ' has-error' : null !!}">
+						{!! Form::text('size', null, array('class' => 'form-control','placeholder' => ' اندازه')) !!}
 						<p class="help-block">{!! $errors->first('size') !!}</p>
 					</div>
-					<div class="col-md-6">
-						{!! Form::text('weight', null, array('class' => 'form-control','placeholder' => ' وزن ...')) !!}
+					<div class="col-md-6 {!! $errors->has('weight') ? ' has-error' : null !!}">
+						{!! Form::text('weight', null, array('class' => 'form-control','placeholder' => ' وزن')) !!}
 						<p class="help-block">{!! $errors->first('weight') !!}</p>
 					</div>
 				</div>
 
-				<div class="form-group{!! $errors->has('price') ? ' has-error' : null !!}">
-					<div class="col-md-6">
-						{!! Form::text('price', null, array('class' => 'form-control','placeholder' => ' قیمت ...')) !!}
+				<div class="form-group">
+					<div class="col-md-6 {!! $errors->has('price') ? ' has-error' : null !!}">
+						{!! Form::text('price', null, array('class' => 'form-control','placeholder' => ' قیمت')) !!}
 						<p class="help-block">{!! $errors->first('price') !!}</p>
 					</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 {!! $errors->has('image') ? ' has-error' : null !!}">
 						<div class="input-group fileInput">
 						    <span class="input-group-addon">
 						        <i class="fa fa-picture-o"></i>
-						        <input type="file" name="pic">
+						        <input type="file" name="image">
 						    </span>
 						    <input type="text" class="form-control fileInputText" placeholder="لطفا عکس را انتخاب کنید">
 						</div>
-						<p class="help-block">{!! $errors->first('pic') !!}</p>
+						<p class="help-block">{!! $errors->first('image') !!}</p>
 					</div>
 				</div>
 
 				<div class="form-group{!! $errors->has('active') ? ' has-error' : null !!}">
-					{!! Form::label('active', 'فعال') !!}
 					{!! Form::checkbox('active', 1, array('class' => 'form-control')) !!}
+					{!! Form::label('active', 'فعال') !!}
 					<p class="help-block">{!! $errors->first('active') !!}</p>
 				</div>
 
 				<div dir="ltr">
-					{!! Form::reset('جــدید', array('class' => 'btn btn-default')) !!}
 					{!! Form::submit('ذخــیره', array('class' => 'btn btn-primary')) !!}
+					{!! Form::reset('جــدید', array('class' => 'btn btn-default')) !!}
 				</div>
 
 			{!! Form::close() !!}

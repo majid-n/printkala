@@ -17,7 +17,7 @@
 				<div class="list-group">
 					@if( $user->orders->count() > 0 )
 						@foreach( $user->orders as $order )
-							<?php $mydate = jdate()->forge($order->updated_at); ?>
+							<?php $mydate = jdate()->forge($order->created_at); ?>
 
 							@if( $order->status === 0 )
 								<a href="{{ route('order.destroy', ['order' => $order->id]) }}" class="btn btn-default btn-delOrder">
@@ -62,7 +62,7 @@
 						@foreach( $items as $item )
 							<tr id="d-{{ $item->id }}">
 								<td>{{ $number }}</td>
-								<td width="auto"><img src="{{ asset('img/products') . '/' . $item->pic }}" class="basketimg shadow" alt="{{ $item->name }}"> </td>
+								<td width="auto"><img src="{{ asset('images/posts/'.$item->pic) }}" class="basketimg shadow" alt="{{ $item->name }}"> </td>
 								<td>{{ $item->name }}</td>
 								<td align="center">{{ $item->count }}</td>
 								<td align="left">{{ number_format($item->price). ' ریال' }}</td>
@@ -83,7 +83,7 @@
 
 			<div class="pull-left">
 				{!! Form::open(array('route' => 'cart.drop')) !!}
-					<button type="submit" class="btn btn-default">خالی کردن سبد <i class="fa fa-fw fa-ban"></i></button>
+					<button type="submit" class="btn btn-default"><i class="fa fa-fw fa-ban"></i> خالی کردن سبد</button>
 				{!! Form::close() !!}
 			</div>
 

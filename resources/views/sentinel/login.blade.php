@@ -17,19 +17,16 @@
     </div>
 </div>
 
-<div class="row">
+<hr>
+
 <div class="maincontainer col-md-6 col-md-offset-3 radius4">
 
-	<div class="form-top">
-		<div class="form-top-left">
-			<span class="glyphicon glyphicon-lock ig-color"></span>	
-		</div>
-		<div class="form-top-right">
-			<h1>{{trans('general.login')}}</h1>	
-		</div>
+	<div class="page-header">
+	    <span class="fa fa-lg fa-chevron-left"></span>
+	    <h1>ورود به سایت</h1>
 	</div>
 
-	<div class="form-bottom">
+	<div class="page-content">
 		{!! Form::open(array('autocomplete' => 'off')) !!}
 			<div class="form-group{{ $errors->has('email') ? ' has-error' : null }}">
 				{!! Form::email('email', null, array('placeholder' => ' آدرس ایمیــل ...', 'class' => 'form-control')) !!}
@@ -39,24 +36,22 @@
 			<div class="form-group{{ $errors->has('password') ? ' has-error' : null }}">
 				{!! Form::password('password', array('placeholder' => ' کلمـــه عبـــور ...', 'class' => 'form-control')) !!}
 				<p class="help-block">{{ $errors->first('password') }}</p>
-				<a role="button" href="{{ URL::to('reset') }}" class="ig-color pull-left">{{trans('general.forgetpassword')}}</a><br>
+				<a role="button" href="{{ URL::to('reset') }}" class="ig-color pull-left">فراموشی کلمه عبور</a><br>
 			</div>
 
 			<div class="form-group">
 				<label for="remember">
 				  <input type="checkbox" id="remember"/>
-				  <i></i> <span>{{trans('general.rememberme')}}</span>
+				  <span>مرا به خاطر داشته باش</span>
 				</label>					
 			</div>
-			<br>
-			<div class="form-group pull-left">
-				{!! Form::reset(trans('general.reset'), array('class' => 'btn btn1 btn-default')) !!}
-				{!! Form::submit(trans('general.login'), array('class' => 'btn btn1 btn-ig')) !!}
+			<div class="form-group" dir="ltr">
+				{!! Form::submit('ورود', array('class' => 'btn btn1 btn-primary')) !!}
+				{!! Form::reset('جدید', array('class' => 'btn btn1 btn-default')) !!}
 			</div>
 		{!! Form::close() !!}
 	</div>
 
-</div>
 </div>
 
 @stop

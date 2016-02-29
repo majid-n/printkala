@@ -1,8 +1,17 @@
 @extends('template')
 
 @section('title','PrintKala')
+
+@section('css')
+    <link href="{{ asset('css/slider-settings.css') }}" rel="stylesheet">
+@stop
     
 @section('content')
+
+    <!-- Slider Revolution -->
+    <!-- <div class="row" style="margin-top:-40px; margin-bottom:25px;">
+       include('slider')
+    </div> -->
 
     <div class="row">
 
@@ -24,7 +33,7 @@
                     <div class="item {{ 't'. $product->cat_id }}">
                         
                         <div class="postimg">
-                            <img class="img-responsive noselect transition" src="img/products/{{ $product->pic }}" alt="{{ $product->name }}">
+                            <img class="img-responsive noselect transition" src="{{ asset('images/posts/'.$product->pic) }}" alt="{{ $product->name }}">
                         </div>
 
                         <span class="postname">{{ str_limit($product->name, 20) }}</span>
@@ -52,14 +61,14 @@
 
 @section('js')
     <script src="{{ asset('/js/isotope.pkgd.min.js') }}"></script>
-
     <script type="text/javascript">
 
         $(window).load(function(){
         // init Isotope
             var $container = $('.isotope').isotope({
-                itemSelector: '.item',
-                layoutMode: 'masonry',
+                itemSelector:   '.item',
+                layoutMode:     'masonry',
+                isOriginLeft:   false
             });
 
         // change is-checked class on buttons

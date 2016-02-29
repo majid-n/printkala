@@ -9,6 +9,7 @@ use App\Cat;
 use App\Basket;
 use Sentinel;
 use View;
+use Storage;
 
 
 class HomeController extends Controller {
@@ -32,6 +33,12 @@ class HomeController extends Controller {
 		} else { $num = 0; }
 		
 		return view( 'welcome',compact('cats','products','num') );
+	}
+
+	# Retrieve Images
+    public function retrieveImages($disk , $filename) {	
+		$file 	= Storage::disk($disk)->get( $filename );
+	    return $file;
 	}
 
 }

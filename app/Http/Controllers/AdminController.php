@@ -2,17 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-// use Illuminate\Foundation\Bus\DispatchesJobs;
-// use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
-// use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
-
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
+use App\Http\Requests;
 use Validator;
-// use Sentinel;
-// use Activation;
-// use Mail;
-// use Request;
-// use Redirect;
 use App\Cat;
 use App\Product;
 
@@ -25,46 +17,52 @@ class AdminController extends Controller {
 		return view()->make('admin.addproduct', compact('listArray'));
 	}
 
-	public function addProduct() {
+	public function addProduct( Request $request ) {
 
 		$rules = array(
 	        'product'		=> 'required',
 	        'description'	=> 'required|min:5|max:200',
 	        'category'		=> 'required|digits:1',
 	        'size'			=> 'required',
-	        'pic'			=> 'required',
+	        'image'			=> 'required|mimes:jpg,jpeg,png',
 	        'price'			=> 'required|numeric'
 	    );
 
-	    $validator = Validator::make(Input::all(), $rules);
+	    $validator = Validator::make($request->all(), $rules);
 
 	    if ($validator->fails()) {
 	        $errors = $validator->messages();
 
-	        return redirect()->back()
-							 ->withInput()
-							 ->withErrors($errors);
+	        return back()
+						 ->withInput()
+						 ->withErrors($errors);
 
 	    } else {
 
-			$product = new Product;
-			$product->name 	 = Input::get('product');
-			$product->des 	 = Input::get('description');
-			$product->cat_id = Input::get('category');
-			$product->size 	 = Input::get('size');
-			$product->weight = Input::get('weight');
-			$product->price  = Input::get('price');
-			$product->pic 	 = Input::get('pic');
-			$product->active = Input::get('active');
+	    	if( $request->file('image')->isValid() ) {
+	    	    $image      = $request->file('image');										# Image Object
+	    	    $filename   = $image->getClientOriginalName();								# Image File Name
+	    	    $savedimg   = $image->move( storage_path('app/posts') , $filename );		# Saved Image Address
 
-			if ( $product->save() ) {
-				return Redirect()->to('admin/product')
-								 ->withSuccess('محصول با موفقیت ثبت شد.');
-			}
+	    	    # Create Post
+	    	    $product = new Product;
+	    	    $product->name 	 = $request->product;
+	    	    $product->des 	 = $request->description;
+	    	    $product->cat_id = $request->category;
+	    	    $product->size 	 = $request->size;
+	    	    $product->weight = $request->weight;
+	    	    $product->price  = $request->price;
+	    	    $product->pic 	 = $filename;
+	    	    $product->active = ( !empty($request->active) ) ? $request->active : 0;
 
-			
+	    	    # Redirect on Success
+	    	    if ( $product->save() ) {
+	    	        return redirect()->route('product.post')->with('success', 'محصول با موفقیت ثبت شد.');
+	    	    }
+	    	}
 		}
 
+		return back()->withInput()
+		             ->with('fail', 'مشکل در اتصال به سرور. لطفا مجددا تلاش کنید.');
 	}
-
 }

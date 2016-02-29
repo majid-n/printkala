@@ -13,7 +13,7 @@
 			<tbody id="tablebody">
 				@foreach( $items as $item )
 				<tr id="{{ 'd-' . $item->id }}">
-					<td class="hidden-xs" width="auto"><img src="{{ asset('img/products') . '/' . $item->pic }}" class="basketimg shadow" alt=""> </td>
+					<td class="hidden-xs" width="auto"><img src="{{ asset('images/posts/'.$item->pic) }}" class="basketimg shadow" alt=""> </td>
 					<td>{{ $item->name }}</td>
 					<td align="center">{{ $item->count }}</td>
 					<td class="hidden-xs" align="left" class="itemTotal">{{ number_format($item->total). ' ریال' }}</td>
@@ -34,14 +34,15 @@
 
 		<div class="pull-right">
 			{!! Form::open(array('route' => 'cart.drop')) !!}
-				<button type="submit" class="btn btn-default">خالی کردن سبد <i class="fa fa-fw fa-ban"></i></button>
+				<button type="submit" class="btn btn-default"><i class="fa fa-fw fa-ban"></i> خالی کردن سبد</button>
 			{!! Form::close() !!}
 		</div>
 		<div class="pull-left">
 			<button class="btn btn-default md-close"><i class="fa fa-fw fa-arrow-right"></i> ادامه خرید</button>
 			<a href="{{ route( 'order.index' ) }}" >
 				<button class="btn btn-primary" >
-					ثبت درخواست <i class="fa fa-fw fa-shopping-bag"></i>
+					<i class="fa fa-fw fa-shopping-bag"></i>
+					ثبت درخواست
 				</button>
 			</a>
 		</div>
@@ -79,11 +80,10 @@
 				// $( this ).closest('.sumTd').html(total);
 
 				// subTotal = ($this).closest('.itemTotal').html();
-				console.log(data.majid);
 				// sumTd = $(this).closest('.sumTd').html();
 				// $( sumTd ).html( eval(sumTd) - subTotal );
 			    $('#d-'+data.delid).fadeOut('slow');
-			    $('nav .badge').html( Number($('.badge').html()) - 1 );
+			    $('.md-trigger span.badge').html( Number($('.badge').html()) - 1 );
 			})
 			.fail(function(data) {
 			   console.log(data.responseText);

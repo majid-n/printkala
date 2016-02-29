@@ -27,6 +27,7 @@
 
 
 Route::get('/', 'HomeController@welcome')->name('home');
+Route::get('images/{disk}/{filename}', 'HomeController@retrieveImages');
 
 # No Authenticated User Section
 Route::group(['middleware' => ['authno']], function () {

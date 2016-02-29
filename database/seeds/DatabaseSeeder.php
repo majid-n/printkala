@@ -65,6 +65,30 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->command->info('Categories Table Seeded.');
 
+        # Orders Table Seeder
+        DB::table('orders')->delete();
+        DB::table('orders')->insert([
+            [ 
+                'user_id'   => '2',
+                'sum'       => '208600',
+                'address'   => 'سعدی جنوبی کوچه بانک تجارت پلاک 3 طبقه دوم',
+                'status'    => '1'
+            ],
+            [ 
+                'user_id'   => '2',
+                'sum'       => '145500',
+                'address'   => 'مجیدیه شمالی نرسیده به میدان سرباز کوچه شهید داوود علی بخشی پلاک 55 طبقه اول',
+                'status'    => '0'
+            ],
+            [ 
+                'user_id'   => '2',
+                'sum'       => '650000',
+                'address'   => 'سعدی جنوبی کوچه بانک تجارت پلاک 3 طبقه دوم',
+                'status'    => '0'
+            ],
+        ]);
+        $this->command->info('Orders Table Seeded.');
+
         # Products Table Seeder
         DB::table('products')->delete();
         DB::table('products')->insert([ 
@@ -95,7 +119,7 @@ class DatabaseSeeder extends Seeder
                 'size' 		=> '326x256',
                 'weight'    => 213,
                 'price' 	=> 23000,
-                'pic' 		=> 'zinctest.jpg',
+                'pic' 		=> 'zinc1.jpg',
                 'active' 	=> 1,
             ],
             [
@@ -115,7 +139,7 @@ class DatabaseSeeder extends Seeder
                 'size' 		=> '544x456',
                 'weight'    => 253,
                 'price' 	=> 15000,
-                'pic' 		=> 'GH-TP-II.jpg',
+                'pic' 		=> 'zinc2.jpg',
                 'active' 	=> 1,
             ],
             [
@@ -125,8 +149,18 @@ class DatabaseSeeder extends Seeder
                 'size' 		=> '700x500',
                 'weight'    => 315,
                 'price' 	=> 100000,
-                'pic' 		=> 'HG-TD-G.jpg',
+                'pic' 		=> 'zinc3.jpg',
                 'active' 	=> 1,
+            ],
+            [
+                'name'      => 'زینگ چهار و نیم ورقی',
+                'des'       => 'زینگ چهار و نیم ورقی زینگ چهار و نیم ورقی زینگ چهار و نیم ورقی',
+                'cat_id'    => 2,
+                'size'      => '700x500',
+                'weight'    => 315,
+                'price'     => 140000,
+                'pic'       => 'zinc4.jpg',
+                'active'    => 1,
             ],
             [
                 'name' 		=> 'مرکب Huaguang',
@@ -147,6 +181,16 @@ class DatabaseSeeder extends Seeder
                 'price' 	=> 145000,
                 'pic' 		=> 'uv2.jpg',
                 'active' 	=> 1,
+            ],
+            [
+                'name'      => 'مرکب چاپ',
+                'des'       => 'مرکب چاپ مرکب چاپ مرکب چاپ',
+                'cat_id'    => 3,
+                'size'      => '4564',
+                'weight'    => 345,
+                'price'     => 125000,
+                'pic'       => 'uv3.jpg',
+                'active'    => 1,
             ],
         ]);
         $this->command->info('Products Seeded.');
