@@ -46,7 +46,8 @@ Route::group(['middleware' => ['admin']], function () {
 # Authenticated User Section
 Route::group(['middleware' => ['auth']], function () {
     Route::get('logout', 'UserController@logout')->name('logout');
-    Route::post('cart/drop', 'UserController@cartDrop')->name('cart.drop');	
+    Route::post('cart/drop', 'UserController@cartDrop')->name('cart.drop'); 
+    Route::post('address', 'UserController@addAddress')->name('address.add');	
 
     Route::group([ 'namespace' => 'user' ], function () {
         Route::resource('basket', 'BasketController');

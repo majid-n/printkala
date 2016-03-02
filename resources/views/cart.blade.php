@@ -16,7 +16,7 @@
 					<td class="hidden-xs" width="auto"><img src="{{ asset('images/posts/'.$item->pic) }}" class="basketimg shadow" alt=""> </td>
 					<td>{{ $item->name }}</td>
 					<td align="center">{{ $item->count }}</td>
-					<td class="hidden-xs" align="left" class="itemTotal">{{ number_format($item->total). ' ریال' }}</td>
+					<td class="hidden-xs itemTotal" align="left">{{ number_format($item->total). ' ریال' }}</td>
 					<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 				</tr>
 				@endforeach
@@ -60,38 +60,43 @@
 	</div>
 @endif
 
-<script src="{{ asset('/js/modalEffects.js') }}"></script>
 <script type="text/javascript">
-
 	$(document).ready(function() {
 		// Remove From Basket
 		$('.btnrem').on('click', function(event) {
-			event.preventDefault();
-			id = $(this).data("id");
+		    event.preventDefault();
+		    id = $(this).data("id");
+		    $('.btnrem').attr('disabled', 'true');
+ 
+		    $.ajax({
+		       url: 'basket/'+id,
+		       data: { '_method' : 'DELETE' },
+		    })
+		    .done(function(data) {
+		    	subtotal = $('tr#d-' + id).find('td.itemTotal').html().split(" ")[0].replace(",", "");
+		    	total = $('.sumTd').html().split(" ")[0].replace(",", "");
+		    	$('.sumTd').html( FormatNumber(total - subtotal) + ' ریال' );
 
-			$.ajax({
-			   url: 'basket/'+id,
-			   data: { '_method' : 'DELETE' },
-			})
-			.done(function(data) {
-				// var total = 1;
-				// subtotal = $('tr.d-'+id+' td.itemTotal').html;
-				// total -= eval(subtotal);
-				// $( this ).closest('.sumTd').html(total);
-
-				// subTotal = ($this).closest('.itemTotal').html();
-				// sumTd = $(this).closest('.sumTd').html();
-				// $( sumTd ).html( eval(sumTd) - subTotal );
-			    $('#d-'+data.delid).fadeOut('slow');
-			    $('.md-trigger span.badge').html( Number($('.badge').html()) - 1 );
-			})
-			.fail(function(data) {
-			   console.log(data.responseText);
-			})
-			.always(function(data) {
-			   // console.log($(this).data("pid"));
-			});
+		        $('#d-'+data.delid).fadeOut('slow');
+		        $('.md-trigger span.badge').html( Number($('.md-trigger span.badge').html()) - 1 );
+		    })
+		    .fail(function(data) {
+		       console.log(data.responseText);
+		    })
+		    .always(function(data) {
+		       $('.btnrem').removeAttr('disabled');
+		    });
 		}); 
 	});
 
+	// Number Format Function
+	function FormatNumber(value) {  
+	    value += '';  
+	    var number = value.split('.');  
+	    var extra = (number.length > 1) ? '.' + number[1] : '';  
+	    
+	    var rgx = /(\d+)(\d{3})/;  
+	    while (rgx.test(number[0])) number[0] = number[0].replace(rgx, '$1' + ',' + '$2');  
+	    return number[0] + extra;  
+	  }  
 </script>

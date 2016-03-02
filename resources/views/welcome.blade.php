@@ -84,12 +84,7 @@
         });
 
         $(document).ready(function() {
-        // Ajax Setup
-            $.ajaxSetup({
-                type: 'POST',
-                headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
-            }); 
-            
+
         // Add To Basket
             $('body').on('click', '.btnadd', function(event) {
                 event.preventDefault();

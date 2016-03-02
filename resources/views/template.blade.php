@@ -89,11 +89,17 @@
 
       <script type="text/javascript">
          $(document).ready(function() {
-
+            // Ajax Setup
+                $.ajaxSetup({
+                    type: 'POST',
+                    headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+                }); 
+                
             // Load Basket
             $('body').on('click', '.md-trigger', function(event) {
                event.preventDefault();
                $('.customSpinner').css('display', 'block');
+               $('.md-trigger').attr('disabled', 'true');
 
                $.ajax({
                   type: 'GET',
@@ -108,8 +114,40 @@
                })
                .always(function(data) {
                   $('.customSpinner').css('display', 'none');
+                  $('.md-trigger').removeAttr('disabled');
                });
             });
+
+            // Remove From Basket
+            $('.btnrem').on('click', function(event) {
+               event.preventDefault();
+               id = $(this).data("id");
+               $('.btnrem').attr('disabled', 'true');
+
+               $.ajax({
+                  url: 'basket/'+id,
+                  data: { '_method' : 'DELETE' },
+               })
+               .done(function(data) {
+                  // var total = 1;
+                  subtotal = $('#d-' + id + ' td.itemTotal').html();
+                  console.log('subtotal: '+subtotal);
+                  // total -= eval(subtotal);
+                  // $( this ).closest('.sumTd').html(total);
+
+                  // subTotal = ($this).closest('.itemTotal').html();
+                  // sumTd = $(this).closest('.sumTd').html();
+                  // $( sumTd ).html( eval(sumTd) - subTotal );
+                   $('#d-'+data.delid).fadeOut('slow');
+                   $('.md-trigger span.badge').html( Number($('.md-trigger span.badge').html()) - 1 );
+               })
+               .fail(function(data) {
+                  console.log(data.responseText);
+               })
+               .always(function(data) {
+                  $('.btnrem').removeAttr('disabled');
+               });
+            }); 
 
             // Slider Options
             var revapi;

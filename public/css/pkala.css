@@ -348,6 +348,22 @@ body {
 		margin-right: 5px;
 	}
 
+	.panel-body div.addaddress {
+		display: none;
+	}
+	.panel-body div.addaddress input[type=text] {
+		width: 85%;
+	}
+
+	.panel-body div.addaddress button,
+	.panel-body button.btnaddaddress {
+		height: 40px;
+	}
+
+	.panel-body button.btnaddaddress {
+
+	}
+
 /*---------------------------------------------------------------
 						Cart Modal
 ---------------------------------------------------------------*/
@@ -592,10 +608,6 @@ body {
 	}
 	select+option{
 	    color: #999;
-	}
-	button[type=submit],
-	button[type=reset]{
-	    font-size: 1.1em !important;
 	}
 	input[type=file] {
 	    overflow: hidden;

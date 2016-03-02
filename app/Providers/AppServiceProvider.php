@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::extend(function($value) {
             return preg_replace('/\@define(.+)/', '<?php ${1}; ?>', $value);
         });
+
+        if ( $user = Sentinel::check() ) {
+            $num = $user->baskets->where('order_id', 0)->count();
+            view()->share([ 'num'=> $num ]);
+        }
     }
 
     /**

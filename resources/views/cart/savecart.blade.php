@@ -53,7 +53,6 @@
 							<td align="center">تعداد</td>
 							<td align="center">فی</td>
 							<td align="center">مجموع</td>
-							<td align="center">حذف</td>
 						</tr>
 					</thead>
 
@@ -61,13 +60,12 @@
 						@define $number = 1
 						@foreach( $items as $item )
 							<tr id="d-{{ $item->id }}">
-								<td>{{ $number }}</td>
+								<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 								<td width="auto"><img src="{{ asset('images/posts/'.$item->pic) }}" class="basketimg shadow" alt="{{ $item->name }}"> </td>
 								<td>{{ $item->name }}</td>
 								<td align="center">{{ $item->count }}</td>
 								<td align="left">{{ number_format($item->price). ' ریال' }}</td>
 								<td align="left" class="itemTotal">{{ number_format($item->total). ' ریال' }}</td>
-								<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 							</tr>
 							@define $number = $number+1
 						@endforeach
@@ -100,7 +98,7 @@
 
 			    <div class="panel-body discountBody">
 			    	{!! Form::open() !!} 
-			    		<p>کد تخفیفی را در این قسمت وارد کنید.</p>
+			    		<p>کد تخفیف را در این قسمت وارد کنید.</p>
 			    		<div class="form-group">
 			    			{!! Form::text('discount', null, array('class' => 'form-control', 'style' => 'height: 40px;')) !!}
 			    		</div>
@@ -119,24 +117,32 @@
 			    <div class="panel-body">
 			    	{!! Form::open( array( 'route' => 'order.store', 'id' => 'postOrderForm' ) ) !!}
 
-						@if($user->address1 != null)
-		                    {!! Form::radio('address', $user->address1) !!}
-		                    {{ $user->address1 }}
-						@endif
-						<hr>
-						@if($user->address2 != null)
-		                    {!! Form::radio('address', $user->address2) !!}
-		                    {{ $user->address2 }}
-		                @else
+					@if( $user->address1 )
+	                    {!! Form::radio('address', $user->address1) !!}
+	                    {{ $user->address1 }}
+	                    @if($user->address2) <hr> @endif
+					@endif
 
-						@endif
-						<hr>
-						@if($user->address3 != null)
-		                    {!! Form::radio('address', $user->address3) !!}
-		                    {{ $user->address3 }}
-		                @else
+					@if( $user->address2 )
+						{!! Form::radio('address', $user->address2) !!}
+	                    {{ $user->address2 }}
+					@endif
 
-						@endif
+					@if( $user->address3 )
+						<hr>
+	                    {!! Form::radio('address', $user->address3) !!}
+	                    {{ $user->address3 }}
+	                @else
+	                	<hr>
+	                	{!! Form::button('<i class="fa fa-fw fa-plus"></i> اضافه کردن آدرس جدید', array('class' => 'btn btn-default btn-block btnaddaddress')) !!}
+						<div class="input-group addaddress">
+							{!! Form::text('address', null, array('class' => 'form-control', 'placeholder' => 'آدرس جدید...')) !!}
+							<span class="input-group-btn">
+								{!! Form::button('<i class="fa fa-plus"></i>', array('class' => 'btn btn-primary')) !!}
+							</span>
+						</div>
+	                @endif
+
 			    </div>
 			</div>
 
@@ -160,7 +166,7 @@
 							</tr>
 						</thead>
 
-						<tfoot style="border-top:1px solid #eee;">
+						<tfoot>
 							<tr>
 								<td><span>مجوع کل</span></td>
 								<td align="left"><span><font size="4"><b>{{ '= ' . number_format( ($total + config('app.keraye')) ) . ' ریال' }}</b></font></span></td>
@@ -211,28 +217,50 @@
 			}
 		})
 
-	// Delete Items
-		$(document).ready(function() {
-			// Remove From Basket
-			$('.btnrem').on('click', function(event) {
+	// Add Address Form
+		$('.btnaddaddress').each(function(index, el) {
+			$(el).on('click', function(event) {
 				event.preventDefault();
-				id = $(this).data("id");
-
-				$.ajax({
-				   url: 'basket/'+id,
-				   data: { '_method' : 'DELETE' },
-				})
-				.done(function(data) {
-				   $('#d-'+data.delid).fadeOut('slow');
-				   $('.badge').html( Number($('.badge').html()) - 1 );
-				})
-				.fail(function(data) {
-				   console.log(data.responseText);
-				})
-				.always(function(data) {
-				   // console.log($(this).data("pid"));
+				addtext = $(el).next('div.addaddress');
+				addbtn = $(addtext).find('span button');
+				$(el).fadeOut('fast', function() {
+					$(addtext).fadeIn();
+					$(addtext).find('input[type=text]').focus();
+					$(addtext).focusout(function(event) {
+						$(addtext).fadeOut('fast', function() {
+							$(el).fadeIn();
+						});
+					});
 				});
-			}); 
+			});
+		});
+
+	// Add Address Ajax
+		$('div.addaddress span button').on('click', function(event) {
+			event.preventDefault();
+			address = $(this).closest('.addaddress').find('input[type=text]').val();
+
+			$.ajax({
+			    url: 'address',
+			    data: { 'new' : address },
+			})
+			.done(function(data) {
+				if ( data.aid === 3 ) {
+					$('.btnaddaddress').fadeOut();
+					var newaddress = '<input type="radio" class="transition" name="address" value="'+ data.result +'" /> '+ data.result;
+					$('.btnaddaddress').before(newaddress);
+				} else {
+					var newaddress = '<input type="radio" class="transition" name="address" value="'+ data.result +'" /> '+ data.result + '<hr>';
+					$('.btnaddaddress').before(newaddress);
+				}
+				
+			})
+			.fail(function(data) {
+				console.log(data.responseText);
+			})
+			.always(function(data) {
+				// console.log($(this).data("pid"));
+			});
 		});
 
 	</script>
