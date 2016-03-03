@@ -12,4 +12,8 @@ class Cat extends Model
     public function products(){
         return $this->hasMany('App\Product');
     }
+
+    public function units(){
+        return $this->belongsToMany('App\Unit', 'unit_cats');
+    }
 }

@@ -194,5 +194,43 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
         $this->command->info('Products Seeded.');
+
+        # Units Table Seeder
+        DB::table('units')->delete();
+        DB::table('units')->insert([
+            [ 'title' => 'بسته' ],
+            [ 'title' => 'کارتن' ],
+            [ 'title' => 'بند' ],
+            [ 'title' => 'گالن' ],
+            [ 'title' => 'جعبه' ],
+        ]);
+        $this->command->info('Units Table Seeded.');
+
+        # Unit Cats Table Seeder
+        DB::table('unit_cats')->delete();
+        DB::table('unit_cats')->insert([
+            [ 
+                'cat_id'    => '1',
+                'unit_id'   => '1',
+            ],
+            [ 
+                'cat_id'    => '1',
+                'unit_id'   => '2',
+            ],
+            [ 
+                'cat_id'    => '1',
+                'unit_id'   => '3',
+            ],
+            [ 
+                'cat_id'    => '2',
+                'unit_id'   => '1',
+            ],
+            [ 
+                'cat_id'    => '3',
+                'unit_id'   => '4',
+            ],
+        ]);
+        $this->command->info('Unit_Cats Table Seeded.');
+
     }
 }

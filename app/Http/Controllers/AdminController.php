@@ -14,7 +14,8 @@ class AdminController extends Controller {
 		$default = [''=>'دســـته را انتخاب کنید'];
 		$cats = Cat::lists('title', 'id');
 		$listArray = $default + $cats->toArray();
-		return view()->make('admin.addproduct', compact('listArray'));
+		$cats = Cat::all();
+		return view()->make('admin.addproduct', compact('listArray', 'cats'));
 	}
 
 	public function addProduct( Request $request ) {
