@@ -23,13 +23,11 @@ class HomeController extends Controller {
 		$cats = Cat::all();
 		$products = Product::where('active', 1)->get();
 		if ( $user = Sentinel::check() ) {
-
-			// $num = $user->baskets()->where('user_id', $user->id)
-			//                          ->where('order_id', 0)
-			//                          ->count();
-			$num = Basket::where('user_id', $user->id)
-			             ->where('order_id', 0)
-			             ->count();
+			$num = $user->baskets()->where('order_id', 0)
+			                       ->count();
+			// $num = Basket::where('user_id', $user->id)
+			//              ->where('order_id', 0)
+			//              ->count();
 		} else { $num = 0; }
 		
 		return view( 'welcome',compact('cats','products','num') );

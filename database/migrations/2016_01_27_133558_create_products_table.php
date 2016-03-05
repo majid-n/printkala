@@ -19,7 +19,6 @@ class CreateProductsTable extends Migration
             $table->integer('cat_id')->unsigned();
             $table->string('size', 20);
             $table->integer('weight')->unsigned();
-            $table->integer('price')->unsigned();
             $table->string('pic', 100);
             $table->boolean('active')->default(0);
             $table->timestamps();
@@ -31,6 +30,14 @@ class CreateProductsTable extends Migration
             //       ->onDelete('cascade')
             //       ->onUpdate('cascade');
         });
+
+        Schema::create('prices', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('product_id')->unsigned();
+            $table->integer('unit_id')->unsigned();
+            $table->integer('price')->unsigned();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -41,5 +48,6 @@ class CreateProductsTable extends Migration
     public function down()
     {
         Schema::drop('products');
+        Schema::drop('prices');
     }
 }

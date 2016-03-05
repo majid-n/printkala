@@ -66,15 +66,10 @@ class BasketController extends Controller
 
             $pid = intval( $request->input('pid') );
             $user = Sentinel::getUser();
-            // $exist = Basket::where('product_id', $pid)
-            //                ->where('user_id', $user )
-            //                ->where('order_id', 0 )
-            //                ->first();
-
             $exist = $user->baskets()->where('product_id', $pid)
-                                     ->where('order_id', 0)->first();
+                                     ->where('order_id', 0)
+                                     ->first();
             if( $exist == null ){
-
                 $basket = new Basket;
                 $basket->user_id = $user->id;
                 $basket->product_id = $pid;

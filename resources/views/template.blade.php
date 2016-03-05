@@ -129,15 +129,7 @@
                   data: { '_method' : 'DELETE' },
                })
                .done(function(data) {
-                  // var total = 1;
-                  subtotal = $('#d-' + id + ' td.itemTotal').html();
-                  console.log('subtotal: '+subtotal);
-                  // total -= eval(subtotal);
-                  // $( this ).closest('.sumTd').html(total);
-
-                  // subTotal = ($this).closest('.itemTotal').html();
-                  // sumTd = $(this).closest('.sumTd').html();
-                  // $( sumTd ).html( eval(sumTd) - subTotal );
+                  // subtotal = $('#d-' + id + ' td.itemTotal').html();
                    $('#d-'+data.delid).fadeOut('slow');
                    $('.md-trigger span.badge').html( Number($('.md-trigger span.badge').html()) - 1 );
                })
@@ -161,6 +153,17 @@
                touchenabled:"on",
             });
          });
+
+         // Number Format Function
+         function FormatNumber(value) {  
+            value += '';  
+            var number = value.split('.');  
+            var extra = (number.length > 1) ? '.' + number[1] : '';  
+
+            var rgx = /(\d+)(\d{3})/;  
+            while (rgx.test(number[0])) number[0] = number[0].replace(rgx, '$1' + ',' + '$2');  
+            return number[0] + extra;  
+         }
       </script>
 
    </body>

@@ -98,7 +98,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 1,
                 'size' 		=> '210x297',
                 'weight'    => 80,
-                'price' 	=> 6500,
                 'pic' 		=> 'copimax.jpg',
                 'active' 	=> 1,
             ],
@@ -108,7 +107,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 1,
                 'size' 		=> '210x297',
                 'weight'    => 80,
-                'price' 	=> 8800,
                 'pic' 		=> 'doublea.jpg',
                 'active' 	=> 1,
             ],
@@ -118,7 +116,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 2,
                 'size' 		=> '326x256',
                 'weight'    => 213,
-                'price' 	=> 23000,
                 'pic' 		=> 'zinc1.jpg',
                 'active' 	=> 1,
             ],
@@ -128,7 +125,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 1,
                 'size' 		=> '210x297',
                 'weight'    => 80,
-                'price' 	=> 11500,
                 'pic' 		=> 'jkcmax.jpg',
                 'active' 	=> 1,
             ],
@@ -138,7 +134,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 2,
                 'size' 		=> '544x456',
                 'weight'    => 253,
-                'price' 	=> 15000,
                 'pic' 		=> 'zinc2.jpg',
                 'active' 	=> 1,
             ],
@@ -148,7 +143,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 2,
                 'size' 		=> '700x500',
                 'weight'    => 315,
-                'price' 	=> 100000,
                 'pic' 		=> 'zinc3.jpg',
                 'active' 	=> 1,
             ],
@@ -158,7 +152,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id'    => 2,
                 'size'      => '700x500',
                 'weight'    => 315,
-                'price'     => 140000,
                 'pic'       => 'zinc4.jpg',
                 'active'    => 1,
             ],
@@ -168,7 +161,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 3,
                 'size' 		=> '454',
                 'weight'    => 4545,
-                'price' 	=> 140000,
                 'pic' 		=> 'uv1.jpg',
                 'active' 	=> 1,
             ],
@@ -178,7 +170,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id' 	=> 3,
                 'size' 		=> '4564',
                 'weight'    => 345,
-                'price' 	=> 145000,
                 'pic' 		=> 'uv2.jpg',
                 'active' 	=> 1,
             ],
@@ -188,7 +179,6 @@ class DatabaseSeeder extends Seeder
                 'cat_id'    => 3,
                 'size'      => '4564',
                 'weight'    => 345,
-                'price'     => 125000,
                 'pic'       => 'uv3.jpg',
                 'active'    => 1,
             ],
@@ -218,16 +208,83 @@ class DatabaseSeeder extends Seeder
                 'unit_id'   => '2',
             ],
             [ 
-                'cat_id'    => '1',
-                'unit_id'   => '3',
-            ],
-            [ 
                 'cat_id'    => '2',
                 'unit_id'   => '1',
             ],
             [ 
                 'cat_id'    => '3',
                 'unit_id'   => '4',
+            ],
+        ]);
+        $this->command->info('Unit_Cats Table Seeded.');
+
+        # Price Table Seeder
+        DB::table('prices')->delete();
+        DB::table('prices')->insert([
+            [ 
+                'product_id'    => '1',
+                'unit_id'       => '1',
+                'price'         => '100000'
+            ],
+            [ 
+                'product_id'    => '1',
+                'unit_id'       => '2',
+                'price'         => '110000'
+            ],
+            [ 
+                'product_id'    => '2',
+                'unit_id'       => '1',
+                'price'         => '200000'
+            ],
+            [ 
+                'product_id'    => '2',
+                'unit_id'       => '2',
+                'price'         => '210000'
+            ],
+            [ 
+                'product_id'    => '3',
+                'unit_id'       => '1',
+                'price'         => '300000'               
+            ],
+            [ 
+                'product_id'    => '4',
+                'unit_id'       => '1',
+                'price'         => '400000'
+            ],
+            [ 
+                'product_id'    => '4',
+                'unit_id'       => '2',
+                'price'         => '410000'
+            ],
+            [ 
+                'product_id'    => '5',
+                'unit_id'       => '1',
+                'price'         => '500000'
+            ],
+            [ 
+                'product_id'    => '6',
+                'unit_id'       => '1',
+                'price'         => '600000'
+            ],
+            [ 
+                'product_id'    => '7',
+                'unit_id'       => '1',
+                'price'         => '700000'
+            ],
+            [ 
+                'product_id'    => '8',
+                'unit_id'       => '4',
+                'price'         => '800000'               
+            ],
+            [ 
+                'product_id'    => '9',
+                'unit_id'       => '4',
+                'price'         => '900000'               
+            ],
+            [ 
+                'product_id'    => '10',
+                'unit_id'       => '4',
+                'price'         => '910000'               
             ],
         ]);
         $this->command->info('Unit_Cats Table Seeded.');

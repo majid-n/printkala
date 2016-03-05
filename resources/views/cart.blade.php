@@ -89,14 +89,4 @@
 		}); 
 	});
 
-	// Number Format Function
-	function FormatNumber(value) {  
-	    value += '';  
-	    var number = value.split('.');  
-	    var extra = (number.length > 1) ? '.' + number[1] : '';  
-	    
-	    var rgx = /(\d+)(\d{3})/;  
-	    while (rgx.test(number[0])) number[0] = number[0].replace(rgx, '$1' + ',' + '$2');  
-	    return number[0] + extra;  
-	  }  
 </script>

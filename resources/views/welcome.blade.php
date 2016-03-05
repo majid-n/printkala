@@ -36,14 +36,20 @@
                             <img class="img-responsive noselect transition" src="{{ asset('images/posts/'.$product->pic) }}" alt="{{ $product->name }}">
                         </div>
 
-                        <span class="postname">{{ str_limit($product->name, 20) }}</span>
+                        <span class="postname">{{-- str_limit($product->name, 20) --}}
+                            <input type="text" size="1" class="stepper" value="1">
+                            <select class="vahed">
+                                @foreach( $product->cat->units as $unit )
+                                    <option value="{{ $product->unitsprice->where('unit_id', $unit->id)->first()->price }}">{{ $unit->title }}</option>
+                                @endforeach
+                            </select>
+                        </span>
 
                         <div class="btninfo textshadow">
                             <i class="fa fa-info-circle"></i>
                         </div>
-
                         <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
-                            <span>{{ number_format($product->price) . ' ریال' }}</span>
+                            <span>{{ number_format($product->unitsprice->first()->price) . ' ریال' }}</span>
                             <i class="fa fa-fw fa-shopping-basket"></i>
                             <div class="myspinner">
                                 <span class="double-bounce1"></span>
@@ -54,24 +60,24 @@
                 @endforeach
             </div>
         </div>
-
     </div>
 
 @stop
 
 @section('js')
     <script src="{{ asset('/js/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.stepper.min.js') }}"></script>
     <script type="text/javascript">
 
         $(window).load(function(){
-        // init Isotope
+            // init Isotope
             var $container = $('.isotope').isotope({
                 itemSelector:   '.item',
                 layoutMode:     'masonry',
                 isOriginLeft:   false
             });
 
-        // change is-checked class on buttons
+            // change is-checked class on buttons
             $('#filters button').each( function( i, buttonGroup ) {
                 var $buttonGroup = $( buttonGroup );
                 $buttonGroup.on( 'click', function() {
@@ -84,8 +90,7 @@
         });
 
         $(document).ready(function() {
-
-        // Add To Basket
+            // Add To Basket
             $('body').on('click', '.btnadd', function(event) {
                 event.preventDefault();
 
@@ -117,6 +122,24 @@
                         FadeElement.fadeTo("fast", 1);
                         $('.btnadd').removeAttr('disabled');
                     });
+                });
+            });
+
+            // Number Stepper
+            $('.stepper').each(function(index, el) {
+                $(el).stepper({
+                    wheel_step: 1,
+                    arrow_step: 1,
+                    limit: [1, 99]
+                });
+            });
+
+            // Selected Unit Price
+            $('select.vahed').each(function(index, el) {
+                $(el).change(function () {
+                    var val = $(el).find('option:selected').val(),
+                    price = $(el).parent('.postname').parent('.item').find('button.btnadd span');
+                    $(price).text(FormatNumber(val) + ' ریال');
                 });
             });
         });

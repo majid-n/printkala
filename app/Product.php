@@ -25,5 +25,9 @@ class Product extends Model
         return $this->belongsTo('App\Basket', 'product_id', 'id');
     }
 
+    public function unitsprice() {
+        return $this->hasMany('App\Price');
+    }
+
 
 }
