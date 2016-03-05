@@ -38,11 +38,13 @@
 
                         <span class="postname">{{-- str_limit($product->name, 20) --}}
                             <input type="text" size="1" class="stepper" value="1">
-                            <select class="vahed">
-                                @foreach( $product->cat->units as $unit )
-                                    <option value="{{ $product->unitsprice->where('unit_id', $unit->id)->first()->price }}">{{ $unit->title }}</option>
-                                @endforeach
-                            </select>
+                            <div class="select-style">
+                                <select>
+                                    @foreach( $product->cat->units as $unit )
+                                        <option value="{{ $product->unitsprice->where('unit_id', $unit->id)->first()->price }}">{{ $unit->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </span>
 
                         <div class="btninfo textshadow">
@@ -135,10 +137,10 @@
             });
 
             // Selected Unit Price
-            $('select.vahed').each(function(index, el) {
+            $('.select-style select').each(function(index, el) {
                 $(el).change(function () {
                     var val = $(el).find('option:selected').val(),
-                    price = $(el).parent('.postname').parent('.item').find('button.btnadd span');
+                    price = $(el).parents('.postname').parent('.item').find('button.btnadd span');
                     $(price).text(FormatNumber(val) + ' ریال');
                 });
             });
