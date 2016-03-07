@@ -15,7 +15,7 @@
 				<tr id="{{ 'd-' . $item->id }}">
 					<td class="hidden-xs" width="auto"><img src="{{ asset('images/posts/'.$item->pic) }}" class="basketimg shadow" alt=""> </td>
 					<td>{{ $item->name }}</td>
-					<td align="center">{{ $item->count }}</td>
+					<td align="center">{{ $item->count . ' ' . $unit->where('id', $item->unit_id)->first()->title }}</td>
 					<td class="hidden-xs itemTotal" align="left">{{ number_format($item->total). ' ریال' }}</td>
 					<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 				</tr>
@@ -73,8 +73,8 @@
 		       data: { '_method' : 'DELETE' },
 		    })
 		    .done(function(data) {
-		    	subtotal = $('tr#d-' + id).find('td.itemTotal').html().split(" ")[0].replace(",", "");
-		    	total = $('.sumTd').html().split(" ")[0].replace(",", "");
+		    	subtotal = $('tr#d-' + id).find('td.itemTotal').html().split(" ")[0].replace(/,/g, '');
+		    	total = $('.sumTd').html().split(" ")[0].replace(/,/g, '');
 		    	$('.sumTd').html( FormatNumber(total - subtotal) + ' ریال' );
 
 		        $('#d-'+data.delid).fadeOut('slow');

@@ -47,12 +47,12 @@
 				<table class="table table-hover basketTable">
 					<thead>
 						<tr>
-							<td></td>
 							<td>تصویر</td>
 							<td>محصول</td>
 							<td align="center">تعداد</td>
 							<td align="center">فی</td>
 							<td align="center">مجموع</td>
+							<td></td>
 						</tr>
 					</thead>
 
@@ -60,12 +60,12 @@
 						@define $number = 1
 						@foreach( $items as $item )
 							<tr id="d-{{ $item->id }}">
-								<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 								<td width="auto"><img src="{{ asset('images/posts/'.$item->pic) }}" class="basketimg shadow" alt="{{ $item->name }}"> </td>
 								<td>{{ $item->name }}</td>
-								<td align="center">{{ $item->count }}</td>
+								<td align="center">{{ $item->count. ' ' .$unit->where('id', $item->unit_id)->first()->title }}</td>
 								<td align="left">{{ number_format($item->price). ' ریال' }}</td>
 								<td align="left" class="itemTotal">{{ number_format($item->total). ' ریال' }}</td>
+								<td align="center"><i class="fa fa-trash-o btnrem" data-id="{{ $item->id }}"></i></td>
 							</tr>
 							@define $number = $number+1
 						@endforeach
@@ -157,19 +157,19 @@
 						<thead>
 							<tr>
 								<td><span>مجموع</span></td>
-								<td align="left"><span><font size="2">{{ number_format($total) . ' ریال' }}</font></span></td>
+								<td align="left" class="totalSum">{{ number_format($total) . ' ریال' }}</td>
 							</tr>
 
 							<tr>
 								<td><span>هزینه حمل</span></td>
-								<td align="left"><span><font size="3">{{ '+ '. number_format(config('app.keraye')) .' ریال' }}</font></span></td>
+								<td align="left">{{ '+ '. number_format(config('app.keraye')) .' ریال' }}</td>
 							</tr>
 						</thead>
 
 						<tfoot>
 							<tr>
 								<td><span>مجوع کل</span></td>
-								<td align="left"><span><font size="4"><b>{{ '= ' . number_format( ($total + config('app.keraye')) ) . ' ریال' }}</b></font></span></td>
+								<td align="left" class="finalSum">{{ '= ' . number_format( ($total + config('app.keraye')) ) . ' ریال' }}</td>
 							</tr>
 						</tfoot>
 					</table>
@@ -191,7 +191,7 @@
 
 	<script type="text/javascript">
 
-	// Check Address First
+		// Check Address First
 	    $(".sabtBtn").on('click', function (e) {
 	    	e.preventDefault();
 	    	if ( $('.basketTable tbody tr').length > 0 ) {
@@ -203,7 +203,7 @@
 	    	} else { alert("سبد خرید شما خالی می باشد."); }
 	    });
 
-	// Panel Collapse Script
+		// Panel Collapse Script
 		$(document).on('click', '.panel-heading', function(e){
 		    var $this = $(this);
 			if(!$this.hasClass('panel-collapsed')) {
@@ -217,7 +217,7 @@
 			}
 		})
 
-	// Add Address Form
+		// Add Address Form
 		$('.btnaddaddress').each(function(index, el) {
 			$(el).on('click', function(event) {
 				event.preventDefault();
@@ -235,7 +235,33 @@
 			});
 		});
 
-	// Add Address Ajax
+		// Remove From Basket
+		$('.btnrem').on('click', function(event) {
+		    event.preventDefault();
+		    id = $(this).data("id");
+		    $('.btnrem').attr('disabled', 'true');
+ 
+		    $.ajax({
+		       url: 'basket/'+id,
+		       data: { '_method' : 'DELETE' },
+		    })
+		    .done(function(data) {
+		     	subtotal = $('tr#d-' + id).find('td.itemTotal').html().split(" ")[0].replace(/,/g, '');
+		     	total = $('.totalSum').html().split(" ")[0].replace(/,/g, '');
+		     	$('.totalSum').html( FormatNumber(total - subtotal) + ' ریال' );
+		     	$('.finalSum').html( ' =' + FormatNumber( (total - subtotal)+ {{ config('app.keraye') }} ) + ' ریال' );
+
+		        $('#d-'+data.delid).fadeOut('slow');
+		    })
+		    .fail(function(data) {
+		       console.log(data.responseText);
+		    })
+		    .always(function(data) {
+		       $('.btnrem').removeAttr('disabled');
+		    });
+		}); 
+
+		// Add Address Ajax
 		$('div.addaddress span button').on('click', function(event) {
 			event.preventDefault();
 			address = $(this).closest('.addaddress').find('input[type=text]').val();
@@ -253,7 +279,6 @@
 					var newaddress = '<input type="radio" class="transition" name="address" value="'+ data.result +'" /> '+ data.result + '<hr>';
 					$('.btnaddaddress').before(newaddress);
 				}
-				
 			})
 			.fail(function(data) {
 				console.log(data.responseText);

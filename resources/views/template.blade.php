@@ -84,6 +84,7 @@
       <script src="{{ asset('js/slider.revolution.min.js') }}"></script>
       <script src="{{ asset('js/slider.plugins.min.js') }}"></script>
       <script src="{{ asset('js/modalEffects.js') }}"></script>
+      <script src="{{ asset('js/jquery.stepper.min.js') }}"></script>
 
       @yield('js')
 
@@ -118,29 +119,6 @@
                });
             });
 
-            // Remove From Basket
-            $('.btnrem').on('click', function(event) {
-               event.preventDefault();
-               id = $(this).data("id");
-               $('.btnrem').attr('disabled', 'true');
-
-               $.ajax({
-                  url: 'basket/'+id,
-                  data: { '_method' : 'DELETE' },
-               })
-               .done(function(data) {
-                  // subtotal = $('#d-' + id + ' td.itemTotal').html();
-                   $('#d-'+data.delid).fadeOut('slow');
-                   $('.md-trigger span.badge').html( Number($('.md-trigger span.badge').html()) - 1 );
-               })
-               .fail(function(data) {
-                  console.log(data.responseText);
-               })
-               .always(function(data) {
-                  $('.btnrem').removeAttr('disabled');
-               });
-            }); 
-
             // Slider Options
             var revapi;
             revapi = $('.tp-banner').revolution({
@@ -152,6 +130,15 @@
                forceFullWidth:"on",
                touchenabled:"on",
             });
+         });
+
+         // Number Stepper
+         $('.stepper').each(function(index, el) {
+             $(el).stepper({
+                 wheel_step: 1,
+                 arrow_step: 1,
+                 limit: [1, 99]
+             });
          });
 
          // Number Format Function

@@ -287,7 +287,7 @@ class DatabaseSeeder extends Seeder
                 'price'         => '910000'               
             ],
         ]);
-        $this->command->info('Unit_Cats Table Seeded.');
+        $this->command->info('Prices Table Seeded.');
 
     }
 }

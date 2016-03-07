@@ -68,14 +68,6 @@
 					<p class="help-block">{!! $errors->first('active') !!}</p>
 				</div>
 
-				<div>
-					@foreach( $cats as $cat )
-						@foreach( $cat->units as $unit )
-							{{ $cat->title . ' - ' . $unit->title }} <br>
-						@endforeach
-					@endforeach
-				</div>
-
 				<div dir="ltr">
 					{!! Form::submit('ذخــیره', array('class' => 'btn btn-primary')) !!}
 					{!! Form::reset('جــدید', array('class' => 'btn btn-default')) !!}

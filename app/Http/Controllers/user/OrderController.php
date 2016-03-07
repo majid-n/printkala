@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Sentinel;
 use App\Basket;
 use App\Order;
+use App\Unit;
 use DB;
 
 class OrderController extends Controller
@@ -21,18 +22,18 @@ class OrderController extends Controller
     public function index()
     {
         $total = 0;
-        $user = Sentinel::getUser();
-        $items = Basket::select(DB::raw('baskets.id,products.price,products.name,products.pic,baskets.count,baskets.product_id,baskets.count*products.price as total'))
+        $user       = Sentinel::getUser();
+        $unit        = Unit::all();
+        $items      = Basket::select(DB::raw('products.name,products.pic,baskets.id,baskets.count,baskets.unit_id,baskets.price,baskets.product_id, baskets.price*baskets.count as total'))
                             ->join('products', 'products.id', '=', 'baskets.product_id')
-                            ->where('baskets.user_id', $user->id)
+                            ->where('baskets.user_id', '=',$user->id)
                             ->where('baskets.order_id', 0)
                             ->get();
-                            
+
         foreach ($items as $item) {
             $total += $item->total;
         }
-
-        return view('cart.savecart', compact('items', 'total', 'user'));
+        return view('cart.savecart', compact('items', 'total', 'user', 'unit'));
     }
 
     /**
@@ -59,9 +60,9 @@ class OrderController extends Controller
 
         if( $carts->count() > 0 ) {
             foreach ($carts as $cart) {
-                foreach ($cart->products as $product) {
-                    $sum += $cart->count * $product->price;
-                }
+                // foreach ($cart->products as $product) {
+                    $sum += $cart->count * $cart->price;
+                // }
             }
             
             $order = new Order;

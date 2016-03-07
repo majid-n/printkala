@@ -33,15 +33,16 @@
                     <div class="item {{ 't'. $product->cat_id }}">
                         
                         <div class="postimg">
+                            <span class="textshadow">{{ str_limit($product->name, 30) }}</span>
                             <img class="img-responsive noselect transition" src="{{ asset('images/posts/'.$product->pic) }}" alt="{{ $product->name }}">
                         </div>
 
-                        <span class="postname">{{-- str_limit($product->name, 20) --}}
+                        <span class="postname">
                             <input type="text" size="1" class="stepper" value="1">
                             <div class="select-style">
                                 <select>
                                     @foreach( $product->cat->units as $unit )
-                                        <option value="{{ $product->unitsprice->where('unit_id', $unit->id)->first()->price }}">{{ $unit->title }}</option>
+                                        <option value="{{ $unit->id }}" data-price="{{ getPrice($product->id, $unit->id) }}">{{ $unit->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -52,7 +53,9 @@
                         </div>
                         <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
                             <span>{{ number_format($product->unitsprice->first()->price) . ' ریال' }}</span>
-                            <i class="fa fa-fw fa-shopping-basket"></i>
+                            @if(Sentinel::check()) <i class="fa fa-fw fa-shopping-basket"></i>
+                            @else <i class="fa fa-fw fa-lock"></i>
+                            @endif
                             <div class="myspinner">
                                 <span class="double-bounce1"></span>
                             </div>
@@ -68,7 +71,7 @@
 
 @section('js')
     <script src="{{ asset('/js/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.stepper.min.js') }}"></script>
+    
     <script type="text/javascript">
 
         $(window).load(function(){
@@ -93,12 +96,15 @@
 
         $(document).ready(function() {
             // Add To Basket
-            $('body').on('click', '.btnadd', function(event) {
+            $('.btnadd').on('click', function(event) {
                 event.preventDefault();
 
                 var target    = $(event.target),
                 Loader        = target.parents('.item').find('div.myspinner'),
-                FadeElement   = target.parents('.item').find('.btnadd i.fa');
+                FadeElement   = target.parents('.item').find('.btnadd i.fa'),
+                unit          = target.parents('.item').find('span.postname div select').val(),
+                cnt           = target.parents('.item').find('span.postname input').val();
+                price         = target.parents('.item').find('span.postname select option:selected').data('price');
 
                 FadeElement.fadeTo("fast",0,function(){
                     Loader.fadeIn();     
@@ -107,7 +113,12 @@
 
                 $.ajax({
                     url: '{{ route('basket.store') }}',
-                    data: { 'pid' : $(this).data("pid") },
+                    data: { 
+                        pid   : $(this).data("pid"),
+                        unit  : unit,
+                        cnt   : cnt,
+                        prc   : price,
+                    },
                 })
                 .done(function(data) {
                     $('.md-trigger i' ).effect( "bounce", { times: 3 }, "slow" );
@@ -126,21 +137,12 @@
                     });
                 });
             });
-
-            // Number Stepper
-            $('.stepper').each(function(index, el) {
-                $(el).stepper({
-                    wheel_step: 1,
-                    arrow_step: 1,
-                    limit: [1, 99]
-                });
-            });
-
+            
             // Selected Unit Price
             $('.select-style select').each(function(index, el) {
                 $(el).change(function () {
-                    var val = $(el).find('option:selected').val(),
-                    price = $(el).parents('.postname').parent('.item').find('button.btnadd span');
+                    var val = $(el).find('option:selected').data('price'),
+                    price = $(el).parents('.postname').parent('.item').find('button.btnadd>span');
                     $(price).text(FormatNumber(val) + ' ریال');
                 });
             });

@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use App\Basket;
+use App\Unit;
 use Sentinel;
 use DB;
 
@@ -20,27 +21,23 @@ class BasketController extends Controller
     public function index()
     {
         $totalprice = 0;
-        $items = Basket::select(DB::raw('products.price,products.name,products.pic,baskets.id,baskets.count,baskets.product_id,baskets.count*products.price as total'))
-                ->join('products', 'products.id', '=', 'baskets.product_id')
-                ->where('baskets.user_id', '=',Sentinel::getUser()->id)
-                ->where('baskets.order_id', 0)
-                ->get();
-        $num = Basket::where('user_id', Sentinel::getUser()->id)
-                     ->where('order_id', 0)
-                     ->count();
-
+        $user       = Sentinel::getUser();
+        $num        = $user->baskets->where('order_id', 0)->count();
+        $items      = Basket::select(DB::raw('products.name,products.pic,baskets.id,baskets.count,baskets.unit_id,baskets.price,baskets.product_id, baskets.price*baskets.count as total'))
+                            ->join('products', 'products.id', '=', 'baskets.product_id')
+                            ->where('baskets.user_id', '=',$user->id)
+                            ->where('baskets.order_id', 0)
+                            ->get();
 
         foreach ($items as $item) {
             $totalprice += $item->total;
         }
 
-        return  response()->json(
-            [
-                'result'    => true,
-                'count'     => $num,
-                'cartdata'  => view( 'cart', array( 'items' => $items, 'total' => $totalprice) )->render()
-            ]
-        );
+        return response()->json([
+            'result'     => true,
+            'count'      => $num,
+            'cartdata'   => view( 'cart', array( 'items' => $items, 'total' => $totalprice, 'unit' => Unit::all()) )->render()
+        ]);
     }
 
     /**
@@ -61,19 +58,24 @@ class BasketController extends Controller
      */
     public function store( Request $request )
     {
-
         if( $request->has('pid') ) {
 
-            $pid = intval( $request->input('pid') );
-            $user = Sentinel::getUser();
-            $exist = $user->baskets()->where('product_id', $pid)
-                                     ->where('order_id', 0)
-                                     ->first();
+            $user   = Sentinel::getUser();
+            $pid    = intval( $request->input('pid') );
+            $unit   = intval( $request->input('unit') );
+            $cnt    = intval( $request->input('cnt') );
+            $prc    = intval( $request->input('prc') );
+            $exist  = $user->baskets()->where('product_id', $pid)
+                                      ->where('order_id', 0)
+                                      ->first();
+
             if( $exist == null ){
-                $basket = new Basket;
-                $basket->user_id = $user->id;
+                $basket             = new Basket;
+                $basket->user_id    = $user->id;
                 $basket->product_id = $pid;
-                $basket->count = 1;
+                $basket->count      = $cnt;
+                $basket->price      = $prc;
+                $basket->unit_id    = $unit;
                 if ( $basket->save() ) {
                     if( $request->ajax() ) return response()->json([ 'result' => 'add' ]);
                     else return redirect()->home()->with('success', 'محصول به سبد خرید اضافه شد.');
@@ -81,7 +83,9 @@ class BasketController extends Controller
 
             } else {
                 
-                $exist->count += 1;
+                $exist->count  += $cnt;
+                $exist->unit_id = $unit;
+                $exist->price   = $prc;
 
                 if( $exist->save() ) {
                     if( $request->ajax() ) return response()->json([ 'result' => 'update' ]);
