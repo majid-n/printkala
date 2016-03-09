@@ -41,6 +41,7 @@ Route::group(['middleware' => ['authno']], function () {
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin/product', 'AdminController@productPage')->name('product');
     Route::post('admin/product', 'AdminController@addProduct')->name('product.post');
+    Route::post('showunits', 'AdminController@showUnits')->name('units.show');
 });
 
 # Authenticated User Section

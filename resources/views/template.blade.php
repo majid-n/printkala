@@ -80,11 +80,13 @@
       <script src="{{ asset('js/jquery.min.js') }}"></script>
       <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
       <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+      <script src="{{ asset('js/pkala.js') }}"></script>
       <script src="{{ asset('js/classie.js') }}"></script>
       <script src="{{ asset('js/slider.revolution.min.js') }}"></script>
       <script src="{{ asset('js/slider.plugins.min.js') }}"></script>
       <script src="{{ asset('js/modalEffects.js') }}"></script>
       <script src="{{ asset('js/jquery.stepper.min.js') }}"></script>
+      <script src="{{ asset('js/jquery.number.min.js') }}"></script>
 
       @yield('js')
 
