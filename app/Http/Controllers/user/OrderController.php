@@ -21,10 +21,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $total = 0;
-        $user       = Sentinel::getUser();
-        $unit        = Unit::all();
-        $items      = Basket::select(DB::raw('products.name,products.pic,baskets.id,baskets.count,baskets.unit_id,baskets.price,baskets.product_id, baskets.price*baskets.count as total'))
+        $total  = 0;
+        $user   = Sentinel::getUser();
+        $unit   = Unit::all();
+        $items  = Basket::select(DB::raw('products.name,products.pic,baskets.id,baskets.count,baskets.unit_id,baskets.price,baskets.product_id, baskets.price*baskets.count as total'))
                             ->join('products', 'products.id', '=', 'baskets.product_id')
                             ->where('baskets.user_id', '=',$user->id)
                             ->where('baskets.order_id', 0)
@@ -54,20 +54,18 @@ class OrderController extends Controller
      */
     public function store( Request $request )
     {
-        $user = Sentinel::getUser();
-        $carts = $user->baskets->where('order_id', 0);
-        $sum = 0;
+        $user   = Sentinel::getUser();
+        $carts  = $user->baskets->where('order_id', 0);
+        $sum    = 0;
 
         if( $carts->count() > 0 ) {
             foreach ($carts as $cart) {
-                // foreach ($cart->products as $product) {
-                    $sum += $cart->count * $cart->price;
-                // }
+                $sum += $cart->count * $cart->price;
             }
             
-            $order = new Order;
+            $order          = new Order;
             $order->user_id = $user->id;
-            $order->sum = $sum + config('app.keraye');
+            $order->sum     = $sum + config('app.keraye');
             $order->address = $request->address;
 
             if( $order->save() ) {
@@ -90,9 +88,10 @@ class OrderController extends Controller
      */
     public function show( Order $order )
     {
-        $user = Sentinel::getUser();
+        $user    = Sentinel::findById( $order->user_id );
+        $unit    = Unit::all();
         $baskets = $user->baskets->where('order_id', $order->id);
-        return view('cart.history', compact('order','baskets'));
+        return view('cart.history', compact('order','baskets','unit'));
     }
 
     /**

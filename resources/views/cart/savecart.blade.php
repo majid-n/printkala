@@ -117,31 +117,34 @@
 			    <div class="panel-body">
 			    	{!! Form::open( array( 'route' => 'order.store', 'id' => 'postOrderForm' ) ) !!}
 
-					@if( $user->address1 )
-	                    {!! Form::radio('address', $user->address1) !!}
-	                    {{ $user->address1 }}
-	                    @if($user->address2) <hr> @endif
-					@endif
+                    {!! Form::radio('address', $user->address1) !!}
+                    {{ $user->address1 }}
+                    @define $n = 1
 
 					@if( $user->address2 )
+						<hr>
 						{!! Form::radio('address', $user->address2) !!}
 	                    {{ $user->address2 }}
+	                    @define $n = 2
+
+        				@if( $user->address3 )
+        					<hr>
+                            {!! Form::radio('address', $user->address3) !!}
+                            {{ $user->address3 }}
+                            @define $n = 3
+                        @endif
 					@endif
 
-					@if( $user->address3 )
-						<hr>
-	                    {!! Form::radio('address', $user->address3) !!}
-	                    {{ $user->address3 }}
-	                @else
+					@if( $n >= 1 && $n < 3 )
 	                	<hr>
 	                	{!! Form::button('<i class="fa fa-fw fa-plus"></i> اضافه کردن آدرس جدید', array('class' => 'btn btn-default btn-block btnaddaddress')) !!}
 						<div class="input-group addaddress">
-							{!! Form::text('address', null, array('class' => 'form-control', 'placeholder' => 'آدرس جدید...')) !!}
+							{!! Form::text('newaddress', null, array('class' => 'form-control', 'placeholder' => 'آدرس جدید...')) !!}
 							<span class="input-group-btn">
 								{!! Form::button('<i class="fa fa-plus"></i>', array('class' => 'btn btn-primary')) !!}
 							</span>
 						</div>
-	                @endif
+					@endif
 
 			    </div>
 			</div>
@@ -195,10 +198,11 @@
 	    $(".sabtBtn").on('click', function (e) {
 	    	e.preventDefault();
 	    	if ( $('.basketTable tbody tr').length > 0 ) {
-		        if ( $("input[name=address]:checked").length == 0 ) {
+		        if ( $('input[name=address]:checked').length == 0 ) {
 		            alert("لطفا آدرس را انتخاب کنید!");
 		        } else {
 		        	$('#postOrderForm').submit();
+		        	// alert($('input[name=address]:checked').val());
 		        }
 	    	} else { alert("سبد خرید شما خالی می باشد."); }
 	    });
@@ -216,24 +220,6 @@
 				$this.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 			}
 		})
-
-		// Add Address Form
-		$('.btnaddaddress').each(function(index, el) {
-			$(el).on('click', function(event) {
-				event.preventDefault();
-				addtext = $(el).next('div.addaddress');
-				addbtn = $(addtext).find('span button');
-				$(el).fadeOut('fast', function() {
-					$(addtext).fadeIn();
-					$(addtext).find('input[type=text]').focus();
-					$(addtext).focusout(function(event) {
-						$(addtext).fadeOut('fast', function() {
-							$(el).fadeIn();
-						});
-					});
-				});
-			});
-		});
 
 		// Remove From Basket
 		$('.btnrem').on('click', function(event) {
@@ -260,6 +246,22 @@
 		       $('.btnrem').removeAttr('disabled');
 		    });
 		}); 
+
+		// Add Address Form
+		$('.btnaddaddress').on('click', function(event) {
+			event.preventDefault();
+			addtext = $(this).next('div.addaddress');
+			// addbtn = $(addtext).find('span button');
+			$(this).fadeOut('fast', function() {
+				$(addtext).fadeIn();
+				$(addtext).find('input[type=text]').focus();
+				$(addtext).focusout(function(event) {
+					$(this).fadeOut('fast', function() {
+						$('.btnaddaddress').fadeIn();
+					});
+				});
+			});
+		});
 
 		// Add Address Ajax
 		$('div.addaddress span button').on('click', function(event) {

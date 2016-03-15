@@ -33,8 +33,10 @@
                     <div class="item {{ 't'. $product->cat_id }}">
                         
                         <div class="postimg">
-                            <span class="textshadow">{{ str_limit($product->name, 30) }}</span>
-                            <img class="img-responsive noselect transition" src="{{ asset('images/posts/'.$product->pic) }}" alt="{{ $product->name }}">
+                            <a href="{{ route('product.info', ['product' => $product->id]) }}">
+                                <span class="textshadow">{{ str_limit($product->name, 30) }}</span>
+                                <img class="img-responsive noselect transition" src="{{ asset('images/posts/'.$product->pic) }}" alt="{{ $product->name }}">
+                            </a>
                         </div>
 
                         <span class="postname">
@@ -48,9 +50,6 @@
                             </div>
                         </span>
 
-                        <div class="btninfo textshadow">
-                            <i class="fa fa-info-circle"></i>
-                        </div>
                         <button data-pid="{{ $product->id }}" class="btn btnadd btn-primary">
                             <span>{{ number_format($product->unitsprice->first()->price) . ' ریال' }}</span>
                             @if(Sentinel::check()) <i class="fa fa-fw fa-shopping-basket"></i>

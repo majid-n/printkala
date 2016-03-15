@@ -50,7 +50,7 @@
 								<td>{{ $number }}</td>
 								<td width="auto"><img src="{{ asset('images/posts/'.$product->pic) }}" class="basketimg shadow" alt="{{ $product->name }}"> </td>
 								<td>{{ $product->name }}</td>
-								<td align="center">{{ $basket->count }}</td>
+								<td align="center">{{ $basket->count. ' ' .$unit->where('id', $basket->unit_id)->first()->title }}</td>
 								<td align="left">{{ number_format($basket->price). ' ریال' }}</td>
 								<td align="left" class="itemTotal">{{ number_format($basket->count * $basket->price). ' ریال' }}</td>
 							</tr>
@@ -62,11 +62,5 @@
 		</div>
 	</div>
 </div>
-
-@stop
-
-
-
-@section("js")
 
 @stop

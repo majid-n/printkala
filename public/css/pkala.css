@@ -1,7 +1,7 @@
 body {
-  font-family: 'yekan', arial;
-  margin-top: 90px;
-  height: 2000px;
+	font-family: 'yekan', arial;
+	margin-top: 90px;
+	height: 2000px;
 }
 
 /*---------------------------------------------------------------
@@ -17,15 +17,8 @@ body {
 	    font-style: normal;
 	}
 
-	::selection {
-		background: #C63437;
-		color: #fff;
-	}
-
-	::-moz-selection {
-		background: #C63437;
-		color: #fff;
-	}
+	::selection { background: #C63437; color: #fff; }
+	::-moz-selection { background: #C63437; color: #fff; }
 
 	.noselect {
 		-webkit-user-select: none;
@@ -85,6 +78,7 @@ body {
 						Custom BootStrap
 ---------------------------------------------------------------*/
 
+	/* Custom Button */
 	.btn-primary {
 	  color: #ffffff;
 	  background-color: #C63437;
@@ -144,7 +138,7 @@ body {
 	  border-color: #8E2A2C;
 	}
 
-
+	/* Navbar Overwrite */
 	.navbar {
 		border-radius: 0;
 		background-color: #4B4B4D;
@@ -185,10 +179,66 @@ body {
 	}
 
 /*---------------------------------------------------------------
-						Products
+						Material Design
 ---------------------------------------------------------------*/
 
-	.isotope {}
+	/*-------------------- Checkbox Material Design */
+		.check-awesome { position:relative; display: inline-block;
+			vertical-align: top;
+			zoom: 1; /* Fix for IE7 */
+			*display: inline; /* Fix for IE7 */ }
+			.check-awesome input[type=checkbox] { display:none; }
+			.check-awesome label { cursor:pointer; font-size: 0.9em; padding-right:30px; font-weight: normal; }
+			.check-awesome label span {
+			display:block;
+			position:absolute;
+			right:0; 
+			-webkit-transition-duration:0.3s;
+			-moz-transition-duration:0.3s;
+			transition-duration:0.3s;
+		}
+		.check-awesome label .box {
+			border:2px solid #666;
+			height:20px; 
+			width:20px;
+			z-index:888;
+			border-radius: 3px;
+			-webkit-transition-delay:0.2s;
+			-moz-transition-delay:0.2s;
+			transition-delay:0.2s;
+		}
+		.check-awesome label .check {
+			right: 5px;
+			width: 10px;
+			height: 18px;
+			border:2px solid #0f9d58;  
+			border-top: none;
+			border-left: none;
+			opacity:0; 
+			z-index:888;
+			-webkit-transform:rotate(180deg);
+			-moz-transform:rotate(180deg);
+			transform:rotate(180deg);
+			-webkit-transition-delay:0.3s;
+			-moz-transition-delay:0.3s;
+			transition-delay:0.3s;
+		}
+		.check-awesome input[type=checkbox]:checked ~ label .box { 
+			opacity:0;
+			-webkit-transform   :scale(0) rotate(-180deg);
+			-moz-transform      :scale(0) rotate(-180deg);
+			transform           :scale(0) rotate(-180deg);
+		}
+		.check-awesome input[type=checkbox]:checked ~ label .check {
+			opacity:1; 
+			-webkit-transform   :scale(1) rotate(45deg);
+			-moz-transform      :scale(1) rotate(45deg);
+			transform           :scale(1) rotate(45deg);
+		}
+
+/*---------------------------------------------------------------
+						Products
+---------------------------------------------------------------*/
 
 	.isotope .item {
 		width: calc(25% - 14px);
@@ -246,20 +296,6 @@ body {
 		border-radius: 0;
 	}
 
-	.isotope .item div.btninfo {
-		font-size: 1.3em;
-		position: absolute;
-		top: 4px;
-		right: 7px;
-		color: #fff;
-		cursor: pointer;
-		opacity: 0.5;
-	}
-
-	.isotope .item div.btninfo:hover {
-		opacity: 1;
-	}
-
 	#filters {
 		margin-bottom: 20px;
 	}
@@ -282,7 +318,6 @@ body {
 	.stepper-wrap {
 	    position: relative;
 	    display: inline-block;
-	    /*font-size: 1em;*/
 	}
 
 	.stepper-wrap input {
@@ -327,6 +362,7 @@ body {
 	    background: rgba(255, 255, 255, 0.5);
 	}
 
+	/* Custom Selectbox */
 	.select-style {
 	    padding: 0;
 	    margin: 0;
@@ -443,6 +479,7 @@ body {
 	.emptyBasket {
 		margin: 40px 15px;
 		color: rgb(187, 187, 187);
+		text-align: center;
 	}
 
 	.panel-body.discountBody {
@@ -720,20 +757,15 @@ body {
 	    padding: 7px 10px !important;
 	    height: auto !important;
 	}
-	select{
-	    padding: 6px 10px !important;
-	}
+	select { padding: 6px 10px !important; }
 	select optgroup {
 	    padding: 10px;
 	    font-family: FontAwesome, yekan,"Helvetica Neue",Helvetica,Arial,sans-serif;
 	    color: #fec503;
 	}
-	select option{
-	    color: #333;
-	}
-	select+option{
-	    color: #999;
-	}
+	select option { color: #333;	}
+	select+option { color: #999;	}
+
 	input[type=file] {
 	    overflow: hidden;
 	    position: absolute;

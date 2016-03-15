@@ -49,7 +49,7 @@ class UserController extends Controller {
 	        }
 
 	        if ( $user = Sentinel::authenticate($credentials, $remember) ) {
-	            if     ( Sentinel::inRole( 'admins' ) ) return redirect()->route('product');
+	            if     ( Sentinel::inRole( 'admins' ) ) return redirect()->route('dashboard');
 	            elseif ( Sentinel::inRole( 'users'  ) ) return redirect()->route('home');
 	        }
 

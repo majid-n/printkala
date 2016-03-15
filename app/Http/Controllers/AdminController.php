@@ -8,6 +8,7 @@ use Validator;
 use App\Cat;
 use App\Product;
 use App\Price;
+use App\Order;
 
 class AdminController extends Controller {
 
@@ -16,6 +17,11 @@ class AdminController extends Controller {
 		$cats = Cat::lists('title', 'id');
 		$listArray = $default + $cats->toArray();
 		return view()->make('admin.addproduct', compact('listArray'));
+	}
+
+	public function dashboard() {
+		$orders = Order::where('status', 0)->get();
+		return view()->make('admin.dashboard', compact('orders'));
 	}
 
 	public function addProduct( Request $request ) {

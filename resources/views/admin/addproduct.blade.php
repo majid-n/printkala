@@ -48,7 +48,7 @@
 					</div>
 				</div>
 
-				<div class="form-group col-md-12 {!! $errors->has('image') ? ' has-error' : null !!}">
+				<div class="form-group col-md-6 {!! $errors->has('image') ? ' has-error' : null !!}">
 					<div class="input-group fileInput">
 					    <span class="input-group-addon">
 					        <i class="fa fa-picture-o"></i>
@@ -59,9 +59,13 @@
 					<p class="help-block">{!! $errors->first('image') !!}</p>
 				</div>
 
-				<div class="form-group {!! $errors->has('active') ? ' has-error' : null !!}">
-					{!! Form::checkbox('active', 1, array('class' => 'form-control')) !!}
-					{!! Form::label('active', 'فعال') !!}
+				<div class="form-group {!! $errors->has('active') ? ' has-error' : null !!} check-awesome" style="margin:10px 15px;">    
+					<input type="checkbox" id="active">  
+					<label for="active">
+						<span class="check"></span>
+						<span class="box"></span>
+						فعال بودن محصول
+					</label>  
 					<p class="help-block">{!! $errors->first('active') !!}</p>
 				</div>
 

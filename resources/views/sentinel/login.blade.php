@@ -39,12 +39,15 @@
 				<a role="button" href="{{ URL::to('reset') }}" class="ig-color pull-left">فراموشی کلمه عبور</a><br>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group check-awesome">    
+				<input type="checkbox" id="remember">  
 				<label for="remember">
-				  <input type="checkbox" id="remember"/>
-				  <span>مرا به خاطر داشته باش</span>
-				</label>					
+					<span class="check"></span>
+					<span class="box"></span>
+					مرا به خاطر داشته باش
+				</label>  
 			</div>
+
 			<div class="form-group" dir="ltr">
 				{!! Form::submit('ورود', array('class' => 'btn btn1 btn-primary')) !!}
 				{!! Form::reset('جدید', array('class' => 'btn btn1 btn-default')) !!}

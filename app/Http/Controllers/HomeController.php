@@ -39,4 +39,8 @@ class HomeController extends Controller {
 	    return $file;
 	}
 
+	public function productInfo( Product $product ) {
+		return view( 'product',compact('product') );
+	}
+
 }

@@ -28,6 +28,7 @@
 
 Route::get('/', 'HomeController@welcome')->name('home');
 Route::get('images/{disk}/{filename}', 'HomeController@retrieveImages');
+Route::get('product/{product}', 'HomeController@productInfo')->name('product.info');
 
 # No Authenticated User Section
 Route::group(['middleware' => ['authno']], function () {
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin/product', 'AdminController@productPage')->name('product');
     Route::post('admin/product', 'AdminController@addProduct')->name('product.post');
     Route::post('showunits', 'AdminController@showUnits')->name('units.show');
+    Route::get('admin/dashboard', 'AdminController@dashboard')->name('dashboard');
 });
 
 # Authenticated User Section
