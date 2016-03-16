@@ -16,7 +16,7 @@
 		</div>
 
 		<div class="page-content">
-			{!! Form::open(array('files' => true)) !!}
+			{!! Form::open(['files' => true, 'route' => 'product.store']) !!}
 
 				<div class="form-group">
 					<div class="col-md-6 {!! $errors->has('product') ? ' has-error' : null !!}">
@@ -59,13 +59,9 @@
 					<p class="help-block">{!! $errors->first('image') !!}</p>
 				</div>
 
-				<div class="form-group {!! $errors->has('active') ? ' has-error' : null !!} check-awesome" style="margin:10px 15px;">    
-					<input type="checkbox" id="active">  
-					<label for="active">
-						<span class="check"></span>
-						<span class="box"></span>
-						فعال بودن محصول
-					</label>  
+				<div class="form-group {!! $errors->has('active') ? ' has-error' : null !!}">  
+				  	{!! Form::label('active', 'فعال بودن محصول' ) !!}
+				  	{!! Form::checkbox('active', 0 ) !!}
 					<p class="help-block">{!! $errors->first('active') !!}</p>
 				</div>
 
@@ -75,6 +71,38 @@
 				</div>
 
 			{!! Form::close() !!}
+		</div>
+
+		<br>
+
+		<div class="panel panel-default table-responsive">
+			<div class="panel-heading hidden-xs text-center">وضعیت سفارش ها</div>
+
+			<table class="table table-hover basketTable">
+				<tbody>
+					@foreach( $products as $product )
+						<?php $mydate = jdate()->forge($product->created_at); ?>
+						<tr>
+							<td><img src="{{ asset('images/posts/'.$product->pic) }}" class="basketimg shadow" alt="{{ $product->name }}"></td>
+							<td>{{ $product->name }}</td>
+							<td>{{ $product->cat->title }}</td>
+							<td>{{ $product->size }}</td>
+							<td>{{ $mydate->format('%d %B %Y') }}</td>
+							<td>
+								@if( $product->active ) <span class="label label-success">فعال</span>
+								@else <span class="label label-danger">غیرفعال</span> @endif
+							</td>
+							<td>
+								<a href="" class="btn btn-xs btn-info"><i class="fa fa-pencil"></i></a>
+								<a href="" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+							</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+
+			<div class="text-center">{!! $products->render() !!}</div>
+			
 		</div>
 
 	</div>

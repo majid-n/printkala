@@ -48,7 +48,7 @@
                   <ul class="dropdown-menu">
                      @if(Sentinel::inRole('admins'))
                         <li><a href="{{ route('dashboard') }}">مدیریت درخواست ها</a></li>
-                        <li><a href="{{ route('product') }}">مدیریت محصولات</a></li>
+                        <li><a href="{{ route('product.create') }}">مدیریت محصولات</a></li>
                      @endif
                      <li><a href="{{ route('order.index') }}">صفحه ثبت خرید</a></li>
                      <li role="separator" class="divider"></li>

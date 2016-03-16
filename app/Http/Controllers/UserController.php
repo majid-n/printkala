@@ -133,40 +133,4 @@ class UserController extends Controller {
 	    return redirect()->route('home');
 	}
 
-	public function addAddress( Request $request ) {
-		$user = Sentinel::getUser();
-		$rules = [ 'address' => 'min:10' ];
-		$validator = Validator::make( $request->all(), $rules );
-		$result = 2;
-		$id = 'address'.$result;
-
-		if ( $validator->fails() ) {
-			if( $request->ajax() ) return response()->json([ 'result' => false ]);
-			else return back()->withInput()
-		                 	  ->withErrors($validator);
-		}
-
-		if ( !$user->address2 ) $user->address2 = $request->input('new');
-		else {
-			$user->address3 = $request->input('new');
-			$result = 3;
-			$id = 'address'.$result;
-		}
-
-		if ( $user->save() ) {
-			if( $request->ajax() ) return response()->json([ 'result' => $user->$id, 'aid' => $result ]);
-			else return back()->with('success', 'آدرس جدید اضافه شد.');
-		}
-	}
-
-	public function cartDrop() {
-		if ( $user = Sentinel::check() ) {
-			$items = $user->baskets->where('order_id', 0);
-			foreach ($items as $item) {
-				$item->delete();
-			}
-			return redirect()->route('home');
-		}
-	}
-
 }

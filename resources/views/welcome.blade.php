@@ -33,7 +33,7 @@
                     <div class="item {{ 't'. $product->cat_id }}">
                         
                         <div class="postimg">
-                            <a href="{{ route('product.info', ['product' => $product->id]) }}">
+                            <a href="{{ route('product.show', ['product' => $product->id]) }}">
                                 <span class="textshadow">{{ str_limit($product->name, 30) }}</span>
                                 <img class="img-responsive noselect transition" src="{{ asset('images/posts/'.$product->pic) }}" alt="{{ $product->name }}">
                             </a>

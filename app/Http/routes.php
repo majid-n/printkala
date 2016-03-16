@@ -28,7 +28,7 @@
 
 Route::get('/', 'HomeController@welcome')->name('home');
 Route::get('images/{disk}/{filename}', 'HomeController@retrieveImages');
-Route::get('product/{product}', 'HomeController@productInfo')->name('product.info');
+// Route::get('product/{product}', 'HomeController@productInfo')->name('product.info');
 
 # No Authenticated User Section
 Route::group(['middleware' => ['authno']], function () {
@@ -40,17 +40,18 @@ Route::group(['middleware' => ['authno']], function () {
 
 # Admin User Section
 Route::group(['middleware' => ['admin']], function () {
-    Route::get('admin/product', 'AdminController@productPage')->name('product');
-    Route::post('admin/product', 'AdminController@addProduct')->name('product.post');
-    Route::post('showunits', 'AdminController@showUnits')->name('units.show');
     Route::get('admin/dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::post('showunits', 'AdminController@showUnits')->name('units.show');
+    Route::resource('product', 'ProductController');
+    // Route::get('admin/product', 'AdminController@productPage')->name('product');
+    // Route::post('admin/product', 'AdminController@addProduct')->name('product.post');
 });
 
 # Authenticated User Section
 Route::group(['middleware' => ['auth']], function () {
     Route::get('logout', 'UserController@logout')->name('logout');
-    Route::post('cart/drop', 'UserController@cartDrop')->name('cart.drop'); 
-    Route::post('address', 'UserController@addAddress')->name('address.add');	
+    Route::post('cart/drop', 'HomeController@cartDrop')->name('cart.drop'); 
+    Route::post('address', 'HomeController@addAddress')->name('address.add');	
 
     Route::group([ 'namespace' => 'user' ], function () {
         Route::resource('basket', 'BasketController');

@@ -202,7 +202,6 @@
 		            alert("لطفا آدرس را انتخاب کنید!");
 		        } else {
 		        	$('#postOrderForm').submit();
-		        	// alert($('input[name=address]:checked').val());
 		        }
 	    	} else { alert("سبد خرید شما خالی می باشد."); }
 	    });
@@ -251,7 +250,6 @@
 		$('.btnaddaddress').on('click', function(event) {
 			event.preventDefault();
 			addtext = $(this).next('div.addaddress');
-			// addbtn = $(addtext).find('span button');
 			$(this).fadeOut('fast', function() {
 				$(addtext).fadeIn();
 				$(addtext).find('input[type=text]').focus();
