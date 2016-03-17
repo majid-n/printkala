@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function create()
     {
         $listArray = [''=>'دســـته را انتخاب کنید'] + Cat::lists('title', 'id')->toArray();
-        $products = Product::paginate(5);
+        $products = Product::orderBy('id','desc')->paginate(10);
         return view()->make('admin.addproduct', compact('listArray','products'));
     }
 
@@ -73,7 +73,7 @@ class ProductController extends Controller
 	    	    $product->size 	 = $request->size;
 	    	    $product->weight = $request->weight;
 	    	    $product->pic 	 = $filename;
-	    	    $product->active = ( !empty($request->active) ) ? $request->active : 0;
+	    	    $product->active = (boolean) $request->active;
 
 	    	    # Redirect on Success
 	    	    if ( $product->save() ) {
@@ -133,8 +133,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( Product $product, Request $request )
     {
-        //
+        if( $product->delete() ) {
+
+            if( $request->ajax() ) return response()->json([ 'delid' => $product->id ]);
+            else return back()->with('success', 'محصول از سبد خرید حذف شد.');
+        }
+
+        if( $request->ajax() ) return response()->json([ 'result' => false ]);
+        else return redirect()->home()->with('fail', 'خطا در اتصال به پایگاه داده.');
     }
 }

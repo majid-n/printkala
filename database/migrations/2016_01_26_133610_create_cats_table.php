@@ -16,7 +16,6 @@ class CreateCatsTable extends Migration
             $table->increments('id');
             $table->string('title', 50);
             $table->timestamps();
-            $table->softDeletes();
             $table->index('title');
         });
     }

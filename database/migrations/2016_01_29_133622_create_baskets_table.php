@@ -18,10 +18,9 @@ class CreateBasketsTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('count')->unsigned();
             $table->integer('price')->unsigned();
-            $table->tinyint('unit_id')->unsigned();
+            $table->integer('unit_id')->unsigned();
             $table->integer('order_id')->default(0)->unsigned();
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade')
@@ -30,10 +29,6 @@ class CreateBasketsTable extends Migration
                   ->references('id')->on('products')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
-            // $table->foreign('order_id')
-            //       ->references('id')->on('orders')
-            //       ->onDelete('cascade')
-            //       ->onUpdate('cascade');
         });
     }
 

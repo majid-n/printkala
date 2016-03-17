@@ -61,7 +61,7 @@
 
 				<div class="form-group {!! $errors->has('active') ? ' has-error' : null !!}">  
 				  	{!! Form::label('active', 'فعال بودن محصول' ) !!}
-				  	{!! Form::checkbox('active', 0 ) !!}
+				  	{!! Form::checkbox('active') !!}
 					<p class="help-block">{!! $errors->first('active') !!}</p>
 				</div>
 
@@ -94,7 +94,11 @@
 							</td>
 							<td>
 								<a href="" class="btn btn-xs btn-info"><i class="fa fa-pencil"></i></a>
-								<a href="" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+							{!! Form::open([ 'method' => 'post', 'route' => ['product.destroy', $product->id] ]) !!}
+							    {!! method_field('DELETE') !!}
+							    {!! Form::button('<i class="fa fa-trash"></i>', array('class' => 'btn btn-xs btn-danger', 'type' => 'submit')) !!}
+								<!-- <a href="" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a> -->
+							{!! Form::close() !!}
 							</td>
 						</tr>
 					@endforeach
@@ -127,7 +131,7 @@
 			    })
 			    .done(function(data) {
 			    	$('.catunits').html(data);
-			    	$('.catunits input').number(true);
+			    	// $('.catunits input').number(true);
 			    })
 			    .fail(function(data) {
 			       console.log(data.responseText);

@@ -140,8 +140,6 @@ class BasketController extends Controller
      */
     public function destroy( Basket $basket , Request $request )
     {
-        $user = Sentinel::getUser();
-
         if( $basket->delete() ) {
 
             if( $request->ajax() ) return response()->json([ 'delid' => $basket->id ]);

@@ -19,6 +19,7 @@ class HomeController extends Controller {
 		# Construct Function
 	}
 
+	# First Page
 	public function welcome() {
 		$cats = Cat::all();
 		$products = Product::where('active', 1)->get();
@@ -35,7 +36,7 @@ class HomeController extends Controller {
 	    return $file;
 	}
 
-	
+	# Get More Addresses From User
 	public function addAddress( Request $request ) {
 		$user = Sentinel::getUser();
 		$rules = [ 'address' => 'min:10' ];
@@ -62,6 +63,7 @@ class HomeController extends Controller {
 		}
 	}
 
+	# Empty User Basket
 	public function cartDrop() {
 		if ( $user = Sentinel::check() ) {
 			$items = $user->baskets->where('order_id', 0);
@@ -71,10 +73,5 @@ class HomeController extends Controller {
 			return redirect()->route('home');
 		}
 	}
-
-
-	// public function productInfo( Product $product ) {
-	// 	return view( 'product',compact('product') );
-	// }
 
 }

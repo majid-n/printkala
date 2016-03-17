@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 'user_id'   => '2',
                 'sum'       => '650000',
                 'address'   => 'سعدی جنوبی کوچه بانک تجارت پلاک 3 طبقه دوم',
-                'status'    => '0'
+                'status'    => '1'
             ],
         ]);
         $this->command->info('Orders Table Seeded.');
@@ -193,6 +193,7 @@ class DatabaseSeeder extends Seeder
             [ 'title' => 'بند' ],
             [ 'title' => 'گالن' ],
             [ 'title' => 'جعبه' ],
+            [ 'title' => 'پالت' ],
         ]);
         $this->command->info('Units Table Seeded.');
 
@@ -214,6 +215,14 @@ class DatabaseSeeder extends Seeder
             [ 
                 'cat_id'    => '3',
                 'unit_id'   => '4',
+            ],
+            [ 
+                'cat_id'    => '2',
+                'unit_id'   => '6',
+            ],
+            [ 
+                'cat_id'    => '3',
+                'unit_id'   => '5',
             ],
         ]);
         $this->command->info('Unit_Cats Table Seeded.');
@@ -247,6 +256,11 @@ class DatabaseSeeder extends Seeder
                 'price'         => '300000'               
             ],
             [ 
+                'product_id'    => '3',
+                'unit_id'       => '6',
+                'price'         => '333000'               
+            ],
+            [ 
                 'product_id'    => '4',
                 'unit_id'       => '1',
                 'price'         => '400000'
@@ -262,9 +276,19 @@ class DatabaseSeeder extends Seeder
                 'price'         => '500000'
             ],
             [ 
+                'product_id'    => '5',
+                'unit_id'       => '6',
+                'price'         => '555000'
+            ],
+            [ 
                 'product_id'    => '6',
                 'unit_id'       => '1',
                 'price'         => '600000'
+            ],
+            [ 
+                'product_id'    => '6',
+                'unit_id'       => '6',
+                'price'         => '666000'
             ],
             [ 
                 'product_id'    => '7',
@@ -272,9 +296,19 @@ class DatabaseSeeder extends Seeder
                 'price'         => '700000'
             ],
             [ 
+                'product_id'    => '7',
+                'unit_id'       => '6',
+                'price'         => '777000'
+            ],
+            [ 
                 'product_id'    => '8',
                 'unit_id'       => '4',
                 'price'         => '800000'               
+            ],
+            [ 
+                'product_id'    => '8',
+                'unit_id'       => '5',
+                'price'         => '888000'               
             ],
             [ 
                 'product_id'    => '9',
@@ -282,9 +316,19 @@ class DatabaseSeeder extends Seeder
                 'price'         => '900000'               
             ],
             [ 
+                'product_id'    => '9',
+                'unit_id'       => '5',
+                'price'         => '999000'               
+            ],
+            [ 
                 'product_id'    => '10',
                 'unit_id'       => '4',
                 'price'         => '910000'               
+            ],
+            [ 
+                'product_id'    => '10',
+                'unit_id'       => '5',
+                'price'         => '919000'               
             ],
         ]);
         $this->command->info('Prices Table Seeded.');
